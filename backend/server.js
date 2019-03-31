@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const users = require("./routes/api/users");
-const passport = require('passport')
+const passport = require("passport");
 const app = express();
 app.use(
   bodyParser.urlencoded({
@@ -18,9 +18,8 @@ mongoose
   .catch(err => console.log(err));
 
 app.use(passport.initialize());
-require('./passport')(passport)
+require("./passport")(passport);
 app.use("/api/users", users);
-
 
 const port = process.env.PORT || 5000;
 

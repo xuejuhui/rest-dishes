@@ -41,12 +41,11 @@ router.post("/register", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(newUser.password, salt);
     newUser.password = hash;
-    const userResponse = await newUser.save()
-    res.json(userResponse)
+    const userResponse = await newUser.save();
+    res.json(userResponse);
   } catch (err) {
     throw err;
   }
-
 });
 
 router.post("/login", async (req, res) => {
