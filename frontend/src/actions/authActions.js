@@ -10,7 +10,8 @@ import jwt_decode from "jwt-decode";
 export {
   login,
   register,
-  logout
+  logout,
+  setUserLoading
 }
 
 function register(user) {
@@ -46,6 +47,12 @@ function login(user) {
     }
   }
 }
+
+function setUserLoading () {
+  return {
+    type: USER_LOADING
+  };
+};
 
 function logout(){
   return dispatch =>{

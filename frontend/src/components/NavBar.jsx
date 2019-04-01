@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 // import MenuIcon from '@material-ui/icons/MenuIcon';
+import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { register, login, logout}  from '../actions/authActions'
 console.log(login)
@@ -34,11 +35,12 @@ function NavBar(props) {
           {/*<MenuIcon />*/}
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            News
+          <Link to="/" style={{ textDecoration: 'none',color: 'white' }}>News</Link>
           </Typography>
-          <Button color="inherit" onClick={()=> register({name:"ray",email:"ray1@ray.com",password:"123"})}>Register</Button>
-          <Button color="inherit" onClick={()=> login({name:"ray",email:"ray1@ray.com",password:"123"})}>Login</Button>
-            <Button color="inherit" onClick={()=> logout()}>Login</Button>
+
+          <Button color="inherit" ><Link to="/register" style={{ textDecoration: 'none',color: 'white' }} >Register</Link></Button>
+          <Button color="inherit" ><Link to="/login" style={{ textDecoration: 'none',color: 'white' }} >Login</Link></Button>
+          <Button color="inherit" onClick={()=> logout()}>Logout </Button>
         </Toolbar>
       </AppBar>
     </div>
