@@ -10,7 +10,7 @@ import jwt_decode from "jwt-decode";
 export {
   login,
   register,
-  // logout
+  logout
 }
 
 function register(user) {
@@ -40,9 +40,21 @@ function login(user) {
       }
     } catch (err){
       dispatch({
-  type: GET_ERRORS,
-  payload: err.response.data
-})
+      type: GET_ERRORS,
+      payload: err.response.data
+    })
     }
+  }
+}
+
+function logout(){
+  return dispatch =>{
+    console.log("logout")
+    localStorage.removeItem("jwt");
+    setAuthToken(false)
+    dispatch({
+      type:SET_CURRENT_USER,
+      payload:{}
+    })
   }
 }

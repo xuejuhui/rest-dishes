@@ -10,6 +10,7 @@ const initialState = {
 }
 
 const authReducer = (state = initialState, action) => {
+  console.log(action.payload ? true : false)
   switch (action.type) {
     case SET_CURRENT_USER:
       return {

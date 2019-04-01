@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 // import MenuIcon from '@material-ui/icons/MenuIcon';
 import { connect } from 'react-redux';
-import { register, login }  from '../actions/authActions'
+import { register, login, logout}  from '../actions/authActions'
 console.log(login)
 
 const styles = {
@@ -25,7 +25,7 @@ const styles = {
 
 function NavBar(props) {
   // props.register({name:"ray",email:"ray@ray.com",password:123})
-  const { classes, register, login } = props;
+  const { classes, register, login, error, logout } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -37,7 +37,8 @@ function NavBar(props) {
             News
           </Typography>
           <Button color="inherit" onClick={()=> register({name:"ray",email:"ray1@ray.com",password:"123"})}>Register</Button>
-          <Button color="inherit" onClick={()=> login({name:"ray",email:"ray1@ray.com",password:"23"})}>Login</Button>
+          <Button color="inherit" onClick={()=> login({name:"ray",email:"ray1@ray.com",password:"123"})}>Login</Button>
+            <Button color="inherit" onClick={()=> logout()}>Login</Button>
         </Toolbar>
       </AppBar>
     </div>
@@ -48,12 +49,14 @@ const mapStateToProps = (state) => {
   console.log(state)
   return {
     user: state.auth.user,
+    error: state.error.message
   }
 }
 
 const mapDispatchToProps = {
   register,
-  login
+  login,
+  logout
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NavBar));
