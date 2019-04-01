@@ -44,7 +44,7 @@ router.post("/register", async (req, res) => {
     const userResponse = await newUser.save();
     res.json(userResponse);
   } catch (err) {
-    throw err;
+    console.log(err);
   }
 });
 
@@ -57,13 +57,13 @@ router.post("/login", async (req, res) => {
   const user = { id: current._id, name: current.name };
   if (isMatch) {
     try {
-      const token = await jwt.sign(user, key.secret, { expiresIn: 31556926 });
+      const token = await jwt.sign(user, key.secretOrKey, { expiresIn: 31556926 });
       res.json({
         success: true,
         token: "Bearer" + token
       });
     } catch (error) {
-      throw error;
+      console.log(error);
     }
   } else {
     res.status(404).json({ message: "Incorrect password" });
