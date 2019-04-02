@@ -3,7 +3,7 @@ import { SET_CURRENT_USER, USER_LOADING, GET_ERRORS } from "./types";
 import { setAuthToken } from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
-export { login, register, logout, setUserLoading };
+export { login, register, logout, setUserLoading, autoLogin };
 
 function register(user) {
   return async dispatch => {
@@ -44,6 +44,19 @@ function login(user) {
       });
     }
   };
+}
+function autoLogin(){
+  return dispatch =>{
+      const jwt = localStorage.getItem('jwt')
+      if(jwt){
+        setAuthToken(jwt);
+        const decoded = jwt_decode(jwt);
+        dispatch({
+          type: SET_CURRENT_USER,
+          payload: decoded
+        });
+      }
+    }
 }
 
 function setUserLoading() {

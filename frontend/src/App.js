@@ -9,7 +9,9 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Secret from "./components/Secret";
+import SecretContainer from "./components/SecretContainer";
+
+
 
 class App extends Component {
   render() {
@@ -23,7 +25,7 @@ class App extends Component {
               <Route exact path="/" component={Landing} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
-              <ProtectedRoute component={Secret} path="/secret" />
+              <ProtectedRoute component={SecretContainer} path="/secret" />
             </div>
           </Router>
         </PersistGate>
@@ -31,5 +33,6 @@ class App extends Component {
     );
   }
 }
+
 
 export default App;

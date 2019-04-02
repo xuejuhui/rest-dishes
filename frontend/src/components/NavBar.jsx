@@ -9,7 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { register, login, logout } from "../actions/authActions";
-console.log(login);
+
 
 const styles = {
   root: {
@@ -26,7 +26,7 @@ const styles = {
 
 function NavBar(props) {
   // props.register({name:"ray",email:"ray@ray.com",password:123})
-  const { classes, register, login, error, logout } = props;
+  const { classes,  logout } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -61,7 +61,7 @@ function NavBar(props) {
             </Link>
           </Button>
           <Button color="inherit" onClick={() => logout()}>
-            Logout{" "}
+            Logout
           </Button>
         </Toolbar>
       </AppBar>
@@ -70,7 +70,6 @@ function NavBar(props) {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     user: state.auth.user,
     error: state.error.message
