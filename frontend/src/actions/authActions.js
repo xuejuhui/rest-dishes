@@ -1,67 +1,64 @@
 import axios from "axios";
-import {
-  SET_CURRENT_USER,
-  USER_LOADING,
-  GET_ERRORS
-} from "./types";
+import { SET_CURRENT_USER, USER_LOADING, GET_ERRORS } from "./types";
 import { setAuthToken } from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
-export {
-  login,
-  register,
-  logout,
-  setUserLoading
-}
+export { login, register, logout, setUserLoading };
 
 function register(user) {
   return async dispatch => {
-    try{
-      const regResponse = await axios.post("http://localhost:5000/api/users/register", user);
-      console.log(regResponse)
-    } catch (err){
-      console.log(err.response.data)
+    try {
+      const regResponse = await axios.post(
+        "http://localhost:5000/api/users/register",
+        user
+      );
+      console.log(regResponse);
+    } catch (err) {
+      console.log(err.response.data);
     }
-  }
+  };
 }
 
 function login(user) {
   return async dispatch => {
-    try{
-      const loginResponse = await axios.post("http://localhost:5000/api/users/login", user);
-      if(loginResponse){
-        const { token } = loginResponse.data
+    try {
+      const loginResponse = await axios.post(
+        "http://localhost:5000/api/users/login",
+        user
+      );
+      if (loginResponse) {
+        const { token } = loginResponse.data;
         localStorage.setItem("jwt", token);
-        setAuthToken(token)
+        setAuthToken(token);
         const decoded = jwt_decode(token);
         dispatch({
-          type:SET_CURRENT_USER,
-          payload:decoded
-        })
+          type: SET_CURRENT_USER,
+          payload: decoded
+        });
       }
-    } catch (err){
+    } catch (err) {
       dispatch({
-      type: GET_ERRORS,
-      payload: err.response.data
-    })
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
     }
-  }
+  };
 }
 
-function setUserLoading () {
+function setUserLoading() {
   return {
     type: USER_LOADING
   };
-};
+}
 
-function logout(){
-  return dispatch =>{
-    console.log("logout")
+function logout() {
+  return dispatch => {
+    console.log("logout");
     localStorage.removeItem("jwt");
-    setAuthToken(false)
+    setAuthToken(false);
     dispatch({
-      type:SET_CURRENT_USER,
-      payload:{}
-    })
-  }
+      type: SET_CURRENT_USER,
+      payload: {}
+    });
+  };
 }
