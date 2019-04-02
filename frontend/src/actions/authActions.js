@@ -37,6 +37,7 @@ function login(user) {
         });
       }
     } catch (err) {
+      console.log(err)
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
