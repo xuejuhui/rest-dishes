@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { register, login, logout } from "../actions/authActions";
 
-
 const styles = {
   root: {
     flexGrow: 1
@@ -25,8 +24,8 @@ const styles = {
 
 function NavBar(props) {
   // props.register({name:"ray",email:"ray@ray.com",password:123})
-  const { classes,  logout, history, isLogin } = props;
-  console.log(history)
+  const { classes, logout, history, isLogin } = props;
+  console.log(history);
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -35,37 +34,36 @@ function NavBar(props) {
             className={classes.menuButton}
             color="inherit"
             aria-label="Menu"
-          >
-          </IconButton>
+          />
           <Typography variant="h6" color="inherit" className={classes.grow}>
             <Link to="/" style={{ textDecoration: "none", color: "white" }}>
               News
             </Link>
           </Typography>
-          { isLogin
-            ?<  Button color="inherit" onClick={() => logout()}>
-                        Logout
-                      </Button>
-
-            :<Fragment>
-            <Button color="inherit">
-                        <Link
-                          to="/register"
-                          style={{ textDecoration: "none", color: "white" }}
-                        >
-                          Register
-                        </Link>
-                      </Button>
-                      <Button color="inherit">
-                        <Link to="/login"
-                          style={{ textDecoration: "none", color: "white" }}>
-                          Login
-                        </Link>
-                      </Button>
-                      </Fragment>
-          }
-
-
+          {isLogin ? (
+            <Button color="inherit" onClick={() => logout()}>
+              Logout
+            </Button>
+          ) : (
+            <Fragment>
+              <Button color="inherit">
+                <Link
+                  to="/register"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  Register
+                </Link>
+              </Button>
+              <Button color="inherit">
+                <Link
+                  to="/login"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  Login
+                </Link>
+              </Button>
+            </Fragment>
+          )}
         </Toolbar>
       </AppBar>
     </div>
@@ -75,7 +73,7 @@ function NavBar(props) {
 const mapStateToProps = state => {
   return {
     user: state.auth.user,
-    isLogin:state.auth.login,
+    isLogin: state.auth.login,
     error: state.error.message
   };
 };

@@ -1,7 +1,13 @@
 import axios from "axios";
-import { SET_CURRENT_USER, USER_LOADING, GET_ERRORS } from "./types";
+import {
+  SET_CURRENT_USER,
+  USER_LOADING,
+  GET_ERRORS,
+  REMOVE_CURRENT_USER
+} from "./types";
 import { setAuthToken } from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
+import { showErrors } from "./errorActions";
 
 export { login, register, logout, setUserLoading, autoLogin };
 
@@ -12,9 +18,16 @@ function register(user) {
         "http://localhost:5000/api/users/register",
         user
       );
-      console.log(regResponse);
+      setAuthToken(regResponse.token);
+      dispatch({
+        type: SET_CURRENT_USER,
+        payload: regResponse
+      });
     } catch (err) {
-      console.log(err.response.data);
+      dispatch(showErrors(err.response.data, err.response.status));
+      dispatch({
+        type: REMOVE_CURRENT_USER
+      });
     }
   };
 }
@@ -37,26 +50,26 @@ function login(user) {
         });
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
+      dispatch(showErrors(err.response.data, err.response.status));
       dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
+        type: REMOVE_CURRENT_USER
       });
     }
   };
 }
-function autoLogin(){
-  return dispatch =>{
-      const jwt = localStorage.getItem('jwt')
-      if(jwt){
-        setAuthToken(jwt);
-        const decoded = jwt_decode(jwt);
-        dispatch({
-          type: SET_CURRENT_USER,
-          payload: decoded
-        });
-      }
+function autoLogin() {
+  return dispatch => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      setAuthToken(jwt);
+      const decoded = jwt_decode(jwt);
+      dispatch({
+        type: SET_CURRENT_USER,
+        payload: decoded
+      });
     }
+  };
 }
 
 function setUserLoading() {
@@ -71,8 +84,7 @@ function logout() {
     localStorage.removeItem("jwt");
     setAuthToken(false);
     dispatch({
-      type: SET_CURRENT_USER,
-      payload: {}
+      type: REMOVE_CURRENT_USER
     });
   };
 }

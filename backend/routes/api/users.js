@@ -42,6 +42,11 @@ router.post("/register", async (req, res) => {
     const hash = await bcrypt.hash(newUser.password, salt);
     newUser.password = hash;
     const userResponse = await newUser.save();
+    const user = { id: userResponse._id, name: userResponse.name };
+    const token = await jwt.sign(user, key.secretOrKey, {
+      expiresIn: 31556926
+    });
+    userResponse._doc.token = token;
     res.json(userResponse);
   } catch (err) {
     console.log(err);
@@ -57,7 +62,9 @@ router.post("/login", async (req, res) => {
   const user = { id: current._id, name: current.name };
   if (isMatch) {
     try {
-      const token = await jwt.sign(user, key.secretOrKey, { expiresIn: 31556926 });
+      const token = await jwt.sign(user, key.secretOrKey, {
+        expiresIn: 31556926
+      });
       res.json({
         success: true,
         token: "Bearer" + token
