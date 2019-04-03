@@ -2,7 +2,6 @@ import axios from "axios";
 import {
   SET_CURRENT_USER,
   USER_LOADING,
-  GET_ERRORS,
   REMOVE_CURRENT_USER
 } from "./types";
 import { setAuthToken } from "../utils/setAuthToken";

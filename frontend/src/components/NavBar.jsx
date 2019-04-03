@@ -24,8 +24,7 @@ const styles = {
 
 function NavBar(props) {
   // props.register({name:"ray",email:"ray@ray.com",password:123})
-  const { classes, logout, history, isLogin } = props;
-  console.log(history);
+  const { classes, logout, isLogin } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">

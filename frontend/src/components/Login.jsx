@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { register, login, logout } from "../actions/authActions";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -51,11 +50,14 @@ const styles = theme => {
   };
 };
 
-class Login extends React.Component {
+class Login extends Component {
   state = {
     user: { email: "", password: "" },
     redirectToMain: false
   };
+  shouldComponentUpdate(nextProps, nextState) {
+     return this.props.isLogin !== nextProps.isLogin
+  }
   handleSubmit = e => {
     e.preventDefault();
     this.props.login(this.state.user);
