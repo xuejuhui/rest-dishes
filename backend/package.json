@@ -19,8 +19,10 @@
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.20",
+    "nodemailer": "^6.0.0",
     "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",

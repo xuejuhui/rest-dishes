@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
 const key = require("../../config/key");
+const uuidv1 = require('uuid/v1');
+const mailer = require("../../utils/mailer")
 
 // router.post('/register', (req, res) => {
 //     User.findOne({ email: req.body.email }).then(user => {
@@ -76,5 +78,18 @@ router.post("/login", async (req, res) => {
     res.status(404).json({ message: "Incorrect password" });
   }
 });
+
+router.post("/forgotpassword", async (req, res) =>{
+  console.log(req.body.email)
+  console.log(uuidv1())
+  let mailOptions = {
+    to: req.body.email, // list of receivers
+    subject: "Hello ✔", // Subject line
+    text: "Hello world?", // plain text body
+    html: "<b>Hello world?</b>" // html body
+  };
+  const from = {from:"legumoyaka@the-first.email"}
+  mailer.sendEmail(mailOptions,from)
+})
 
 module.exports = router;
