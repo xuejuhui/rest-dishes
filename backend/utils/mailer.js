@@ -6,6 +6,7 @@ const { SMTP_URL } = process.env;
 async function sendEmail(emailContent,  from, smtpUrl=SMTP_URL) {
   try {
     const fullEmailContent = {...from,...emailContent}
+    console.log(fullEmailContent)
     // const transporter = nodemailer.createTransport(SMTP_URL);
     let account = await nodemailer.createTestAccount();
     let transporter = nodemailer.createTransport({
