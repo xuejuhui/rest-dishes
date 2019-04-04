@@ -7,7 +7,7 @@ const key = require("../../config/key");
 const uuidv1 = require('uuid/v1');
 const mailer = require("../../utils/mailer")
 
-console.log(req.headers.host)
+
 // router.post('/register', (req, res) => {
 //     User.findOne({ email: req.body.email }).then(user => {
 //         if (user) {
@@ -80,7 +80,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/forgotPassword", async (req, res) =>{
+router.post("/forgotpassword", async (req, res) =>{
   try {
     const current = await User.findOne({ email: req.body.email });
     const token = uuidv1()
@@ -94,7 +94,7 @@ router.post("/forgotPassword", async (req, res) =>{
       subject: 'Node.js Password Reset',
      text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
        'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-       'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+       '' + req.headers.origin + '/reset/' + token + '\n\n' +
        'If you did not request this, please ignore this email and your password will remain unchanged.\n'
     };
     const from = {from:"legumoyaka@the-first.email"}
