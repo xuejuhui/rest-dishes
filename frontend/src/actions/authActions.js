@@ -8,7 +8,7 @@ import { setAuthToken } from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import { showErrors } from "./errorActions";
 
-export { login, register, logout, loading, autoLogin, forgotpassword };
+export { login, register, logout, loading, autoLogin, forgotPassword };
 
 function register(user) {
   return async dispatch => {
@@ -90,7 +90,17 @@ function logout() {
 }
 
 
-function forgotpassword(email){
+function forgotPassword(email){
+  return async dispatch =>{
+    dispatch(loading())
+    const forgotResponse = await axios.post(`http://localhost:5000/api/users/forgotpassword`,{ email });
+      if(forgotResponse){
+        dispatch(loading())
+      }
+    }
+  }
+
+function resetPassword(email){
   return async dispatch =>{
     dispatch(loading())
     const forgotResponse = await axios.post(`http://localhost:5000/api/users/forgotpassword`,{ email });

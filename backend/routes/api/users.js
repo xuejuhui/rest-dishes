@@ -88,14 +88,17 @@ router.post("/forgotpassword", async (req, res) =>{
         return res.status(400).json({ message: "Email not found" });
     }
     const updateResponse = await User.updateOne(current,{ resetPasswordToken:token, resetPasswordExpires:Date.now() + 3600000});
-    console.log(updateResponse)
     let mailOptions = {
       to: req.body.email,
-      subject: 'Node.js Password Reset',
-     text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-       'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-       '' + req.headers.origin + '/reset/' + token + '\n\n' +
-       'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+      subject: 'Password Reset',
+     text:
+     `You are receiving this because you (or someone else) have requested the reset of the password for your account.
+
+      Please click on the following link, or paste this into your browser to complete the process:
+
+       ${req.headers.origin}/reset/${token}
+
+       If you did not request this, please ignore this email and your password will remain unchanged.`
     };
     const from = {from:"legumoyaka@the-first.email"}
     mailer.sendEmail(mailOptions,from)
@@ -129,9 +132,8 @@ router.put("/reset/:token", async (req, res) =>{
     if(!current){
         return res.status(400).json({ message: "Password reset token is invalid or has expired." });
     }
-    const updateResponse = await User.updateOne(current,{password:hash});
-    console.log(updateResponse)
-    res.json(current)
+    const updateResponse = await User.updateOne(current,{password:hash,resetPasswordToken:null, resetPasswordExpires:null});
+    res.json({ message: "Your password has been reset successfully!" })
   } catch (e) {
     console.log(e)
   }

@@ -3,7 +3,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { connect } from "react-redux";
-import { forgotpassword } from "../actions/authActions";
+import { forgotPassword } from "../actions/authActions";
 import Loading from './Loading'
 
 class ForgotPassword extends React.Component {
@@ -20,13 +20,13 @@ class ForgotPassword extends React.Component {
   handleSubmit = (e) =>{
     e.preventDefault()
     const { email } = this.state
-    this.props.forgotpassword(email)
+    this.props.forgotPassword(email)
   }
   render(){
     const { isLoading } = this.props
     return(
       <div>
-{ isLoading? 
+{ isLoading?
   <Loading type="spin" color="black"/>
       :
       <Fragment>
@@ -53,5 +53,5 @@ const mapStateToProps = (state) =>{
 
 export default connect(
   mapStateToProps,
-  { forgotpassword }
+  { forgotPassword }
 )(ForgotPassword);
