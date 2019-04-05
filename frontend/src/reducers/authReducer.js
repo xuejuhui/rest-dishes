@@ -1,6 +1,6 @@
 import {
   SET_CURRENT_USER,
-  USER_LOADING,
+  LOADING,
   REMOVE_CURRENT_USER
 } from "../actions/types";
 
@@ -20,10 +20,10 @@ const authReducer = (state = initialState, action) => {
         user: action.payload,
         token: action.payload.token
       };
-    case USER_LOADING:
+    case LOADING:
       return {
         ...state,
-        loading: true
+        loading: !state.loading
       };
     case REMOVE_CURRENT_USER:
       return {

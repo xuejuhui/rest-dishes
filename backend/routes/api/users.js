@@ -99,7 +99,7 @@ router.post("/forgotpassword", async (req, res) =>{
     };
     const from = {from:"legumoyaka@the-first.email"}
     mailer.sendEmail(mailOptions,from)
-    res.json({emailed:true})
+    res.json({ message: "Email email has been sent" })
   } catch (e) {
     console.log(e)
   }

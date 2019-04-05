@@ -1,14 +1,14 @@
 import axios from "axios";
 import {
   SET_CURRENT_USER,
-  USER_LOADING,
+  LOADING,
   REMOVE_CURRENT_USER
 } from "./types";
 import { setAuthToken } from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import { showErrors } from "./errorActions";
 
-export { login, register, logout, setUserLoading, autoLogin };
+export { login, register, logout, loading, autoLogin, forgotpassword };
 
 function register(user) {
   return async dispatch => {
@@ -71,9 +71,10 @@ function autoLogin() {
   };
 }
 
-function setUserLoading() {
+function loading() {
   return {
-    type: USER_LOADING
+    type: LOADING,
+    payload:true
   };
 }
 
@@ -87,3 +88,14 @@ function logout() {
     });
   };
 }
+
+
+function forgotpassword(email){
+  return async dispatch =>{
+    dispatch(loading())
+    const forgotResponse = await axios.post(`http://localhost:5000/api/users/forgotpassword`,{ email });
+      if(forgotResponse){
+        dispatch(loading())
+      }
+    }
+  }
