@@ -3,6 +3,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import axios from 'axios'
+import { connect } from "react-redux";
+import { resetPassword } from "../actions/authActions";
 import { Redirect } from 'react-router-dom'
 
 class ResetPassword extends React.Component {
@@ -27,13 +29,11 @@ class ResetPassword extends React.Component {
   }
   handleSubmit = (e) =>{
     e.preventDefault()
+    const { resetPassword } = this.props
     const password = this.state
     const { token } = this.props.match.params
-    axios.put(`http://localhost:5000/api/users/reset/${token}`,password).then((user)=>{
-      if(user){
-        console.log(user)
-      }
-    })
+    resetPassword(password, token)
+
   }
   render(){
     const { validToken } = this.state
@@ -54,4 +54,7 @@ class ResetPassword extends React.Component {
   }
 }
 
-export default ResetPassword
+export default connect(
+  null,
+  { resetPassword }
+)(ResetPassword);

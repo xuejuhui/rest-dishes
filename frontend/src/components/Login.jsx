@@ -13,7 +13,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 const styles = theme => {
   return {
@@ -69,10 +69,7 @@ class Login extends Component {
     this.setState({ user: { ...this.state.user, password: e.target.value } });
   };
   render() {
-    const { classes, isLogin } = this.props;
-    if (isLogin) {
-      return <Redirect to="/secret" />;
-    }
+    const { classes } = this.props;
     return (
       <main className={classes.main}>
         <CssBaseline />
@@ -104,10 +101,7 @@ class Login extends Component {
                 onChange={this.handlePasswordChange}
               />
             </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+            <Link to="/forgot" style={{ textDecoration: 'none' }}>Forgot</Link>
             <Button
               type="submit"
               fullWidth
@@ -125,10 +119,8 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     user: state.auth.user,
-    isLogin: state.auth.login,
     error: state.error.message
   };
 };

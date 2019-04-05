@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { autoLogin } from "./actions/authActions";
 import ResetPassword from "./components/ResetPassword";
 import ForgotPassword from "./components/ForgotPassword";
+import Authenticated from "./components/Authenticated";
 
 class App extends Component {
   componentDidMount() {
@@ -23,10 +24,10 @@ class App extends Component {
             <div className="App">
               <NavBar />
               <Route exact path="/" component={Landing} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
+              <Authenticated  path="/register" component={Register} />
+              <Authenticated  path="/login" component={Login} />
               <Route exact path="/reset/:token" component={ResetPassword} />
-              <Route exact path="/forgot" component={ForgotPassword} />
+              <Authenticated  component={ForgotPassword} path="/forgot" />
               <ProtectedRoute component={SecretContainer} path="/secret" />
             </div>
           </Router>

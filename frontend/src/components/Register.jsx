@@ -74,11 +74,8 @@ class Register extends Component {
     this.setState({user:{...this.state.user,name: e.target.value}});
   }
   render() {
-    const { classes, isLogin, errorMessage } = this.props;
+    const { classes, errorMessage } = this.props;
     console.log(errorMessage)
-    if(isLogin){
-      return <Redirect to='/secret'/>
-    }
     return (
         <main className={classes.main}>
 
@@ -125,7 +122,6 @@ const mapStateToProps = state => {
   console.log(state);
   return {
     user: state.auth.user,
-    isLogin:state.auth.login,
     registerSucess:state.auth.registerSuccess,
     errorMessage: state.error.msg
   };
