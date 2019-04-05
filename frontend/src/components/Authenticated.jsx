@@ -21,7 +21,7 @@ const Authenticated = ({component: Component, ...rest})=>{
 const mapStateToProps = state => {
   return {
     user: state.auth,
-    error: state.error.message
+    alertMessage: state.alert.message
   };
 };
 export default connect(

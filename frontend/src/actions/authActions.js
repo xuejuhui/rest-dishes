@@ -6,7 +6,7 @@ import {
 } from "./types";
 import { setAuthToken } from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
-import { showErrors } from "./errorActions";
+import { showAlert } from "./alertActions";
 
 export { login, register, logout, loading, autoLogin, forgotPassword, resetPassword };
 
@@ -22,8 +22,9 @@ function register(user) {
         type: SET_CURRENT_USER,
         payload: regResponse
       });
+      dispatch(showAlert({message:"Success"}));
     } catch (err) {
-      dispatch(showErrors(err.response.data, err.response.status));
+      dispatch(showAlert(err.response.data, err.response.status));
       dispatch({
         type: REMOVE_CURRENT_USER
       });
@@ -50,7 +51,7 @@ function login(user) {
       }
     } catch (err) {
       console.log(err);
-      dispatch(showErrors(err.response.data, err.response.status));
+      dispatch(showAlert(err.response.data, err.response.status));
       dispatch({
         type: REMOVE_CURRENT_USER
       });

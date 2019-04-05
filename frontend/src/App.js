@@ -12,6 +12,7 @@ import { autoLogin } from "./actions/authActions";
 import ResetPassword from "./components/ResetPassword";
 import ForgotPassword from "./components/ForgotPassword";
 import Authenticated from "./components/Authenticated";
+import { SnackbarProvider } from 'notistack';
 
 class App extends Component {
   componentDidMount() {
@@ -20,6 +21,7 @@ class App extends Component {
   render() {
 
     return (
+      <SnackbarProvider maxSnack={3}>
           <Router>
             <div className="App">
               <NavBar />
@@ -31,7 +33,7 @@ class App extends Component {
               <ProtectedRoute component={SecretContainer} path="/secret" />
             </div>
           </Router>
-
+      </SnackbarProvider>
 
     );
   }

@@ -73,7 +73,7 @@ const mapStateToProps = state => {
   return {
     user: state.auth.user,
     isLogin: state.auth.login,
-    error: state.error.message
+    alertMessage: state.alert.message
   };
 };
 

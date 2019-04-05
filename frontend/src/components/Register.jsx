@@ -5,15 +5,13 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Redirect } from 'react-router-dom'
+import { withSnackbar } from 'notistack';
 
 const styles = theme => {
 return {
@@ -53,12 +51,11 @@ class Register extends Component {
     user:{email:"",password:"",name:""},
   }
   shouldComponentUpdate(nextProps, nextState) {
-    if( this.props.isLogin !== nextProps.isLogin ||  this.props.errorMessage !== nextProps.errorMessage){
+    if( this.props.isLogin !== nextProps.isLogin ||  this.props.alertMessage !== nextProps.alertMessage){
       return true
     } else {
       return false
     }
-
   }
   handleSubmit = (e) =>{
     e.preventDefault()
@@ -70,19 +67,15 @@ class Register extends Component {
   handlePasswordChange = (e) =>{
     this.setState({user:{...this.state.user,password: e.target.value}});
   }
-  handleNameChange = (e) =>{
-    this.setState({user:{...this.state.user,name: e.target.value}});
-  }
   render() {
-    const { classes, errorMessage } = this.props;
-    console.log(errorMessage)
+    const { classes } = this.props;
     return (
         <main className={classes.main}>
 
       <CssBaseline />
 
       <Paper className={classes.paper}>
-      {errorMessage ? <h1>{errorMessage.message}</h1> : <hr/>}
+      {alertMessage ? <h1>{alertMessage.message}</h1> : <hr/>}
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -97,10 +90,6 @@ class Register extends Component {
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="password">Password</InputLabel>
             <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.handlePasswordChange} />
-          </FormControl>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Name</InputLabel>
-            <Input id="name" name="name" autoComplete="name" autoFocus onChange={this.handleNameChange} />
           </FormControl>
           <Button
             type="submit"
@@ -119,20 +108,16 @@ class Register extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     user: state.auth.user,
     registerSucess:state.auth.registerSuccess,
-    errorMessage: state.error.msg
   };
 };
 const mapDispatchToProps = {
   register,
-  login,
-  logout
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Register));
+)(withSnackbar((withStyles(styles)(Register))));
