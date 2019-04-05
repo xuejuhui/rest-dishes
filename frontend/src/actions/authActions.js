@@ -17,17 +17,19 @@ function register(user) {
         "http://localhost:5000/api/users/register",
         user
       );
-      setAuthToken(regResponse.token);
-      dispatch({
-        type: SET_CURRENT_USER,
-        payload: regResponse
-      });
+      if(regResponse){
+        setAuthToken(regResponse.token);
+        dispatch({
+          type: SET_CURRENT_USER,
+          payload: regResponse
+        });
+        dispatch(enqueueSnackbar({message:"Register Success",options:{variant: 'success',}}))
+      }
     } catch (err) {
       dispatch(enqueueSnackbar({
             message: err.response.data.message,
             options: {
-                variant: 'warning',
-                preventDuplicate: true
+                variant: 'error',
             },
         }))
       dispatch({
@@ -39,12 +41,14 @@ function register(user) {
 
 function login(user) {
   return async dispatch => {
+    dispatch(loading())
     try {
       const loginResponse = await axios.post(
         "http://localhost:5000/api/users/login",
         user
       );
       if (loginResponse) {
+        dispatch(loading())
         const { token } = loginResponse.data;
         localStorage.setItem("jwt", token);
         setAuthToken(token);
@@ -53,9 +57,12 @@ function login(user) {
           type: SET_CURRENT_USER,
           payload: decoded
         });
+        dispatch(enqueueSnackbar({message:"Logged in",options:{variant: 'success',}}))
       }
     } catch (err) {
+      dispatch(loading())
       console.log(err);
+      dispatch(enqueueSnackbar({message:err.response.data.message,options:{variant: 'error',}}))
       dispatch({
         type: REMOVE_CURRENT_USER
       });
@@ -79,18 +86,17 @@ function autoLogin() {
 function loading() {
   return {
     type: LOADING,
-    payload:true
   };
 }
 
 function logout() {
   return dispatch => {
-    console.log("logout");
     localStorage.removeItem("jwt");
     setAuthToken(false);
     dispatch({
       type: REMOVE_CURRENT_USER
     });
+    dispatch(enqueueSnackbar({message:"Logout",options:{variant: 'success',}}))
   };
 }
 
@@ -98,15 +104,34 @@ function logout() {
 function forgotPassword(email){
   return async dispatch =>{
     dispatch(loading())
-    const forgotResponse = await axios.post(`http://localhost:5000/api/users/forgotpassword`,{ email });
-      if(forgotResponse){
-        dispatch(loading())
-      }
+    try {
+      const forgotResponse = await axios.post(`http://localhost:5000/api/users/forgotpassword`,{ email });
+        if(forgotResponse){
+          dispatch(enqueueSnackbar({message:forgotResponse.data.message, options:{variant: 'success',}}))
+          dispatch(loading())
+        }
+    } catch (e) {
+      console.log(e)
+      dispatch(enqueueSnackbar({message:e.response.data.message, options:{variant: 'error',}}))
+      dispatch(loading())
+    }
     }
   }
 
 function resetPassword({password, token}){
   return async dispatch =>{
-    const resetResponse = await axios.put(`http://localhost:5000/api/users/reset/${token}`,password)
+    dispatch(loading())
+    try {
+      console.log(token)
+      const resetResponse = await axios.put(`http://localhost:5000/api/users/reset/${token}`,{password})
+        if(resetResponse){
+          dispatch(enqueueSnackbar({message:resetResponse.data.message, options:{variant: 'success',}}))
+          dispatch(loading())
+        }
+    } catch (e) {
+      console.log(e)
+      dispatch(enqueueSnackbar({message:e.response.data.message, options:{variant: 'error',}}))
+      dispatch(loading())
+    }
     }
   }

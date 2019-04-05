@@ -7,6 +7,7 @@ const initialState = {
 const alertReducer = (state = initialState, action) => {
   switch (action.type) {
     case ENQUEUE_SNACKBAR:
+    console.log(action.notification)
       return {
                 ...state,
                 notifications: [

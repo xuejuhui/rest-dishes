@@ -7,29 +7,6 @@ const key = require("../../config/key");
 const uuidv1 = require('uuid/v1');
 const mailer = require("../../utils/mailer")
 
-
-// router.post('/register', (req, res) => {
-//     User.findOne({ email: req.body.email }).then(user => {
-//         if (user) {
-//             return res.status(400).json({ message: "Email already exist" })
-//         }
-//     })
-//     const newUser = new User({
-//         name: req.body.name,
-//         email: req.body.email,
-//         password: req.body.password
-//     })
-
-//     bcrypt.genSalt(10, (err, salt) => {
-//         if (err) throw err;
-//         bcrypt.hash(newUser.password, salt, (err, hash) => {
-//             if (err) throw err;
-//             console.log(hash)
-//             newUser.password = hash;
-//         })
-//     })
-// })
-
 router.post("/register", async (req, res) => {
   const current = await User.findOne({ email: req.body.email });
   if (current) {
@@ -104,7 +81,7 @@ router.post("/forgotpassword", async (req, res) =>{
     mailer.sendEmail(mailOptions,from)
     res.json({ message: "Email email has been sent" })
   } catch (e) {
-    console.log(e)
+    return res.status(400).json({ message: "Error" });
   }
 
 })
@@ -125,6 +102,7 @@ router.get("/reset/:token", async (req, res) =>{
 })
 
 router.put("/reset/:token", async (req, res) =>{
+  console.log(req.body,req.params)
   try {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(req.body.password, salt);
@@ -132,10 +110,12 @@ router.put("/reset/:token", async (req, res) =>{
     if(!current){
         return res.status(400).json({ message: "Password reset token is invalid or has expired." });
     }
+    console.log(current)
     const updateResponse = await User.updateOne(current,{password:hash,resetPasswordToken:null, resetPasswordExpires:null});
     res.json({ message: "Your password has been reset successfully!" })
   } catch (e) {
     console.log(e)
+    return res.status(400).json({ message: "Error" });
   }
 
 })

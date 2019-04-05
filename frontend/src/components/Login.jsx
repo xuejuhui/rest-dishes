@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { register, login, logout } from "../actions/authActions";
+import { login } from "../actions/authActions";
 import { connect } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -119,13 +119,10 @@ class Login extends Component {
 const mapStateToProps = state => {
   return {
     user: state.auth.user,
-    error: state.error.message
   };
 };
 const mapDispatchToProps = {
-  register,
   login,
-  logout
 };
 
 export default connect(

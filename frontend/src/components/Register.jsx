@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import AlertMessage from './AlertMessage/AlertMessage'
+
 
 const styles = theme => {
 return {
@@ -71,7 +71,7 @@ class Register extends Component {
     const { classes } = this.props;
     return (
         <main className={classes.main}>
-            <AlertMessage />
+
       <CssBaseline />
 
       <Paper className={classes.paper}>

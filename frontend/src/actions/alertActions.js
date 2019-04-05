@@ -7,6 +7,11 @@ function enqueueSnackbar(notification) {
       notification: {
           key: new Date().getTime() + Math.random(),
           ...notification,
+          options:{
+            ...notification.options,
+            autoHideDuration: 1000,
+                            preventDuplicate: true
+          }
       },
   }
 }

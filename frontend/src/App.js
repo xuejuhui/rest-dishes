@@ -13,7 +13,7 @@ import ResetPassword from "./components/ResetPassword";
 import ForgotPassword from "./components/ForgotPassword";
 import Authenticated from "./components/Authenticated";
 import { SnackbarProvider } from 'notistack';
-
+import AlertMessage from './components/AlertMessage/AlertMessage'
 class App extends Component {
   componentDidMount() {
     this.props.autoLogin();
@@ -24,6 +24,7 @@ class App extends Component {
       <SnackbarProvider maxSnack={3}>
           <Router>
             <div className="App">
+              <AlertMessage />
               <NavBar />
               <Route exact path="/" component={Landing} />
               <Authenticated  path="/register" component={Register} />
