@@ -1,5 +1,5 @@
-export const GET_ALERT = "GET_ALERT";
-export const CLEAR_ALERT = "CLEAR_ALERT";
+export const ENQUEUE_SNACKBAR = "ENQUEUE_SNACKBAR";
+export const REMOVE_SNACKBAR = "REMOVE_SNACKBAR";
 export const LOADING = "USER_LOADING";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";

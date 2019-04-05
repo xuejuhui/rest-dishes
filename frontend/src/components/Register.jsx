@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { register, login, logout } from "../actions/authActions";
+import { register } from "../actions/authActions";
 import { connect } from "react-redux";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { withSnackbar } from 'notistack';
+import AlertMessage from './AlertMessage/AlertMessage'
 
 const styles = theme => {
 return {
@@ -71,11 +71,10 @@ class Register extends Component {
     const { classes } = this.props;
     return (
         <main className={classes.main}>
-
+            <AlertMessage />
       <CssBaseline />
 
       <Paper className={classes.paper}>
-      {alertMessage ? <h1>{alertMessage.message}</h1> : <hr/>}
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -120,4 +119,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withSnackbar((withStyles(styles)(Register))));
+)(withStyles(styles)(Register));

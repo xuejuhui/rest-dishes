@@ -1,15 +1,19 @@
-import { CLEAR_ALERT, GET_ALERT } from "./types";
-export { showAlert, clearAlert };
+import { CLEAR_ALERT, REMOVE_SNACKBAR } from "./types";
+export { enqueueSnackbar, removeSnackbar };
 
-function showAlert(msg, status) {
+function enqueueSnackbar(notification) {
   return {
-    type: GET_ALERT,
-    payload: { msg, status }
-  };
+      type: 'ENQUEUE_SNACKBAR',
+      notification: {
+          key: new Date().getTime() + Math.random(),
+          ...notification,
+      },
+  }
 }
 
-function clearAlert() {
+function removeSnackbar(key) {
   return {
-    type: CLEAR_ALERT
-  };
-}
+        type: REMOVE_SNACKBAR,
+        key
+      }
+  }
