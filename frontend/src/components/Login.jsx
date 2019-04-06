@@ -54,17 +54,16 @@ class Login extends Component {
     redirectToMain: false
   };
   shouldComponentUpdate(nextProps, nextState) {
-     return this.props.isLogin !== nextProps.isLogin
+    return this.props.isLogin !== nextProps.isLogin;
   }
   handleSubmit = e => {
     e.preventDefault();
     this.props.login(this.state.user);
   };
-  handleEmailChange = e => {
-    this.setState({ user: { ...this.state.user, email: e.target.value } });
-  };
-  handlePasswordChange = e => {
-    this.setState({ user: { ...this.state.user, password: e.target.value } });
+  handleChange = e => {
+    this.setState({
+      user: { ...this.state.user, [e.target.name]: e.target.value }
+    });
   };
   render() {
     const { classes } = this.props;
@@ -86,7 +85,7 @@ class Login extends Component {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={this.handleEmailChange}
+                onChange={this.handleChange}
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
@@ -96,10 +95,12 @@ class Login extends Component {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={this.handlePasswordChange}
+                onChange={this.handleChange}
               />
             </FormControl>
-            <Link to="/forgot" style={{ textDecoration: 'none' }}>Forgot</Link>
+            <Link to="/forgot" style={{ textDecoration: "none" }}>
+              Forgot
+            </Link>
             <Button
               type="submit"
               fullWidth
@@ -118,11 +119,11 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.auth.user,
+    user: state.auth.user
   };
 };
 const mapDispatchToProps = {
-  login,
+  login
 };
 
 export default connect(

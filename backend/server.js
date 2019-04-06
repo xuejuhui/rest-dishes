@@ -5,7 +5,7 @@ const users = require("./routes/api/users");
 const passport = require("passport");
 const cors = require("cors");
 const app = express();
-app.use(cors())
+app.use(cors());
 
 app.use(
   bodyParser.urlencoded({

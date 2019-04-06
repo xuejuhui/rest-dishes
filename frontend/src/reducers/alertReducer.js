@@ -1,28 +1,28 @@
 import { ENQUEUE_SNACKBAR, REMOVE_SNACKBAR } from "../actions/types";
 
 const initialState = {
-  notifications: [],
+  notifications: []
 };
 
 const alertReducer = (state = initialState, action) => {
   switch (action.type) {
     case ENQUEUE_SNACKBAR:
-    console.log(action.notification)
+      console.log(action.notification);
       return {
-                ...state,
-                notifications: [
-                    ...state.notifications,
-                    {
-                        ...action.notification,
-                    },
-                ],
-            };
-  case REMOVE_SNACKBAR:
+        ...state,
+        notifications: [
+          ...state.notifications,
+          {
+            ...action.notification
+          }
+        ]
+      };
+    case REMOVE_SNACKBAR:
       return {
-          ...state,
-          notifications: state.notifications.filter(
-              notification => notification.key !== action.key,
-          ),
+        ...state,
+        notifications: state.notifications.filter(
+          notification => notification.key !== action.key
+        )
       };
     default:
       return state;

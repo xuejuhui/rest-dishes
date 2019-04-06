@@ -4,8 +4,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
 const key = require("../../config/key");
-const uuidv1 = require('uuid/v1');
-const mailer = require("../../utils/mailer")
+const uuidv1 = require("uuid/v1");
+const mailer = require("../../utils/mailer");
 
 router.post("/register", async (req, res) => {
   const current = await User.findOne({ email: req.body.email });
@@ -57,19 +57,21 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/forgotpassword", async (req, res) =>{
+router.post("/forgotpassword", async (req, res) => {
   try {
     const current = await User.findOne({ email: req.body.email });
-    const token = uuidv1()
-    if(!current){
-        return res.status(400).json({ message: "Email not found" });
+    const token = uuidv1();
+    if (!current) {
+      return res.status(400).json({ message: "Email not found" });
     }
-    const updateResponse = await User.updateOne(current,{ resetPasswordToken:token, resetPasswordExpires:Date.now() + 3600000});
+    const updateResponse = await User.updateOne(current, {
+      resetPasswordToken: token,
+      resetPasswordExpires: Date.now() + 3600000
+    });
     let mailOptions = {
       to: req.body.email,
-      subject: 'Password Reset',
-     text:
-     `You are receiving this because you (or someone else) have requested the reset of the password for your account.
+      subject: "Password Reset",
+      text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.
 
       Please click on the following link, or paste this into your browser to complete the process:
 
@@ -77,50 +79,55 @@ router.post("/forgotpassword", async (req, res) =>{
 
        If you did not request this, please ignore this email and your password will remain unchanged.`
     };
-    const from = {from:"legumoyaka@the-first.email"}
-    mailer.sendEmail(mailOptions,from)
-    res.json({ message: "Email email has been sent" })
+    const from = { from: "legumoyaka@the-first.email" };
+    mailer.sendEmail(mailOptions, from);
+    res.json({ message: "Email email has been sent" });
   } catch (e) {
     return res.status(400).json({ message: "Error" });
   }
+});
 
-})
-
-
-
-router.get("/reset/:token", async (req, res) =>{
+router.get("/reset/:token", async (req, res) => {
   try {
-    const current = await User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires:{$gt: Date.now()} });
-    if(!current){
-        return res.status(400).json({ message: "Password reset token is invalid or has expired." });
+    const current = await User.findOne({
+      resetPasswordToken: req.params.token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
+    if (!current) {
+      return res
+        .status(400)
+        .json({ message: "Password reset token is invalid or has expired." });
     }
-    res.json(current)
+    res.json(current);
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
+});
 
-})
-
-router.put("/reset/:token", async (req, res) =>{
-  console.log(req.body,req.params)
+router.put("/reset/:token", async (req, res) => {
+  console.log(req.body, req.params);
   try {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(req.body.password, salt);
-    const current = await User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires:{$gt: Date.now()} });
-    if(!current){
-        return res.status(400).json({ message: "Password reset token is invalid or has expired." });
+    const current = await User.findOne({
+      resetPasswordToken: req.params.token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
+    if (!current) {
+      return res
+        .status(400)
+        .json({ message: "Password reset token is invalid or has expired." });
     }
-    console.log(current)
-    const updateResponse = await User.updateOne(current,{password:hash,resetPasswordToken:null, resetPasswordExpires:null});
-    res.json({ message: "Your password has been reset successfully!" })
+    const updateResponse = await User.updateOne(current, {
+      password: hash,
+      resetPasswordToken: null,
+      resetPasswordExpires: null
+    });
+    res.json({ message: "Your password has been reset successfully!" });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return res.status(400).json({ message: "Error" });
   }
-
-})
-
-
-
+});
 
 module.exports = router;
