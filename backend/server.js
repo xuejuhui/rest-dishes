@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const users = require("./routes/api/users");
+const dishes = require("./routes/api/dishes");
 const passport = require("passport");
 const cors = require("cors");
 const app = express();
@@ -23,6 +24,7 @@ mongoose
 app.use(passport.initialize());
 require("./passport")(passport);
 app.use("/api/users", users);
+app.use("/api/dishes", dishes);
 
 const port = process.env.PORT || 5000;
 
