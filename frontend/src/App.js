@@ -14,10 +14,8 @@ import ForgotPassword from "./components/ForgotPassword";
 import Authenticated from "./components/Authenticated";
 import { SnackbarProvider } from "notistack";
 import AlertMessage from "./components/AlertMessage/AlertMessage";
+autoLogin();
 class App extends Component {
-  componentDidMount() {
-    this.props.autoLogin();
-  }
   render() {
     return (
       <SnackbarProvider maxSnack={3}>
@@ -38,9 +36,7 @@ class App extends Component {
   }
 }
 
-const mapDispatchToProps = {
-  autoLogin
-};
+const mapDispatchToProps = {};
 
 export default connect(
   null,

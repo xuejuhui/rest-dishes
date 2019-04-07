@@ -91,17 +91,11 @@ function login(user) {
   };
 }
 function autoLogin() {
-  return dispatch => {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      setAuthToken(jwt);
-      const decoded = jwt_decode(jwt);
-      dispatch({
-        type: SET_CURRENT_USER,
-        payload: decoded
-      });
-    }
-  };
+  console.log("autologin");
+  const jwt = localStorage.getItem("jwt");
+  if (jwt) {
+    setAuthToken(jwt);
+  }
 }
 
 function loading() {
