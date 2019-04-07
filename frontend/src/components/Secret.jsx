@@ -7,7 +7,7 @@ const Secret = props => {
       <h3>{props.userName}</h3>
       {props.dishes.map(dish => {
         return (
-          <Fragment>
+          <Fragment key={dish._id}>
             <h4>{dish.dishName}</h4>
             <p>{dish.description}</p>
           </Fragment>

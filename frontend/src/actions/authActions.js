@@ -1,5 +1,10 @@
 import axios from "axios";
-import { SET_CURRENT_USER, LOADING, REMOVE_CURRENT_USER } from "./types";
+import {
+  SET_CURRENT_USER,
+  LOADING,
+  REMOVE_CURRENT_USER,
+  USER_LOGOUT
+} from "./types";
 import { setAuthToken } from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import { enqueueSnackbar } from "./alertActions";
@@ -108,6 +113,12 @@ function logout() {
   return dispatch => {
     localStorage.removeItem("jwt");
     setAuthToken(false);
+    dispatch({
+      type: USER_LOGOUT
+    });
+    dispatch({
+      type: REMOVE_CURRENT_USER
+    });
     dispatch({
       type: REMOVE_CURRENT_USER
     });

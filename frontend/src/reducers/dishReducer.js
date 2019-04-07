@@ -4,6 +4,7 @@ const initialState = {
   userName: null,
   dishes: []
 };
+console.log(initialState);
 
 const dishReducer = (state = initialState, action) => {
   switch (action.type) {
