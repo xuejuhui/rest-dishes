@@ -1,8 +1,20 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 const Secret = props => {
   console.log(props);
-  return <h1>Hello World This is the Secret Page</h1>;
+  return (
+    <div>
+      <h3>{props.userName}</h3>
+      {props.dishes.map(dish => {
+        return (
+          <Fragment>
+            <h4>{dish.dishName}</h4>
+            <p>{dish.description}</p>
+          </Fragment>
+        );
+      })}
+    </div>
+  );
 };
 
 export default Secret;

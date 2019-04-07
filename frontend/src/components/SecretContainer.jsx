@@ -1,27 +1,31 @@
 import React, { Component } from "react";
 import Secret from "./Secret";
 import { connect } from "react-redux";
-import { autoLogin } from "../actions/authActions";
-import axios from "axios";
+import { getUserDishes } from "../actions/dishActions";
+
 class SecretContainer extends Component {
   componentDidMount() {
-    axios
-      .get("http://localhost:5000/api/dishes/userdish", {
-        dishName: "Chicken",
-        description: "This is very good chicken dish"
-      })
-      .then(res => console.log(res));
+    const { getUserDishes } = this.props;
+    getUserDishes();
   }
   render() {
-    return <Secret />;
+    const { dishes, userName } = this.props;
+    return <Secret dishes={dishes} userName={userName} />;
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    dishes: state.dish.dishes,
+    userName: state.dish.userName
+  };
+};
+
 const mapDispatchToProps = {
-  autoLogin
+  getUserDishes
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SecretContainer);

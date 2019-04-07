@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer";
 import alertReducer from "./alertReducer";
+import dishReducer from "./dishReducer";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -12,7 +13,8 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  alert: alertReducer
+  alert: alertReducer,
+  dish: dishReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

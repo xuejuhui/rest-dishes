@@ -20,7 +20,7 @@ router.post("/dish", jwtTokenMethods.verifyToken, async (req, res) => {
   }
 });
 
-router.get("/userdish", jwtTokenMethods.verifyToken, async (req, res) => {
+router.get("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
   try {
     const userDish = await User.findOne(
       { _id: req.user.id },
