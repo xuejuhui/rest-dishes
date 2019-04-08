@@ -14,8 +14,12 @@ const dishReducer = (state = initialState, action) => {
         userName: action.payload.name,
         dishes: action.payload.dishes
       };
-    // case ADD_USER_DISHES:
-    //   console.log(action);
+    case ADD_USER_DISHES:
+      console.log(action)
+      return{
+        ...state,
+        dishes:[...state.dishes, action.payload]
+      }
     default:
       return state;
   }

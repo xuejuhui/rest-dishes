@@ -8,13 +8,12 @@ import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SecretContainer from "./components/SecretContainer";
 import { connect } from "react-redux";
-import { autoLogin } from "./actions/authActions";
 import ResetPassword from "./components/ResetPassword";
 import ForgotPassword from "./components/ForgotPassword";
 import Authenticated from "./components/Authenticated";
 import { SnackbarProvider } from "notistack";
 import AlertMessage from "./components/AlertMessage/AlertMessage";
-autoLogin();
+
 class App extends Component {
   render() {
     return (

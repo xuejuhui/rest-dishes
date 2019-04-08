@@ -16,10 +16,9 @@ const appReducer = combineReducers({
   alert: alertReducer,
   dish: dishReducer
 });
-console.log(appReducer);
+
 const rootReducer = (state, action) => {
   if (action.type === "USER_LOGOUT") {
-    storage.removeItem("persist:root");
     state = undefined;
   }
   return appReducer(state, action);

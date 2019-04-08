@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react'
+import { connect } from 'react-redux'
+import { addUserDishes } from "../actions/dishActions";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
-import { connect } from "react-redux";
-import { forgotPassword } from "../actions/authActions";
-import Loading from "./Loading";
 import withStyles from "@material-ui/core/styles/withStyles";
+
 
 const styles = theme => {
   return {
@@ -23,58 +23,48 @@ const styles = theme => {
   };
 };
 
-class ForgotPassword extends React.Component {
+class DishForm extends React.Component {
   state = {
-    email: null,
-    submitted: false
+    dishName: '',
+    description: ''
   };
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return false
-  // }
   handleChange = e => {
+    console.log(e.target.name ,e.target.value )
+    const { name } = e.target
     this.setState({ [e.target.name]: e.target.value });
   };
   handleSubmit = e => {
     e.preventDefault();
-    const { email } = this.state;
-    this.props.forgotPassword(email);
+    this.props.addUserDishes(this.state)
   };
   render() {
-    const { isLoading, classes } = this.props;
+    console.log(this.props)
+    const { classes } = this.props;
     return (
-      <div>
-        {isLoading ? (
-          <Loading type="spin" color="black" />
-        ) : (
+
           <div className={classes.main}>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="email">Email Address</InputLabel>
+              <InputLabel htmlFor="email">Dish Name</InputLabel>
               <Input
-                id="email"
-                name="email"
-                autoComplete="email"
+                id="dishName"
+                name="dishName"
+                autoFocus
+                onChange={this.handleChange}
+              />
+            </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="email">Description</InputLabel>
+              <Input
+                id="description"
+                name="description"
                 autoFocus
                 onChange={this.handleChange}
               />
             </FormControl>
             <button onClick={this.handleSubmit}>TAP</button>
           </div>
-        )}
-      </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isLoading: state.auth.loading
-  };
-};
-// const mapDispatchToProps = {
-//   autoLogin
-// };
-
-export default connect(
-  mapStateToProps,
-  { forgotPassword }
-)(withStyles(styles)(ForgotPassword));
+export default connect(null,{addUserDishes})(withStyles(styles)(DishForm));

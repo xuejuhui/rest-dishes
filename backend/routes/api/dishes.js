@@ -4,7 +4,7 @@ const Dish = require("../../models/Dish");
 const User = require("../../models/User");
 const jwtTokenMethods = require("../../utils/jwtToken");
 
-router.post("/dish", jwtTokenMethods.verifyToken, async (req, res) => {
+router.post("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.user.id });
     const newDish = new Dish({

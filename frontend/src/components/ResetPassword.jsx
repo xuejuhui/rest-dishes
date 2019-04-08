@@ -32,7 +32,7 @@ class ResetPassword extends React.Component {
   componentDidMount() {
     const { token } = this.props.match.params;
     axios
-      .get(`http://localhost:5000/api/users/reset/${token}`)
+      .get(`/api/users/reset/${token}`)
       .then(user => {
         if (user) {
           this.setState({ validToken: true });

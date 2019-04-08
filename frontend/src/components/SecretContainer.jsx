@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Secret from "./Secret";
+import DishForm from "./DishForm";
 import { connect } from "react-redux";
-import { getUserDishes } from "../actions/dishActions";
+import { getUserDishes,addUserDishes } from "../actions/dishActions";
 
 class SecretContainer extends Component {
   componentDidMount() {
@@ -9,8 +10,14 @@ class SecretContainer extends Component {
     getUserDishes();
   }
   render() {
-    const { dishes, userName } = this.props;
-    return <Secret dishes={dishes} userName={userName} />;
+    const { dishes, userName, addUserDishes } = this.props;
+
+    return (
+      <Fragment>
+        <DishForm />
+      <Secret dishes={dishes} userName={userName} addUserDishes={addUserDishes}/>
+      </Fragment>
+    );
   }
 }
 
@@ -22,7 +29,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getUserDishes
+  getUserDishes,
+  addUserDishes
 };
 
 export default connect(
