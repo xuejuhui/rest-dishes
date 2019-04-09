@@ -9,7 +9,9 @@ const Secret = props => {
           <Fragment key={dish._id}>
             <h4>{dish.dishName}</h4>
             <p>{dish.description}</p>
-            <button onClick={() => props.deleteUserDish(dish._id)}>D</button>
+            <button onClick={props.handleDeleteUserDish(dish._id)}>
+              Delete
+            </button>
           </Fragment>
         );
       })}

@@ -13,15 +13,18 @@ class SecretContainer extends Component {
     const { getUserDishes } = this.props;
     getUserDishes();
   }
+  handleDeleteUserDish = id => () => {
+    this.props.deleteUserDish(id);
+  };
   render() {
-    const { dishes, userName, addUserDishes, deleteUserDish } = this.props;
+    const { dishes, userName, addUserDishes } = this.props;
     return (
       <Fragment>
         <DishForm />
         <Secret
           dishes={dishes}
           userName={userName}
-          deleteUserDish={deleteUserDish}
+          handleDeleteUserDish={this.handleDeleteUserDish}
         />
       </Fragment>
     );
