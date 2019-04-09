@@ -14,6 +14,7 @@ router.post("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
     const dishResponse = await newDish.save();
     user.dishes.push(dishResponse._id);
     await user.save();
+    console.log(dishResponse);
     res.json(dishResponse);
   } catch (error) {
     console.log(error);
@@ -26,9 +27,24 @@ router.get("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
       { _id: req.user.id },
       { password: 0, resetPasswordExpires: 0, resetPasswordToken: 0 }
     )
-      .populate("dishes")
+      .populate({ path: "dishes", match: { isDeleted: false } })
       .exec();
     res.json(userDish);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.delete("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
+  try {
+    const dish = await Dish.findOne({ _id: req.body.id });
+    const updateResponse = await Dish.updateOne(dish, {
+      isDeleted: true
+    });
+    res.json({
+      id: dish._id,
+      message: `${dish.dishName} has been deleted!`
+    });
   } catch (error) {
     console.log(error);
   }

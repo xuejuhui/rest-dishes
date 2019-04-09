@@ -6,7 +6,11 @@ const DishSchema = new Schema({
     type: String,
     required: true
   },
-  description: String
+  description: String,
+  isDeleted: {
+    type: Boolean,
+    default: false
+  }
 });
 
 module.exports = mongoose.model("Dish", DishSchema);

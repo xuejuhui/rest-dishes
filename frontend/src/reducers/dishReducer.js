@@ -1,4 +1,8 @@
-import { GET_USER_DISHES, ADD_USER_DISHES } from "../actions/types";
+import {
+  GET_USER_DISHES,
+  ADD_USER_DISHES,
+  DELETE_USER_DISHES
+} from "../actions/types";
 
 const initialState = {
   userName: null,
@@ -21,7 +25,12 @@ const dishReducer = (state = initialState, action) => {
       console.log(action);
       return {
         ...state,
-        dishes: {}
+        dishes: { ...state.dishes, [action.payload._id]: action.payload }
+      };
+    case DELETE_USER_DISHES:
+      return {
+        ...state,
+        dishes: delete state.dishes[action.payload.id]
       };
     default:
       return state;
