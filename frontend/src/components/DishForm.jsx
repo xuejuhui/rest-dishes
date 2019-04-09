@@ -29,8 +29,6 @@ class DishForm extends React.Component {
     description: ''
   };
   handleChange = e => {
-    console.log(e.target.name ,e.target.value )
-    const { name } = e.target
     this.setState({ [e.target.name]: e.target.value });
   };
   handleSubmit = e => {

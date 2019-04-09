@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import {
   SET_CURRENT_USER,
   LOADING,
@@ -7,24 +7,14 @@ import {
 } from "./types";
 import jwt_decode from "jwt-decode";
 import { enqueueSnackbar } from "./alertActions";
-// import apiClient from '../utils/api/apiClient';
+import apiClient from "../utils/api/apiClient";
 
-export {
-  login,
-  register,
-  logout,
-  loading,
-  forgotPassword,
-  resetPassword
-};
+export { login, register, logout, loading, forgotPassword, resetPassword };
 
 function register(user) {
   return async dispatch => {
     try {
-      const regResponse = await axios.post(
-        "/api/users/register",
-        user
-      );
+      const regResponse = await apiClient.post("/api/users/register", user);
       if (regResponse) {
         dispatch({
           type: SET_CURRENT_USER,
@@ -57,10 +47,7 @@ function login(user) {
   return async dispatch => {
     dispatch(loading());
     try {
-      const loginResponse = await axios.post(
-        "/api/users/login",
-        user
-      );
+      const loginResponse = await apiClient.post("/api/users/login", user);
       if (loginResponse) {
         dispatch(loading());
         const { token } = loginResponse.data;
@@ -121,10 +108,9 @@ function forgotPassword(email) {
   return async dispatch => {
     dispatch(loading());
     try {
-      const forgotResponse = await axios.post(
-        `/api/users/forgotpassword`,
-        { email }
-      );
+      const forgotResponse = await apiClient.post(`/api/users/forgotpassword`, {
+        email
+      });
       if (forgotResponse) {
         dispatch(
           enqueueSnackbar({
@@ -152,10 +138,9 @@ function resetPassword(password, token) {
     dispatch(loading());
     try {
       console.log(token);
-      const resetResponse = await axios.put(
-        `/api/users/reset/${token}`,
-        { password }
-      );
+      const resetResponse = await apiClient.put(`/api/users/reset/${token}`, {
+        password
+      });
       if (resetResponse) {
         dispatch(
           enqueueSnackbar({

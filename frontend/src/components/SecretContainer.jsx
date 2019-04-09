@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import Secret from "./Secret";
 import DishForm from "./DishForm";
 import { connect } from "react-redux";
-import { getUserDishes,addUserDishes } from "../actions/dishActions";
+import { getUserDishes, addUserDishes } from "../actions/dishActions";
 
 class SecretContainer extends Component {
   componentDidMount() {
@@ -15,7 +15,11 @@ class SecretContainer extends Component {
     return (
       <Fragment>
         <DishForm />
-      <Secret dishes={dishes} userName={userName} addUserDishes={addUserDishes}/>
+        <Secret
+          dishes={dishes}
+          userName={userName}
+          addUserDishes={addUserDishes}
+        />
       </Fragment>
     );
   }
