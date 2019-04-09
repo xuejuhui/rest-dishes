@@ -4,24 +4,28 @@ export { getUserDishes, addUserDishes };
 
 function getUserDishes() {
   return async dispatch => {
-    apiRequest(
-      { url: "/api/dishes/userdishes", method: "GET" },
-      GET_USER_DISHES,
-      "Loaded"
-    )(dispatch);
+    dispatch(
+      apiRequest(
+        { url: "/api/dishes/userdishes", method: "GET" },
+        GET_USER_DISHES,
+        "Loaded"
+      )
+    );
   };
 }
 
 function addUserDishes({ dishName, description }) {
   return async dispatch => {
-    apiRequest(
-      {
-        url: "/api/dishes/userdishes",
-        method: "POST",
-        data: { dishName, description }
-      },
-      ADD_USER_DISHES,
-      "Added"
-    )(dispatch);
+    dispatch(
+      apiRequest(
+        {
+          url: "/api/dishes/userdishes",
+          method: "POST",
+          data: { dishName, description }
+        },
+        ADD_USER_DISHES,
+        "Added"
+      )
+    );
   };
 }

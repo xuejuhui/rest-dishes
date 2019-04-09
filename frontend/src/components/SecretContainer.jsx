@@ -11,7 +11,6 @@ class SecretContainer extends Component {
   }
   render() {
     const { dishes, userName, addUserDishes } = this.props;
-
     return (
       <Fragment>
         <DishForm />
@@ -26,6 +25,7 @@ class SecretContainer extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log(state.dish);
   return {
     dishes: state.dish.dishes,
     userName: state.dish.userName

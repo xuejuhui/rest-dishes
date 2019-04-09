@@ -9,7 +9,6 @@ const apiRequest = ({ url, ...apiOptions }, dispatchType, message = "") => {
         type: dispatchType,
         payload: response.data
       });
-      console.log(response);
       dispatch(
         enqueueSnackbar({
           message,

@@ -2,24 +2,27 @@ import { GET_USER_DISHES, ADD_USER_DISHES } from "../actions/types";
 
 const initialState = {
   userName: null,
-  dishes: []
+  dishes: {}
 };
-console.log(initialState);
 
 const dishReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_USER_DISHES:
+      const result = action.payload.dishes.reduce((acc, dish) => {
+        acc[dish._id] = dish;
+        return acc;
+      }, {});
       return {
         ...state,
         userName: action.payload.name,
-        dishes: action.payload.dishes
+        dishes: result
       };
     case ADD_USER_DISHES:
-      console.log(action)
-      return{
+      console.log(action);
+      return {
         ...state,
-        dishes:[...state.dishes, action.payload]
-      }
+        dishes: {}
+      };
     default:
       return state;
   }
