@@ -8,17 +8,20 @@ import {
   getAllDishes
 } from "../actions/dishActions";
 import DishesList from "./DishesList";
+import axios from "axios";
 
 class SecretContainer extends Component {
   state = {
+    openCard: false,
     startIndex: 0,
-    limit: 10
+    limit: 10,
+    dish: {}
   };
   shouldComponentUpdate(nextProps, nextState) {
-    console.log(nextProps, nextState);
     return (
       Object.values(this.props.dishes).length !==
-      Object.values(nextProps.dishes).length
+        Object.values(nextProps.dishes).length ||
+      this.state.dish !== nextState.dish
     );
   }
   componentDidMount() {
@@ -26,6 +29,12 @@ class SecretContainer extends Component {
     // getUserDishes();
     getAllDishes(this.state.startIndex, this.state.limit);
   }
+  handleSomething = id => () => {
+    axios
+      .get("http://localhost:5000/api/dishes/dish/" + id)
+      .then(x => this.setState({ dish: x.data }));
+    this.setState({ openCard: true });
+  };
   handleDeleteUserDish = id => () => {
     this.props.deleteUserDish(id);
   };
@@ -35,15 +44,23 @@ class SecretContainer extends Component {
   };
   render() {
     const { dishes } = this.props;
+    const { openCard, dish } = this.state;
     return (
       <Fragment>
         <DishForm />
-        <DishesList dishes={dishes} handleMore={this.handleMore} />
-        {/*<Secret
+        <DishesList
           dishes={dishes}
-          userName={userName}
-          handleDeleteUserDish={this.handleDeleteUserDish}
-        />*/}
+          handleMore={this.handleMore}
+          handleSomething={this.handleSomething}
+        />
+        {openCard ? (
+          <Secret
+            dish={dish}
+            handleDeleteUserDish={this.handleDeleteUserDish}
+          />
+        ) : (
+          ""
+        )}
       </Fragment>
     );
   }

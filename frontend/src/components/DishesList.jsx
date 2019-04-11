@@ -10,7 +10,7 @@ import puppy from "../utils/puppy";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const styles = theme => ({
-  // main: { overflow: "auto", maxHeight: 500, width: "50vw" },
+  main: { float: "left" },
   root: {
     width: "100%",
     maxWidth: 360,
@@ -21,7 +21,7 @@ const styles = theme => ({
   }
 });
 const DishesList = props => {
-  const { classes, dishes, handleMore } = props;
+  const { classes, dishes, handleMore, handleSomething } = props;
   const dishesArray = Object.values(dishes);
   return (
     <div className={classes.main}>
@@ -43,9 +43,7 @@ const DishesList = props => {
               <ListItem
                 alignItems="flex-start"
                 button
-                onClick={() => {
-                  console.log(dish._id);
-                }}
+                onClick={handleSomething(dish._id)}
               >
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src={randomPic} />

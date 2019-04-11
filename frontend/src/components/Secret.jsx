@@ -12,10 +12,12 @@ import puppy from "../utils/puppy";
 const styles = {
   main: {
     marginTop: "10px",
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    alignItem: "center"
+    position: "fixed",
+    right: "0",
+    // flexWrap: "wrap",
+    // justifyContent: "center",
+    // alignItem: "center",
+    float: "right"
   },
   card: {
     width: 345
@@ -26,46 +28,43 @@ const styles = {
 };
 
 const Secret = props => {
-  const { classes } = props;
+  const { classes, dish } = props;
+  let randomPic = puppy[Math.floor(Math.random() * (puppy.length - 1 - 0) + 0)];
+  console.log(dish);
   return (
     <div className={classes.main}>
       <h3>{props.userName}</h3>
-      {Object.values(props.dishes).map(dish => {
-        let randomPic =
-          puppy[Math.floor(Math.random() * (puppy.length - 1 - 0) + 0)];
-        return (
-          <Card className={classes.card} key={dish._id}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                alt="Contemplative Reptile"
-                className={classes.media}
-                height="140"
-                image={randomPic}
-                title="Contemplative Reptile"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {dish.dishName}
-                </Typography>
-                <Typography component="p">{dish.description}</Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Share
-              </Button>
-              <Button
-                size="small"
-                color="primary"
-                onClick={props.handleDeleteUserDish(dish._id)}
-              >
-                Delete
-              </Button>
-            </CardActions>
-          </Card>
-        );
-      })}
+
+      <Card className={classes.card} key={dish._id}>
+        <CardActionArea>
+          <CardMedia
+            component="img"
+            alt="Contemplative Reptile"
+            className={classes.media}
+            height="140"
+            image={randomPic}
+            title="Contemplative Reptile"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {dish.dishName}
+            </Typography>
+            <Typography component="p">{dish.description}</Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <Button size="small" color="primary">
+            Share
+          </Button>
+          <Button
+            size="small"
+            color="primary"
+            onClick={props.handleDeleteUserDish(dish._id)}
+          >
+            Delete
+          </Button>
+        </CardActions>
+      </Card>
     </div>
   );
 };
