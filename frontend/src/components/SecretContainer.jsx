@@ -3,6 +3,7 @@ import Secret from "./Secret";
 import DishForm from "./DishForm";
 import { connect } from "react-redux";
 import { getUserDishes, deleteUserDish } from "../actions/dishActions";
+import DishesList from "./DishesList";
 
 class SecretContainer extends Component {
   componentDidMount() {
@@ -17,11 +18,12 @@ class SecretContainer extends Component {
     return (
       <Fragment>
         <DishForm />
-        <Secret
+        <DishesList dishes={dishes} />
+        {/*<Secret
           dishes={dishes}
           userName={userName}
           handleDeleteUserDish={this.handleDeleteUserDish}
-        />
+        />*/}
       </Fragment>
     );
   }
