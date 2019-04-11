@@ -60,7 +60,7 @@ function getAllDishes(offset, limit) {
           method: "GET"
         },
         GET_ALL_DISHES,
-        "Loaded"
+        "Loaded More"
       )
     );
   };

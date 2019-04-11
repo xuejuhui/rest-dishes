@@ -22,7 +22,7 @@ class SecretContainer extends Component {
     );
   }
   componentDidMount() {
-    const { getUserDishes, getAllDishes } = this.props;
+    const { getAllDishes } = this.props;
     // getUserDishes();
     getAllDishes(this.state.startIndex, this.state.limit);
   }
@@ -34,7 +34,7 @@ class SecretContainer extends Component {
     this.props.getAllDishes(this.state.startIndex, this.state.limit);
   };
   render() {
-    const { dishes, userName } = this.props;
+    const { dishes } = this.props;
     return (
       <Fragment>
         <DishForm />

@@ -40,7 +40,13 @@ const DishesList = props => {
             puppy[Math.floor(Math.random() * (puppy.length - 1 - 0) + 0)];
           return (
             <List className={classes.root} key={dish._id}>
-              <ListItem alignItems="flex-start" button>
+              <ListItem
+                alignItems="flex-start"
+                button
+                onClick={() => {
+                  console.log(dish._id);
+                }}
+              >
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src={randomPic} />
                 </ListItemAvatar>

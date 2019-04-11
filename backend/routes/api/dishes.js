@@ -54,14 +54,28 @@ router.delete("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
 router.get("/alldishes", async (req, res) => {
   const limit = Number(req.query.limit);
   const offset = Number(req.query.offset);
+  console.log(limit, offset);
   try {
-    const dish = await Dish.find({ isDeleted: false })
+    const dishes = await Dish.find({ isDeleted: false })
       .populate({
         path: "user_id",
         select: "email"
       })
       .skip(offset)
       .limit(limit);
+    res.json(dishes);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/dish/:id", async (req, res) => {
+  try {
+    const dish = await Dish.findOne({ _id: req.params.id }).populate({
+      path: "user_id",
+      select: "email"
+    });
+
     res.json(dish);
   } catch (error) {
     console.log(error);
