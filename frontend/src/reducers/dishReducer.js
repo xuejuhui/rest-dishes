@@ -7,8 +7,7 @@ import {
 
 const initialState = {
   userName: null,
-  dishes: {},
-  allDishes: {}
+  dishes: {}
 };
 
 const dishReducer = (state = initialState, action) => {
@@ -42,7 +41,7 @@ const dishReducer = (state = initialState, action) => {
       }, {});
       return {
         ...state,
-        allDishes: { ...state.allDishes, ...allDishesResponse }
+        dishes: { ...state.dishes, ...allDishesResponse }
       };
     default:
       return state;

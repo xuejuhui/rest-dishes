@@ -14,6 +14,13 @@ class SecretContainer extends Component {
     startIndex: 0,
     limit: 10
   };
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(nextProps, nextState);
+    return (
+      Object.values(this.props.dishes).length !==
+      Object.values(nextProps.dishes).length
+    );
+  }
   componentDidMount() {
     const { getUserDishes, getAllDishes } = this.props;
     // getUserDishes();
@@ -27,11 +34,11 @@ class SecretContainer extends Component {
     this.props.getAllDishes(this.state.startIndex, this.state.limit);
   };
   render() {
-    const { dishes, userName, allDishes } = this.props;
+    const { dishes, userName } = this.props;
     return (
       <Fragment>
         <DishForm />
-        <DishesList dishes={allDishes} handleMore={this.handleMore} />
+        <DishesList dishes={dishes} handleMore={this.handleMore} />
         {/*<Secret
           dishes={dishes}
           userName={userName}
@@ -43,10 +50,9 @@ class SecretContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(Object.values(state.dish.allDishes));
+  console.log(Object.values(state.dish.dishes));
   return {
     dishes: state.dish.dishes,
-    allDishes: state.dish.allDishes,
     userName: state.dish.userName
   };
 };
