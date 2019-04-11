@@ -4,6 +4,7 @@ import alertReducer from "./alertReducer";
 import dishReducer from "./dishReducer";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { USER_LOGOUT } from "../actions/types";
 
 const persistConfig = {
   key: "root",
@@ -18,8 +19,7 @@ const appReducer = combineReducers({
 });
 console.log(appReducer);
 const rootReducer = (state, action) => {
-  if (action.type === "USER_LOGOUT") {
-    storage.removeItem("persist:root");
+  if (action.type === USER_LOGOUT) {
     state = undefined;
   }
   return appReducer(state, action);
