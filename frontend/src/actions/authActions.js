@@ -1,33 +1,22 @@
-import axios from "axios";
+// import axios from "axios";
 import {
   SET_CURRENT_USER,
   LOADING,
   REMOVE_CURRENT_USER,
   USER_LOGOUT
 } from "./types";
-import { setAuthToken } from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import { enqueueSnackbar } from "./alertActions";
+import apiClient from "../utils/api/apiClient";
+// import { apiRequest } from "../utils/api/apiWrapper";
 
-export {
-  login,
-  register,
-  logout,
-  loading,
-  autoLogin,
-  forgotPassword,
-  resetPassword
-};
+export { login, register, logout, loading, forgotPassword, resetPassword };
 
 function register(user) {
   return async dispatch => {
     try {
-      const regResponse = await axios.post(
-        "http://localhost:5000/api/users/register",
-        user
-      );
+      const regResponse = await apiClient.post("/api/users/register", user);
       if (regResponse) {
-        setAuthToken(regResponse.token);
         dispatch({
           type: SET_CURRENT_USER,
           payload: regResponse
@@ -59,15 +48,11 @@ function login(user) {
   return async dispatch => {
     dispatch(loading());
     try {
-      const loginResponse = await axios.post(
-        "http://localhost:5000/api/users/login",
-        user
-      );
+      const loginResponse = await apiClient.post("/api/users/login", user);
       if (loginResponse) {
         dispatch(loading());
         const { token } = loginResponse.data;
         localStorage.setItem("jwt", token);
-        setAuthToken(token);
         const decoded = jwt_decode(token);
         dispatch({
           type: SET_CURRENT_USER,
@@ -95,13 +80,6 @@ function login(user) {
     }
   };
 }
-function autoLogin() {
-  console.log("autologin");
-  const jwt = localStorage.getItem("jwt");
-  if (jwt) {
-    setAuthToken(jwt);
-  }
-}
 
 function loading() {
   return {
@@ -112,7 +90,6 @@ function loading() {
 function logout() {
   return dispatch => {
     localStorage.removeItem("jwt");
-    setAuthToken(false);
     dispatch({
       type: USER_LOGOUT
     });
@@ -132,10 +109,9 @@ function forgotPassword(email) {
   return async dispatch => {
     dispatch(loading());
     try {
-      const forgotResponse = await axios.post(
-        `http://localhost:5000/api/users/forgotpassword`,
-        { email }
-      );
+      const forgotResponse = await apiClient.post(`/api/users/forgotpassword`, {
+        email
+      });
       if (forgotResponse) {
         dispatch(
           enqueueSnackbar({
@@ -163,10 +139,9 @@ function resetPassword(password, token) {
     dispatch(loading());
     try {
       console.log(token);
-      const resetResponse = await axios.put(
-        `http://localhost:5000/api/users/reset/${token}`,
-        { password }
-      );
+      const resetResponse = await apiClient.put(`/api/users/reset/${token}`, {
+        password
+      });
       if (resetResponse) {
         dispatch(
           enqueueSnackbar({

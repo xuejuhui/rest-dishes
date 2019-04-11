@@ -1,20 +1,34 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Secret from "./Secret";
+import DishForm from "./DishForm";
 import { connect } from "react-redux";
-import { getUserDishes } from "../actions/dishActions";
+import { getUserDishes, deleteUserDish } from "../actions/dishActions";
 
 class SecretContainer extends Component {
   componentDidMount() {
     const { getUserDishes } = this.props;
     getUserDishes();
   }
+  handleDeleteUserDish = id => () => {
+    this.props.deleteUserDish(id);
+  };
   render() {
     const { dishes, userName } = this.props;
-    return <Secret dishes={dishes} userName={userName} />;
+    return (
+      <Fragment>
+        <DishForm />
+        <Secret
+          dishes={dishes}
+          userName={userName}
+          handleDeleteUserDish={this.handleDeleteUserDish}
+        />
+      </Fragment>
+    );
   }
 }
 
 const mapStateToProps = state => {
+  console.log(state.dish);
   return {
     dishes: state.dish.dishes,
     userName: state.dish.userName
@@ -22,7 +36,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getUserDishes
+  getUserDishes,
+  deleteUserDish
 };
 
 export default connect(

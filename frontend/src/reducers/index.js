@@ -17,7 +17,7 @@ const appReducer = combineReducers({
   alert: alertReducer,
   dish: dishReducer
 });
-console.log(appReducer);
+
 const rootReducer = (state, action) => {
   if (action.type === USER_LOGOUT) {
     state = undefined;
