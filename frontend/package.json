@@ -10,6 +10,8 @@
     "notistack": "^0.6.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-infinite-scroll-component": "^4.5.2",
+    "react-loadable": "^5.5.0",
     "react-loading": "^2.0.3",
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.0.0",

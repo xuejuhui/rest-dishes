@@ -1,12 +1,14 @@
 import {
   GET_USER_DISHES,
   ADD_USER_DISHES,
-  DELETE_USER_DISHES
+  DELETE_USER_DISHES,
+  GET_ALL_DISHES
 } from "../actions/types";
 
 const initialState = {
   userName: null,
-  dishes: {}
+  dishes: {},
+  allDishes: {}
 };
 
 const dishReducer = (state = initialState, action) => {
@@ -22,7 +24,6 @@ const dishReducer = (state = initialState, action) => {
         dishes: result
       };
     case ADD_USER_DISHES:
-      console.log(action);
       return {
         ...state,
         dishes: { ...state.dishes, [action.payload._id]: action.payload }
@@ -33,6 +34,15 @@ const dishReducer = (state = initialState, action) => {
       return {
         ...state,
         dishes: remainDishes
+      };
+    case GET_ALL_DISHES:
+      const allDishesResponse = action.payload.reduce((acc, dish) => {
+        acc[dish._id] = dish;
+        return acc;
+      }, {});
+      return {
+        ...state,
+        allDishes: { ...state.allDishes, ...allDishesResponse }
       };
     default:
       return state;

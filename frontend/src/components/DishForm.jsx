@@ -35,7 +35,6 @@ class DishForm extends React.Component {
     this.props.addUserDishes(this.state);
   };
   render() {
-    console.log(this.props);
     const { classes } = this.props;
     return (
       <div className={classes.main}>

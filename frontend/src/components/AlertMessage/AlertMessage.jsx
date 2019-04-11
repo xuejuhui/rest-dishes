@@ -21,7 +21,6 @@ class AlertMessage extends Component {
       // Dispatch action to remove snackbar from redux store
       this.props.removeSnackbar(notification.key);
     });
-    console.log(this.displayed);
   }
   render() {
     return null;

@@ -13,3 +13,4 @@ export const GET_USER_DISHES = "GET_USER_DISHES";
 export const ADD_USER_DISHES = "ADD_USER_DISHES";
 export const USER_LOGOUT = "USER_LOGOUT";
 export const DELETE_USER_DISHES = "DELETE_USER_DISHES";
+export const GET_ALL_DISHES = "GET_ALL_DISHES";

@@ -138,7 +138,6 @@ function resetPassword(password, token) {
   return async dispatch => {
     dispatch(loading());
     try {
-      console.log(token);
       const resetResponse = await apiClient.put(`/api/users/reset/${token}`, {
         password
       });
