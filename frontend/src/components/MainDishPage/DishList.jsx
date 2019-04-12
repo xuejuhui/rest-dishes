@@ -16,8 +16,10 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper
   },
   inline: {
-    display: "inline"
-  }
+    display: "inline",
+    overflow: "hidden"
+  },
+  title: { overflow: "wrap" }
 });
 
 const DishList = props => {

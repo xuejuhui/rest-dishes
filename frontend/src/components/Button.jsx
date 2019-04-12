@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 
 const styles = theme => ({
+  main: { position: "fixed", zIndex: 2, right: 0, bottom: 0 },
   fab: {
     margin: theme.spacing.unit
   },
@@ -14,7 +15,7 @@ const styles = theme => ({
 const Button = props => {
   const { classes, handleOpenForm } = props;
   return (
-    <div>
+    <div className={classes.main}>
       <Fab
         color="primary"
         aria-label="Add"

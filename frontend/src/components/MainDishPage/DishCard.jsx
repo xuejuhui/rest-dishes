@@ -25,7 +25,12 @@ const styles = {
     justifyContent: "space-between"
   },
   media: {
-    objectFit: "cover"
+    objectFit: "cover",
+    height: "18rem"
+  },
+  content: {
+    height: "10rem",
+    overflowWrap: "break-word"
   }
 };
 
@@ -45,7 +50,7 @@ const DishCard = props => {
             image={randomPic}
             title="Contemplative Reptile"
           />
-          <CardContent>
+          <CardContent className={classes.content}>
             <Typography gutterBottom variant="h5" component="h2">
               {dish.dishName}
             </Typography>
