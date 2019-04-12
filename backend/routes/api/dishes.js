@@ -3,6 +3,7 @@ const router = express.Router();
 const Dish = require("../../models/Dish");
 const User = require("../../models/User");
 const jwtTokenMethods = require("../../utils/jwtToken");
+const multer = require("multer");
 
 router.post("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
   try {
@@ -55,7 +56,7 @@ router.get("/alldishes", async (req, res) => {
   const limit = Number(req.query.limit);
   const offset = Number(req.query.offset);
   try {
-    const dishes = await Dish.find({ isDeleted: false })
+    const dishes = await Dish.find({ isDeleted: false }, { isDeleted: 0 })
       .populate({
         path: "user_id",
         select: "email"
@@ -79,6 +80,28 @@ router.get("/dish/:id", async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+});
+
+let storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.fieldname + "-" + Date.now());
+  }
+});
+
+var upload = multer({ storage: storage });
+
+router.post("/uploadfile", upload.single("myFile"), (req, res, next) => {
+  const file = req.file;
+  console.log(req);
+  if (!file) {
+    const error = new Error("Please upload a file");
+    error.httpStatusCode = 400;
+    return next(error);
+  }
+  res.send(file);
 });
 
 module.exports = router;

@@ -18,6 +18,14 @@ const DishSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  image: {
+    type: String,
+    default: ""
+  },
+  ingredient: {
+    type: Array,
+    default: []
   }
 });
 
