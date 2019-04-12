@@ -2,10 +2,10 @@ import React, { Component, Fragment } from "react";
 import DishCard from "./DishCard";
 import DishForm from "./DishForm";
 import { connect } from "react-redux";
-import { deleteUserDish, getAllDishes } from "../actions/dishActions";
 import DishesList from "./DishesList";
-import axios from "axios";
-import Button from "./Button";
+import Button from "../Button";
+
+import { deleteUserDish, getAllDishes } from "../../actions/dishActions";
 
 class DishContainer extends Component {
   state = {
@@ -20,14 +20,15 @@ class DishContainer extends Component {
       Object.values(this.props.dishes).length !==
         Object.values(nextProps.dishes).length ||
       this.state.dish !== nextState.dish ||
-      this.state.openForm !== nextState.openForm
+      this.state.openForm !== nextState.openForm ||
+      this.props.hasMore !== nextProps.hasMore
     );
   }
   componentDidMount() {
     const { getAllDishes } = this.props;
     getAllDishes(this.state.startIndex, this.state.limit);
   }
-  handleSomething = id => () => {
+  handleOpenCard = id => () => {
     const { dishes } = this.props;
     this.setState({ dish: dishes[id], openCard: true });
   };
@@ -42,8 +43,9 @@ class DishContainer extends Component {
     this.setState({ openForm: !this.state.openForm });
   };
   render() {
-    const { dishes } = this.props;
+    const { dishes, hasMore } = this.props;
     const { openCard, dish, openForm } = this.state;
+    console.log(hasMore);
     return (
       <Fragment>
         {openForm ? (
@@ -60,7 +62,8 @@ class DishContainer extends Component {
         <DishesList
           dishes={dishes}
           handleMore={this.handleMore}
-          handleSomething={this.handleSomething}
+          handleOpenCard={this.handleOpenCard}
+          hasMore={hasMore}
         />
         {openCard ? (
           <DishCard
@@ -76,8 +79,8 @@ class DishContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(Object.values(state.dish.dishes));
   return {
+    hasMore: state.dish.hasMore,
     dishes: state.dish.dishes,
     userName: state.dish.userName
   };

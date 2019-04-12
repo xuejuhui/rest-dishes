@@ -2,7 +2,7 @@ import React from "react";
 import ReactLoading from "react-loading";
 
 const styles = {
-  position: "absolute",
+  position: "fixed",
   top: "50%",
   left: "50%",
   transform: `translate(-50%, -50%)`

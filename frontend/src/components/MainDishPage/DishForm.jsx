@@ -10,7 +10,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
-import { addUserDishes } from "../actions/dishActions";
+import { addUserDishes } from "../../actions/dishActions";
 
 const styles = theme => {
   return {

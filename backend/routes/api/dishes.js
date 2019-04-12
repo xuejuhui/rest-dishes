@@ -54,7 +54,6 @@ router.delete("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
 router.get("/alldishes", async (req, res) => {
   const limit = Number(req.query.limit);
   const offset = Number(req.query.offset);
-  console.log(limit, offset);
   try {
     const dishes = await Dish.find({ isDeleted: false })
       .populate({

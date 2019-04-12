@@ -7,7 +7,8 @@ import {
 
 const initialState = {
   userName: null,
-  dishes: {}
+  dishes: {},
+  hasMore: true
 };
 
 const dishReducer = (state = initialState, action) => {
@@ -41,7 +42,8 @@ const dishReducer = (state = initialState, action) => {
       }, {});
       return {
         ...state,
-        dishes: { ...state.dishes, ...allDishesResponse }
+        dishes: { ...state.dishes, ...allDishesResponse },
+        hasMore: action.payload.length === 0 ? false : true
       };
     default:
       return state;

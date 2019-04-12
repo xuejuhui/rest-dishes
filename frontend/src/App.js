@@ -6,7 +6,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
-import DishContainer from "./components/DishContainer";
+import DishContainer from "./components/MainDishPage/DishContainer";
 import { connect } from "react-redux";
 import ResetPassword from "./components/ResetPassword";
 import ForgotPassword from "./components/ForgotPassword";
