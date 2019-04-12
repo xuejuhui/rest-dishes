@@ -1,18 +1,16 @@
 import React, { Component, Fragment } from "react";
-import Secret from "./Secret";
+import DishCard from "./DishCard";
 import DishForm from "./DishForm";
 import { connect } from "react-redux";
-import {
-  getUserDishes,
-  deleteUserDish,
-  getAllDishes
-} from "../actions/dishActions";
+import { deleteUserDish, getAllDishes } from "../actions/dishActions";
 import DishesList from "./DishesList";
 import axios from "axios";
+import Button from "./Button";
 
-class SecretContainer extends Component {
+class DishContainer extends Component {
   state = {
     openCard: false,
+    openForm: false,
     startIndex: 0,
     limit: 10,
     dish: {}
@@ -21,19 +19,17 @@ class SecretContainer extends Component {
     return (
       Object.values(this.props.dishes).length !==
         Object.values(nextProps.dishes).length ||
-      this.state.dish !== nextState.dish
+      this.state.dish !== nextState.dish ||
+      this.state.openForm !== nextState.openForm
     );
   }
   componentDidMount() {
     const { getAllDishes } = this.props;
-    // getUserDishes();
     getAllDishes(this.state.startIndex, this.state.limit);
   }
   handleSomething = id => () => {
-    axios
-      .get("http://localhost:5000/api/dishes/dish/" + id)
-      .then(x => this.setState({ dish: x.data }));
-    this.setState({ openCard: true });
+    const { dishes } = this.props;
+    this.setState({ dish: dishes[id], openCard: true });
   };
   handleDeleteUserDish = id => () => {
     this.props.deleteUserDish(id);
@@ -42,19 +38,32 @@ class SecretContainer extends Component {
     this.setState({ startIndex: this.state.startIndex + this.state.limit });
     this.props.getAllDishes(this.state.startIndex, this.state.limit);
   };
+  handleOpenForm = () => {
+    this.setState({ openForm: !this.state.openForm });
+  };
   render() {
     const { dishes } = this.props;
-    const { openCard, dish } = this.state;
+    const { openCard, dish, openForm } = this.state;
     return (
       <Fragment>
-        <DishForm />
+        {openForm ? (
+          <Fragment>
+            <DishForm
+              openForm={this.state.openForm}
+              handleOpenForm={this.handleOpenForm}
+            />
+            <Button handleOpenForm={this.handleOpenForm} />
+          </Fragment>
+        ) : (
+          <Button handleOpenForm={this.handleOpenForm} />
+        )}
         <DishesList
           dishes={dishes}
           handleMore={this.handleMore}
           handleSomething={this.handleSomething}
         />
         {openCard ? (
-          <Secret
+          <DishCard
             dish={dish}
             handleDeleteUserDish={this.handleDeleteUserDish}
           />
@@ -75,7 +84,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getUserDishes,
   deleteUserDish,
   getAllDishes
 };
@@ -83,4 +91,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SecretContainer);
+)(DishContainer);

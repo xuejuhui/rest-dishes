@@ -6,7 +6,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
-import SecretContainer from "./components/SecretContainer";
+import DishContainer from "./components/DishContainer";
 import { connect } from "react-redux";
 import ResetPassword from "./components/ResetPassword";
 import ForgotPassword from "./components/ForgotPassword";
@@ -27,7 +27,7 @@ class App extends Component {
             <Authenticated path="/login" component={Login} />
             <Route exact path="/reset/:token" component={ResetPassword} />
             <Authenticated component={ForgotPassword} path="/forgot" />
-            <ProtectedRoute component={SecretContainer} path="/secret" />
+            <ProtectedRoute component={DishContainer} path="/secret" />
           </div>
         </Router>
       </SnackbarProvider>

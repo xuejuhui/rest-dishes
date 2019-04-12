@@ -14,10 +14,7 @@ const styles = {
     marginTop: "10px",
     position: "fixed",
     right: "0",
-    // flexWrap: "wrap",
-    // justifyContent: "center",
-    // alignItem: "center",
-    float: "right"
+    width: "50vw"
   },
   card: {
     width: 345
@@ -27,7 +24,7 @@ const styles = {
   }
 };
 
-const Secret = props => {
+const DishCard = props => {
   const { classes, dish } = props;
   let randomPic = puppy[Math.floor(Math.random() * (puppy.length - 1 - 0) + 0)];
   console.log(dish);
@@ -69,4 +66,4 @@ const Secret = props => {
   );
 };
 
-export default withStyles(styles)(Secret);
+export default withStyles(styles)(DishCard);

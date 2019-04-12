@@ -10,7 +10,7 @@ import puppy from "../utils/puppy";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const styles = theme => ({
-  main: { float: "left" },
+  main: { float: "left", width: "50vw", marginTop: 10 },
   root: {
     width: "100%",
     maxWidth: 360,
