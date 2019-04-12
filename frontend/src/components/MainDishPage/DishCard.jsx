@@ -14,10 +14,15 @@ const styles = {
     marginTop: "10px",
     position: "fixed",
     right: "0",
-    width: "50vw"
+    width: "40vw",
+    top: "10%"
   },
   card: {
-    width: 345
+    display: "flex",
+    width: "35vw",
+    height: "80vh",
+    flexDirection: "column",
+    justifyContent: "space-between"
   },
   media: {
     objectFit: "cover"
@@ -30,8 +35,6 @@ const DishCard = props => {
   console.log(dish);
   return (
     <div className={classes.main}>
-      <h3>{props.userName}</h3>
-
       <Card className={classes.card} key={dish._id}>
         <CardActionArea>
           <CardMedia
