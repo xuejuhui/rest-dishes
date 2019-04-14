@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
 import { addUserDishes } from "../../actions/dishActions";
+import Upload from "../Upload";
 
 const styles = theme => {
   return {
@@ -31,7 +32,8 @@ const styles = theme => {
 class DishForm extends React.Component {
   state = {
     dishName: "",
-    description: ""
+    description: "",
+    selectedFile: {}
   };
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -73,6 +75,7 @@ class DishForm extends React.Component {
               />
             </FormControl>
           </DialogContent>
+          <Upload />
           <DialogActions>
             <Button onClick={this.handleSubmit} color="primary">
               TAP
