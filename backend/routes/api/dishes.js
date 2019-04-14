@@ -4,8 +4,10 @@ const Dish = require("../../models/Dish");
 const User = require("../../models/User");
 const jwtTokenMethods = require("../../utils/jwtToken");
 const upload = require("../../utils/upload");
+const image = require("../../utils/image");
 
 router.post("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
+  console.log(req.body);
   try {
     const user = await User.findOne({ _id: req.user.id });
     const newDish = new Dish({
@@ -93,13 +95,14 @@ router.post(
   upload.uploadFile.single("dishPhoto"),
   async (req, res, next) => {
     const file = req.file;
-    console.log(req.file);
+    const resizedImage = await image.formatImage(file.buffer, 400, 400);
+    console.log(resizedImage);
     if (!file) {
       const error = new Error("Please upload a file");
       error.httpStatusCode = 400;
       return next(error);
     }
-    res.send(file);
+    res.send(resizedImage);
   }
 );
 

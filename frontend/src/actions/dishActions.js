@@ -19,14 +19,14 @@ function getUserDishes() {
   };
 }
 
-function addUserDishes({ dishName, description }) {
+function addUserDishes({ dishName, description }, file) {
   return async dispatch => {
     dispatch(
       apiRequest(
         {
           url: "/api/dishes/userdishes",
           method: "POST",
-          data: { dishName, description }
+          data: { dishName, description, file }
         },
         ADD_USER_DISHES,
         "Added"
