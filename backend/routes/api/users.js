@@ -105,7 +105,6 @@ router.get("/reset/:token", async (req, res) => {
 });
 
 router.put("/reset/:token", async (req, res) => {
-  console.log(req.body, req.params);
   try {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(req.body.password, salt);
@@ -123,6 +122,7 @@ router.put("/reset/:token", async (req, res) => {
       resetPasswordToken: null,
       resetPasswordExpires: null
     });
+    console.log(updateResponse);
     res.json({ message: "Your password has been reset successfully!" });
   } catch (e) {
     console.log(e);

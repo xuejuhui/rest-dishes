@@ -12,7 +12,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
 import { addUserDishes } from "../../actions/dishActions";
 import Upload from "../Upload";
-
+import axios from "axios";
 const styles = theme => {
   return {
     main: {
@@ -33,16 +33,25 @@ class DishForm extends React.Component {
   state = {
     dishName: "",
     description: "",
-    selectedFile: {}
+    file: {},
+    fileImage: null,
+    upload: false
   };
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
   handleSubmit = e => {
-    const { addUserDishes, handleOpenForm } = this.props;
     e.preventDefault();
+    const { addUserDishes, handleOpenForm } = this.props;
+    const fd = new FormData();
+    fd.append("dishPhoto", this.state.file, this.state.file.name);
+    axios.post("http://localhost:5000/api/dishes/uploadfile", fd);
     addUserDishes(this.state);
     handleOpenForm();
+  };
+  handleFileSelected = e => {
+    const files = e.target.files;
+    this.setState({ file: files[0], fileImage: URL.createObjectURL(files[0]) });
   };
   render() {
     const { classes, handleOpenForm, openForm } = this.props;
@@ -75,7 +84,10 @@ class DishForm extends React.Component {
               />
             </FormControl>
           </DialogContent>
-          <Upload />
+          <Upload
+            handleFileSelected={this.handleFileSelected}
+            fileImage={this.state.fileImage}
+          />
           <DialogActions>
             <Button onClick={this.handleSubmit} color="primary">
               TAP

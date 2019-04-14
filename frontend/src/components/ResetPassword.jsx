@@ -29,10 +29,11 @@ class ResetPassword extends React.Component {
     password: null,
     validToken: null
   };
+  // Todo fix this
   componentDidMount() {
     const { token } = this.props.match.params;
     axios
-      .get(`/api/users/reset/${token}`)
+      .get(`http://localhost:5000/api/users/reset/${token}`)
       .then(user => {
         if (user) {
           this.setState({ validToken: true });
@@ -67,7 +68,7 @@ class ResetPassword extends React.Component {
             type="password"
             id="password"
             autoComplete="current-password"
-            onChange={this.handlePasswordChange}
+            onChange={this.handleChange}
           />
         </FormControl>
         <button onClick={this.handleSubmit}>TAP</button>

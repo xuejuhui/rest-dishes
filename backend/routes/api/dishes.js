@@ -3,11 +3,10 @@ const router = express.Router();
 const Dish = require("../../models/Dish");
 const User = require("../../models/User");
 const jwtTokenMethods = require("../../utils/jwtToken");
-const upload = require("../../utils/upload")
+const upload = require("../../utils/upload");
 
-router.post("/userdishes", jwtTokenMethods.verifyToken, upload.uploadFile.single("dishPhoto"), async (req, res) => {
+router.post("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
   try {
-    console.log(req.file)
     const user = await User.findOne({ _id: req.user.id });
     const newDish = new Dish({
       dishName: req.body.dishName,
@@ -41,9 +40,15 @@ router.get("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
 router.delete("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
   try {
     const dish = await Dish.findOne({ _id: req.body.id });
-    const updateResponse = await Dish.updateOne(dish, {
-      isDeleted: true
-    });
+    const updateResponse = await Dish.updateOne(
+      { _id: req.body.id },
+      {
+        $set: {
+          isDeleted: true
+        }
+      }
+    );
+    console.log(dish, updateResponse);
     res.json({
       id: dish._id,
       message: `${dish.dishName} has been deleted!`
@@ -83,17 +88,19 @@ router.get("/dish/:id", async (req, res) => {
   }
 });
 
-
-
-// router.post("/uploadfile", upload.single("dishPhoto"), async (req, res, next) => {
-//   const file = req.file;
-//   console.log(req.file);
-//   if (!file) {
-//     const error = new Error("Please upload a file");
-//     error.httpStatusCode = 400;
-//     return next(error);
-//   }
-//   res.send(file);
-// });
+router.post(
+  "/uploadfile",
+  upload.uploadFile.single("dishPhoto"),
+  async (req, res, next) => {
+    const file = req.file;
+    console.log(req.file);
+    if (!file) {
+      const error = new Error("Please upload a file");
+      error.httpStatusCode = 400;
+      return next(error);
+    }
+    res.send(file);
+  }
+);
 
 module.exports = router;
