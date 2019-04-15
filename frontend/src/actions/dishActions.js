@@ -18,15 +18,30 @@ function getUserDishes() {
     );
   };
 }
-
-function addUserDishes({ dishName, description }, file) {
+//
+// function addUserDishes({ dishName, description }, file) {
+//   return async dispatch => {
+//     dispatch(
+//       apiRequest(
+//         {
+//           url: "/api/dishes/userdishes",
+//           method: "POST",
+//           data: { dishName, description, file }
+//         },
+//         ADD_USER_DISHES,
+//         "Added"
+//       )
+//     );
+//   };
+// }
+function addUserDishes(fd) {
   return async dispatch => {
     dispatch(
       apiRequest(
         {
           url: "/api/dishes/userdishes",
           method: "POST",
-          data: { dishName, description, file }
+          data: fd
         },
         ADD_USER_DISHES,
         "Added"

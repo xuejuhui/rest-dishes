@@ -6,6 +6,7 @@ const dishes = require("./routes/api/dishes");
 const passport = require("passport");
 const cors = require("cors");
 const app = express();
+
 app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,7 +14,10 @@ app.use(bodyParser.json());
 const db = require("./config/key").mongoURI;
 
 mongoose
-  .connect(db, { useNewUrlParser: true })
+  .connect(
+    db,
+    { useNewUrlParser: true }
+  )
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
 

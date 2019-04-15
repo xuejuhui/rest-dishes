@@ -47,7 +47,7 @@ const DishCard = props => {
             alt="Contemplative Reptile"
             className={classes.media}
             height="140"
-            image={randomPic}
+            image={dish.image[0]}
             title="Contemplative Reptile"
           />
           <CardContent className={classes.content}>

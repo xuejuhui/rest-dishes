@@ -46,7 +46,6 @@ class DishContainer extends Component {
   render() {
     const { dishes, hasMore } = this.props;
     const { openCard, dish, openForm } = this.state;
-    console.log(hasMore);
     return (
       <Fragment>
         {openForm ? (

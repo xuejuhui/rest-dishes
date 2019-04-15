@@ -5,25 +5,59 @@ const User = require("../../models/User");
 const jwtTokenMethods = require("../../utils/jwtToken");
 const upload = require("../../utils/upload");
 const image = require("../../utils/image");
-
-router.post("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
-  console.log(req.body);
-  try {
-    const user = await User.findOne({ _id: req.user.id });
-    const newDish = new Dish({
-      dishName: req.body.dishName,
-      description: req.body.description,
-      user_id: req.user.id
-    });
-    const dishResponse = await newDish.save();
-    user.dishes.push(dishResponse._id);
-    await user.save();
-    console.log(dishResponse);
-    res.json(dishResponse);
-  } catch (error) {
-    console.log(error);
-  }
+const uuid = require("uuid");
+const key = require("../../config/key");
+const aws = require("aws-sdk");
+aws.config.update({
+  secretAccessKey: key.secretAccessKey,
+  accessKeyId: key.accessKeyID,
+  region: key.region
 });
+const s3 = new aws.S3();
+
+router.post(
+  "/userdishes",
+  jwtTokenMethods.verifyToken,
+  upload.uploadFile.single("dishPhoto"),
+  async (req, res) => {
+    // console.log(req.file, req.body);
+
+    const file = req.file;
+    const imageName = `${uuid()}+${file.originalname}`;
+    let resizedImage = await image.formatImage(file.buffer, 400, 400);
+    const s3Params = {
+      Bucket: "dishes-photos-bucket",
+      Key: imageName,
+      Body: file.buffer
+    };
+
+    s3.putObject(s3Params, (err, data) => {
+      if (err) {
+        console.log(err);
+        return res.end();
+      }
+      console.log(data);
+    });
+
+    try {
+      const user = await User.findOne({ _id: req.user.id });
+      const newDish = new Dish({
+        dishName: req.body.dishName,
+        description: req.body.description,
+        user_id: req.user.id
+      });
+      newDish.image.push(imageName);
+      console.log(newDish);
+      const dishResponse = await newDish.save();
+      user.dishes.push(dishResponse._id);
+      await user.save();
+      console.log(dishResponse);
+      res.json(dishResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 router.get("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
   try {
@@ -63,6 +97,7 @@ router.delete("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
 router.get("/alldishes", async (req, res) => {
   const limit = Number(req.query.limit);
   const offset = Number(req.query.offset);
+
   try {
     const dishes = await Dish.find({ isDeleted: false }, { isDeleted: 0 })
       .populate({
@@ -71,6 +106,14 @@ router.get("/alldishes", async (req, res) => {
       })
       .skip(offset)
       .limit(limit);
+    for (let dish of dishes) {
+      let params = {
+        Bucket: "dishes-photos-bucket",
+        Key: dish.image[0]
+      };
+      const url = s3.getSignedUrl("getObject", params);
+      dish.image = [url];
+    }
     res.json(dishes);
   } catch (error) {
     console.log(error);
@@ -90,20 +133,21 @@ router.get("/dish/:id", async (req, res) => {
   }
 });
 
-router.post(
-  "/uploadfile",
-  upload.uploadFile.single("dishPhoto"),
-  async (req, res, next) => {
-    const file = req.file;
-    const resizedImage = await image.formatImage(file.buffer, 400, 400);
-    console.log(resizedImage);
-    if (!file) {
-      const error = new Error("Please upload a file");
-      error.httpStatusCode = 400;
-      return next(error);
-    }
-    res.send(resizedImage);
-  }
-);
+// router.post(
+//   "/uploadfile",
+//   upload.uploadFile.single("dishPhoto"),
+//   async (req, res, next) => {
+//     console.log(req.file, req.body);
+//     const file = req.file;
+//     const resizedImage = await image.formatImage(file.buffer, 400, 400);
+//     // console.log(resizedImage);
+//     if (!file) {
+//       const error = new Error("Please upload a file");
+//       error.httpStatusCode = 400;
+//       return next(error);
+//     }
+//     res.send(resizedImage);
+//   }
+// );
 
 module.exports = router;

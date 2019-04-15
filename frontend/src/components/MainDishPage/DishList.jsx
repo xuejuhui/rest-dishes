@@ -33,7 +33,7 @@ const DishList = props => {
         onClick={handleOpenCard(dish._id)}
       >
         <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src={randomPic} />
+          <Avatar alt="Remy Sharp" src={dish.image[0]} />
         </ListItemAvatar>
         <ListItemText
           primary={dish.dishName}

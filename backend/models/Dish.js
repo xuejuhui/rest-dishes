@@ -20,8 +20,8 @@ const DishSchema = new Schema({
     default: Date.now
   },
   image: {
-    type: String,
-    default: ""
+    type: Array,
+    default: []
   },
   ingredient: {
     type: Array,

@@ -33,7 +33,7 @@ class DishForm extends React.Component {
   state = {
     dishName: "",
     description: "",
-    file: {},
+    dishPhoto: {},
     fileImage: null,
     upload: false
   };
@@ -44,18 +44,31 @@ class DishForm extends React.Component {
     e.preventDefault();
     const { addUserDishes, handleOpenForm } = this.props;
     const fd = new FormData();
-    fd.append("dishPhoto", this.state.file, this.state.file.name);
-    const res = await axios.post(
-      "http://localhost:5000/api/dishes/uploadfile",
-      fd
-    );
-    console.log(res);
-    addUserDishes(this.state, res.data.originalname);
+    // fd.append("dishPhoto", this.state.dishPhoto, this.state.dishPhoto.name);
+    // fd.append("dishName", this.state.dishName);
+    // fd.append(this.state);
+
+    for (let key in this.state) {
+      fd.append(`${key}`, this.state[key]);
+    }
+    for (var pair of fd.entries()) {
+      console.log(pair);
+    }
+    // const res = await axios.post(
+    //   "http://localhost:5000/api/dishes/uploadfile",
+    //   fd
+    // );
+    // console.log(res);
+    // addUserDishes(this.state, res.data.originalname);
+    addUserDishes(fd);
     handleOpenForm();
   };
   handleFileSelected = e => {
     const files = e.target.files;
-    this.setState({ file: files[0], fileImage: URL.createObjectURL(files[0]) });
+    this.setState({
+      dishPhoto: files[0],
+      fileImage: URL.createObjectURL(files[0])
+    });
   };
   render() {
     const { classes, handleOpenForm, openForm } = this.props;
