@@ -40,9 +40,19 @@ function NavBar(props) {
             </Link>
           </Typography>
           {isLogin ? (
-            <Button color="inherit" onClick={() => logout()}>
-              Logout
-            </Button>
+            <Fragment>
+              <Button color="inherit">
+                <Link
+                  to="/secret"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  Secret
+                </Link>
+              </Button>
+              <Button color="inherit" onClick={() => logout()}>
+                Logout
+              </Button>
+            </Fragment>
           ) : (
             <Fragment>
               <Button color="inherit">

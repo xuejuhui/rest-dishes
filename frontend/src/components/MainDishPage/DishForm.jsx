@@ -12,6 +12,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
 import { addUserDishes } from "../../actions/dishActions";
 import Upload from "../Upload";
+import ImagePreview from "../ImagePreview";
 
 const styles = theme => {
   return {
@@ -67,7 +68,7 @@ class DishForm extends React.Component {
     const files = e.target.files;
     this.setState({
       dishPhoto: files[0],
-      fileImage: URL.createObjectURL(files[0])
+      fileImage: files[0] ? URL.createObjectURL(files[0]) : null
     });
   };
   render() {

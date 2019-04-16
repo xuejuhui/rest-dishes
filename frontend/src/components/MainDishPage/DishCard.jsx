@@ -35,7 +35,7 @@ const styles = {
 
 const DishCard = props => {
   const { classes, dish } = props;
-  console.log(dish);
+  console.log(dish.ingredient);
   return (
     <div className={classes.main}>
       <Card className={classes.card} key={dish._id}>
