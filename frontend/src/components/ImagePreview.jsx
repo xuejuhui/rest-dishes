@@ -1,11 +1,18 @@
-import React, { Fragment } from "react";
+import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 const styles = theme => {
   return {
+    imageWrapper: {
+      width: "100px",
+      height: "100px",
+      position: "relative",
+      overflow: "hidden",
+      borderRadius: "50%"
+    },
     img: {
-      width: "50%",
-      borderRadius: "50%",
+      height: "100%",
+      width: "auto",
       maxWidth: 300,
       maxHeight: 225
     }
@@ -15,13 +22,13 @@ const styles = theme => {
 const ImagePreview = props => {
   const { fileImage, classes } = props;
   return (
-    <Fragment>
+    <div className={classes.imageWrapper}>
       {fileImage ? (
         <img src={fileImage} alt="preview" className={classes.img} />
       ) : (
         ""
       )}
-    </Fragment>
+    </div>
   );
 };
 export default withStyles(styles)(ImagePreview);
