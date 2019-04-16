@@ -12,7 +12,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
 import { addUserDishes } from "../../actions/dishActions";
 import Upload from "../Upload";
-import ImagePreview from "../ImagePreview";
 
 const styles = theme => {
   return {
