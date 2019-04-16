@@ -7,8 +7,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 
-import puppy from "../../utils/puppy";
-
 const styles = theme => ({
   root: {
     width: "100%",
@@ -24,7 +22,7 @@ const styles = theme => ({
 
 const DishList = props => {
   const { classes, dish, handleOpenCard } = props;
-  let randomPic = puppy[Math.floor(Math.random() * (puppy.length - 1 - 0) + 0)];
+
   return (
     <List className={classes.root}>
       <ListItem
@@ -33,7 +31,7 @@ const DishList = props => {
         onClick={handleOpenCard(dish._id)}
       >
         <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src={dish.image[0]} />
+          <Avatar alt="Remy Sharp" src={dish.url[0]} />
         </ListItemAvatar>
         <ListItemText
           primary={dish.dishName}

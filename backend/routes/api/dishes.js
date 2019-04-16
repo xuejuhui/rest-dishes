@@ -3,43 +3,28 @@ const router = express.Router();
 const Dish = require("../../models/Dish");
 const User = require("../../models/User");
 const jwtTokenMethods = require("../../utils/jwtToken");
-const upload = require("../../utils/upload");
+const multer = require("../../utils/multer");
 const image = require("../../utils/image");
 const uuid = require("uuid");
-const key = require("../../config/key");
-const aws = require("aws-sdk");
-aws.config.update({
-  secretAccessKey: key.secretAccessKey,
-  accessKeyId: key.accessKeyID,
-  region: key.region
-});
-const s3 = new aws.S3();
+const awsS3 = require("../../utils/awsS3");
 
 router.post(
   "/userdishes",
   jwtTokenMethods.verifyToken,
-  upload.uploadFile.single("dishPhoto"),
+  multer.uploadFile.single("dishPhoto"),
   async (req, res) => {
     // console.log(req.file, req.body);
 
     const file = req.file;
     const imageName = `${uuid()}+${file.originalname}`;
-    let resizedImage = await image.formatImage(file.buffer, 400, 400);
-    const s3Params = {
-      Bucket: "dishes-photos-bucket",
-      Key: imageName,
-      Body: file.buffer
-    };
-
-    s3.putObject(s3Params, (err, data) => {
-      if (err) {
-        console.log(err);
-        return res.end();
-      }
-      console.log(data);
-    });
 
     try {
+      const resizedImage = await image.formatImage(file.buffer, 400, 400);
+      const awsResponse = await awsS3.uploadToS3(
+        { ...file, imageName: imageName, buffer: resizedImage },
+        "dishes-photos-bucket"
+      );
+      const url = await awsS3.getUrlFromS3(imageName, "dishes-photos-bucket");
       const user = await User.findOne({ _id: req.user.id });
       const newDish = new Dish({
         dishName: req.body.dishName,
@@ -47,12 +32,10 @@ router.post(
         user_id: req.user.id
       });
       newDish.image.push(imageName);
-      console.log(newDish);
       const dishResponse = await newDish.save();
       user.dishes.push(dishResponse._id);
       await user.save();
-      console.log(dishResponse);
-      res.json(dishResponse);
+      res.json({ ...dishResponse._doc, url: [url] });
     } catch (error) {
       console.log(error);
     }
@@ -106,15 +89,17 @@ router.get("/alldishes", async (req, res) => {
       })
       .skip(offset)
       .limit(limit);
-    for (let dish of dishes) {
-      let params = {
-        Bucket: "dishes-photos-bucket",
-        Key: dish.image[0]
-      };
-      const url = s3.getSignedUrl("getObject", params);
-      dish.image = [url];
-    }
-    res.json(dishes);
+    const dishesPromise = dishes.map(async dish => {
+      const newDish = { ...dish._doc, url: [] };
+      const url = await awsS3.getUrlFromS3(
+        dish.image[0],
+        "dishes-photos-bucket"
+      );
+      newDish.url.push(url);
+      return newDish;
+    });
+    let dishesWithImage = await Promise.all(dishesPromise);
+    res.json(dishesWithImage);
   } catch (error) {
     console.log(error);
   }

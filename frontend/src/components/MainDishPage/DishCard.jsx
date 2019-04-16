@@ -7,7 +7,6 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import puppy from "../../utils/puppy";
 
 const styles = {
   main: {
@@ -36,7 +35,6 @@ const styles = {
 
 const DishCard = props => {
   const { classes, dish } = props;
-  let randomPic = puppy[Math.floor(Math.random() * (puppy.length - 1 - 0) + 0)];
   console.log(dish);
   return (
     <div className={classes.main}>
@@ -47,7 +45,7 @@ const DishCard = props => {
             alt="Contemplative Reptile"
             className={classes.media}
             height="140"
-            image={dish.image[0]}
+            image={dish.url[0]}
             title="Contemplative Reptile"
           />
           <CardContent className={classes.content}>

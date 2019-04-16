@@ -24,6 +24,7 @@ const dishReducer = (state = initialState, action) => {
         dishes: result
       };
     case ADD_USER_DISHES:
+      console.log(action.payload);
       return {
         ...state,
         dishes: { ...state.dishes, [action.payload._id]: action.payload }
