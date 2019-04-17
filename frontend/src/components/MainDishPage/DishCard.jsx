@@ -7,6 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import IngredientInput from "./IngredientInput";
 
 const styles = {
   main: {
@@ -35,6 +36,7 @@ const styles = {
 };
 
 const DishCard = props => {
+  console.log(props.dish);
   const { classes, dish, addUserDishesIngredient } = props;
   console.log(dish.ingredient);
   return (
@@ -70,9 +72,13 @@ const DishCard = props => {
           >
             Delete
           </Button>
-          <Button onClick={() => addUserDishesIngredient(dish, "Green")}>
-            Hi
-          </Button>
+
+          {
+            <IngredientInput
+              addUserDishesIngredient={addUserDishesIngredient}
+              dish={dish}
+            />
+          }
         </CardActions>
       </Card>
     </div>
