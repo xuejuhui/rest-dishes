@@ -30,11 +30,12 @@ const styles = {
   content: {
     height: "10rem",
     overflowWrap: "break-word"
+    // overflow: "scroll"
   }
 };
 
 const DishCard = props => {
-  const { classes, dish } = props;
+  const { classes, dish, addUserDishesIngredient } = props;
   console.log(dish.ingredient);
   return (
     <div className={classes.main}>
@@ -53,6 +54,9 @@ const DishCard = props => {
               {dish.dishName}
             </Typography>
             <Typography component="p">{dish.description}</Typography>
+            {dish.ingredient.map(i => {
+              return <Typography component="p">{i}</Typography>;
+            })}
           </CardContent>
         </CardActionArea>
         <CardActions>
@@ -65,6 +69,9 @@ const DishCard = props => {
             onClick={props.handleDeleteUserDish(dish._id)}
           >
             Delete
+          </Button>
+          <Button onClick={() => addUserDishesIngredient(dish, "Green")}>
+            Hi
           </Button>
         </CardActions>
       </Card>

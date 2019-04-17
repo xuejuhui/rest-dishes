@@ -2,7 +2,8 @@ import {
   GET_USER_DISHES,
   ADD_USER_DISHES,
   DELETE_USER_DISHES,
-  GET_ALL_DISHES
+  GET_ALL_DISHES,
+  ADD_USER_DISH_INGREDIENT
 } from "../actions/types";
 
 const initialState = {
@@ -45,6 +46,19 @@ const dishReducer = (state = initialState, action) => {
         ...state,
         dishes: { ...state.dishes, ...allDishesResponse },
         hasMore: action.payload.length === 0 ? false : true
+      };
+    case ADD_USER_DISH_INGREDIENT:
+      console.log(action.payload);
+      const dish = state.dishes[action.payload.id];
+      return {
+        ...state,
+        dishes: {
+          ...state.dishes,
+          [action.payload.id]: {
+            ...dish,
+            ingredient: [...dish.ingredient, action.payload.ingredient]
+          }
+        }
       };
     default:
       return state;

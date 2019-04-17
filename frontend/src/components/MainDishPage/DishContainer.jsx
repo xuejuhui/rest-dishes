@@ -5,7 +5,11 @@ import { connect } from "react-redux";
 import DishesList from "./DishesList";
 import Button from "../Button";
 
-import { deleteUserDish, getAllDishes } from "../../actions/dishActions";
+import {
+  deleteUserDish,
+  getAllDishes,
+  addUserDishesIngredient
+} from "../../actions/dishActions";
 
 class DishContainer extends Component {
   state = {
@@ -15,15 +19,16 @@ class DishContainer extends Component {
     limit: 10,
     dish: {}
   };
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      Object.values(this.props.dishes).length !==
-        Object.values(nextProps.dishes).length ||
-      this.state.dish !== nextState.dish ||
-      this.state.openForm !== nextState.openForm ||
-      this.props.hasMore !== nextProps.hasMore
-    );
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return (
+  //     Object.values(this.props.dishes).length !==
+  //       Object.values(nextProps.dishes).length ||
+  //     this.state.dish !== nextState.dish ||
+  //     this.state.openForm !== nextState.openForm ||
+  //     this.props.hasMore !== nextProps.hasMore ||
+  //     this.props.dishes !== nextProps.dishes
+  //   );
+  // }
   componentDidMount() {
     const { getAllDishes } = this.props;
     getAllDishes(this.state.startIndex, this.state.limit);
@@ -44,7 +49,7 @@ class DishContainer extends Component {
     this.setState({ openForm: !this.state.openForm });
   };
   render() {
-    const { dishes, hasMore } = this.props;
+    const { dishes, hasMore, addUserDishesIngredient } = this.props;
     const { openCard, dish, openForm } = this.state;
     return (
       <Fragment>
@@ -69,6 +74,7 @@ class DishContainer extends Component {
           <DishCard
             dish={dish}
             handleDeleteUserDish={this.handleDeleteUserDish}
+            addUserDishesIngredient={addUserDishesIngredient}
           />
         ) : (
           ""
@@ -79,6 +85,7 @@ class DishContainer extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log(state.dish.dishes);
   return {
     hasMore: state.dish.hasMore,
     dishes: state.dish.dishes,
@@ -88,7 +95,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   deleteUserDish,
-  getAllDishes
+  getAllDishes,
+  addUserDishesIngredient
 };
 
 export default connect(

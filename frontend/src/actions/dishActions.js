@@ -2,10 +2,17 @@ import {
   GET_USER_DISHES,
   ADD_USER_DISHES,
   DELETE_USER_DISHES,
-  GET_ALL_DISHES
+  GET_ALL_DISHES,
+  ADD_USER_DISH_INGREDIENT
 } from "../actions/types";
 import { apiRequest } from "../utils/api/apiWrapper";
-export { getUserDishes, addUserDishes, deleteUserDish, getAllDishes };
+export {
+  getUserDishes,
+  addUserDishes,
+  deleteUserDish,
+  getAllDishes,
+  addUserDishesIngredient
+};
 
 function getUserDishes() {
   return async dispatch => {
@@ -18,22 +25,24 @@ function getUserDishes() {
     );
   };
 }
-//
-// function addUserDishes({ dishName, description }, file) {
-//   return async dispatch => {
-//     dispatch(
-//       apiRequest(
-//         {
-//           url: "/api/dishes/userdishes",
-//           method: "POST",
-//           data: { dishName, description, file }
-//         },
-//         ADD_USER_DISHES,
-//         "Added"
-//       )
-//     );
-//   };
-// }
+
+function addUserDishesIngredient({ _id }, ingredient) {
+  return async dispatch => {
+    dispatch({
+      type: ADD_USER_DISH_INGREDIENT,
+      payload: { id: _id, ingredient }
+    });
+    // apiRequest(
+    //   {
+    //     url: "/api/dishes/userdishes",
+    //     method: "POST",
+    //     data: { dishName, description, file }
+    //   },
+    //   ADD_USER_DISH_INGREDIENT,
+    //   "Added"
+    // )
+  };
+}
 function addUserDishes(fd) {
   return async dispatch => {
     dispatch(
