@@ -3,7 +3,8 @@ import {
   ADD_USER_DISHES,
   DELETE_USER_DISHES,
   GET_ALL_DISHES,
-  ADD_USER_DISH_INGREDIENT
+  ADD_USER_DISH_INGREDIENT,
+  GET_DISH
 } from "../actions/types";
 import { apiRequest } from "../utils/api/apiWrapper";
 export {
@@ -11,7 +12,8 @@ export {
   addUserDishes,
   deleteUserDish,
   getAllDishes,
-  addUserDishesIngredient
+  addUserDishesIngredient,
+  getDish
 };
 
 function getUserDishes() {
@@ -41,6 +43,15 @@ function addUserDishesIngredient({ _id }, ingredient) {
     //   ADD_USER_DISH_INGREDIENT,
     //   "Added"
     // )
+  };
+}
+
+function getDish(id) {
+  return async dispatch => {
+    dispatch({
+      type: GET_DISH,
+      payload: id
+    });
   };
 }
 function addUserDishes(fd) {

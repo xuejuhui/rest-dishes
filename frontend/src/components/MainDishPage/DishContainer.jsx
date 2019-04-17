@@ -8,7 +8,8 @@ import Button from "../Button";
 import {
   deleteUserDish,
   getAllDishes,
-  addUserDishesIngredient
+  addUserDishesIngredient,
+  getDish
 } from "../../actions/dishActions";
 
 class DishContainer extends Component {
@@ -16,26 +17,25 @@ class DishContainer extends Component {
     openCard: false,
     openForm: false,
     startIndex: 0,
-    limit: 10,
-    dish: {}
+    limit: 10
   };
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return (
-  //     Object.values(this.props.dishes).length !==
-  //       Object.values(nextProps.dishes).length ||
-  //     this.state.dish !== nextState.dish ||
-  //     this.state.openForm !== nextState.openForm ||
-  //     this.props.hasMore !== nextProps.hasMore ||
-  //     this.props.dishes !== nextProps.dishes
-  //   );
-  // }
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      Object.values(this.props.dishes).length !==
+        Object.values(nextProps.dishes).length ||
+      this.state.dish !== nextState.dish ||
+      this.state.openForm !== nextState.openForm ||
+      this.props.hasMore !== nextProps.hasMore
+    );
+  }
   componentDidMount() {
     const { getAllDishes } = this.props;
     getAllDishes(this.state.startIndex, this.state.limit);
   }
   handleOpenCard = id => () => {
-    const { dishes } = this.props;
-    this.setState({ dish: dishes[id], openCard: true });
+    const { getDish } = this.props;
+    this.setState({ openCard: true });
+    getDish(id);
   };
   handleDeleteUserDish = id => () => {
     this.props.deleteUserDish(id);
@@ -49,8 +49,8 @@ class DishContainer extends Component {
     this.setState({ openForm: !this.state.openForm });
   };
   render() {
-    const { dishes, hasMore, addUserDishesIngredient } = this.props;
-    const { openCard, dish, openForm } = this.state;
+    const { dishes, hasMore, addUserDishesIngredient, dish } = this.props;
+    const { openCard, openForm } = this.state;
     return (
       <Fragment>
         {openForm ? (
@@ -85,8 +85,8 @@ class DishContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state.dish.dishes);
   return {
+    dish: state.dish.dish,
     hasMore: state.dish.hasMore,
     dishes: state.dish.dishes,
     userName: state.dish.userName
@@ -96,7 +96,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   deleteUserDish,
   getAllDishes,
-  addUserDishesIngredient
+  addUserDishesIngredient,
+  getDish
 };
 
 export default connect(

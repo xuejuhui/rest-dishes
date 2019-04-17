@@ -3,13 +3,15 @@ import {
   ADD_USER_DISHES,
   DELETE_USER_DISHES,
   GET_ALL_DISHES,
-  ADD_USER_DISH_INGREDIENT
+  ADD_USER_DISH_INGREDIENT,
+  GET_DISH
 } from "../actions/types";
 
 const initialState = {
   userName: null,
   dishes: {},
-  hasMore: true
+  hasMore: true,
+  dish: {}
 };
 
 const dishReducer = (state = initialState, action) => {
@@ -58,8 +60,14 @@ const dishReducer = (state = initialState, action) => {
             ...dish,
             ingredient: [...dish.ingredient, action.payload.ingredient]
           }
+        },
+        dish: {
+          ...dish,
+          ingredient: [...dish.ingredient, action.payload.ingredient]
         }
       };
+    case GET_DISH:
+      return { ...state, dish: state.dishes[action.payload] };
     default:
       return state;
   }
