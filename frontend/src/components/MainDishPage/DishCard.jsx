@@ -32,11 +32,34 @@ const styles = {
   content: {
     height: "10rem",
     overflowWrap: "break-word",
-    overflow: "hidden",
+    // overflow: "hidden",
     display: "flex",
     justifyContent: "space-between"
   },
-  ingredient: {}
+  ingredient: {
+    width: "8rem",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: "rgba(173,216,230,1)",
+    borderRadius: "5px",
+    marginTop: "10px",
+    textAlign: "center",
+    background: "transparent"
+  },
+  ingredients: {
+    overflow: "auto",
+    "&::-webkit-scrollbar": {
+      width: "0.4rem"
+    },
+    "&::-webkit-scrollbar-track": {
+      "-webkit-box-shadow": "inset 0 0 6px rgba(173,216,230,.5)"
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "rgba(0,0,0,.1)",
+      outline: "1px solid slategrey"
+    }
+  }
+  // scrollBar: {}
 };
 
 const DishCard = props => {
@@ -61,7 +84,7 @@ const DishCard = props => {
               </Typography>
               <Typography component="p">{dish.description}</Typography>
             </div>
-            <div>
+            <div className={classes.ingredients}>
               {dish.ingredient.map(ingredient => {
                 return (
                   <div className={classes.ingredient} key={ingredient._id}>
