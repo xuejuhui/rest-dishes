@@ -86,8 +86,13 @@ router.get("/alldishes", jwtTokenMethods.verifyToken, async (req, res) => {
         path: "user_id",
         select: "email"
       })
+      .populate({
+        path: "ingredient",
+        select: ["name", "location"]
+      })
       .skip(offset)
       .limit(limit);
+    console.log(dishes);
     const dishesPromise = dishes.map(async dish => {
       const newDish = { ...dish._doc, url: [] };
       const url = await awsS3.getUrlFromS3(
@@ -107,11 +112,15 @@ router.get("/alldishes", jwtTokenMethods.verifyToken, async (req, res) => {
 // Unuse route for now
 router.get("/dish/:id", jwtTokenMethods.verifyToken, async (req, res) => {
   try {
-    const dish = await db.Dish.findOne({ _id: req.params.id }).populate({
-      path: "user_id",
-      select: "email"
-    });
-
+    const dish = await db.Dish.findOne({ _id: req.params.id })
+      .populate({
+        path: "user_id",
+        select: "email"
+      })
+      .populate({
+        path: "ingredient",
+        select: ["name", "location"]
+      });
     res.json(dish);
   } catch (error) {
     console.log(error);
@@ -130,7 +139,7 @@ router.post("/dish/ingredient", async (req, res, next) => {
   await dish.save();
   ingredientResponse.dishes.push(dish._id);
   ingredientResponse = await ingredientResponse.save();
-  res.json(ingredientResponse);
+  res.json({ ...ingredientResponse._doc, dishId: dish._id });
 });
 
 module.exports = router;

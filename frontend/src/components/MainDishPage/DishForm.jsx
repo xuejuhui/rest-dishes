@@ -44,22 +44,9 @@ class DishForm extends React.Component {
     e.preventDefault();
     const { addUserDishes, handleOpenForm } = this.props;
     const fd = new FormData();
-    // fd.append("dishPhoto", this.state.dishPhoto, this.state.dishPhoto.name);
-    // fd.append("dishName", this.state.dishName);
-    // fd.append(this.state);
-
     for (let key in this.state) {
       fd.append(`${key}`, this.state[key]);
     }
-    for (var pair of fd.entries()) {
-      console.log(pair);
-    }
-    // const res = await axios.post(
-    //   "http://localhost:5000/api/dishes/uploadfile",
-    //   fd
-    // );
-    // console.log(res);
-    // addUserDishes(this.state, res.data.originalname);
     addUserDishes(fd);
     handleOpenForm();
   };

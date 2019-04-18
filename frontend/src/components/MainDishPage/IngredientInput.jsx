@@ -3,11 +3,20 @@ import Button from "@material-ui/core/Button";
 
 const IngredientInput = props => {
   const { addUserDishesIngredient, dish } = props;
-  const [ingredient, setIngredient] = useState("");
+  const [ingredientName, setIngredientName] = useState("");
+  const [ingredientLocation, setIngredientLocation] = useState("");
   return (
     <div>
-      <input type="text" onChange={e => setIngredient(e.target.value)} />
-      <Button onClick={() => addUserDishesIngredient(dish, ingredient)}>
+      <input type="text" onChange={e => setIngredientName(e.target.value)} />
+      <input
+        type="text"
+        onChange={e => setIngredientLocation(e.target.value)}
+      />
+      <Button
+        onClick={() =>
+          addUserDishesIngredient(dish, { ingredientName, ingredientLocation })
+        }
+      >
         Hi
       </Button>
     </div>

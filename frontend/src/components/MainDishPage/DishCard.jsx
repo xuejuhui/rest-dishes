@@ -30,8 +30,8 @@ const styles = {
   },
   content: {
     height: "10rem",
-    overflowWrap: "break-word"
-    // overflow: "scroll"
+    overflowWrap: "break-word",
+    overflow: "hidden"
   }
 };
 
@@ -57,7 +57,11 @@ const DishCard = props => {
             </Typography>
             <Typography component="p">{dish.description}</Typography>
             {dish.ingredient.map(i => {
-              return <Typography component="p">{i}</Typography>;
+              return (
+                <Typography component="p" key={i._id}>
+                  {i.name}
+                </Typography>
+              );
             })}
           </CardContent>
         </CardActionArea>
@@ -73,12 +77,11 @@ const DishCard = props => {
             Delete
           </Button>
 
-          {
+          {/*
             <IngredientInput
               addUserDishesIngredient={addUserDishesIngredient}
               dish={dish}
-            />
-          }
+            />*/}
         </CardActions>
       </Card>
     </div>

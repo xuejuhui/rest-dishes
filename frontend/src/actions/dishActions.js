@@ -30,19 +30,17 @@ function getUserDishes() {
 
 function addUserDishesIngredient({ _id }, ingredient) {
   return async dispatch => {
-    dispatch({
-      type: ADD_USER_DISH_INGREDIENT,
-      payload: { id: _id, ingredient }
-    });
-    // apiRequest(
-    //   {
-    //     url: "/api/dishes/userdishes",
-    //     method: "POST",
-    //     data: { dishName, description, file }
-    //   },
-    //   ADD_USER_DISH_INGREDIENT,
-    //   "Added"
-    // )
+    dispatch(
+      apiRequest(
+        {
+          url: "/api/dishes/dish/ingredient",
+          method: "POST",
+          data: { dishId: _id, ...ingredient }
+        },
+        ADD_USER_DISH_INGREDIENT,
+        "Added"
+      )
+    );
   };
 }
 

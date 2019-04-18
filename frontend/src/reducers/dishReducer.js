@@ -50,20 +50,19 @@ const dishReducer = (state = initialState, action) => {
         hasMore: action.payload.length === 0 ? false : true
       };
     case ADD_USER_DISH_INGREDIENT:
-      console.log(action.payload);
-      const dish = state.dishes[action.payload.id];
+      const dish = state.dishes[action.payload.dishId];
       return {
         ...state,
         dishes: {
           ...state.dishes,
-          [action.payload.id]: {
+          [action.payload.dishId]: {
             ...dish,
-            ingredient: [...dish.ingredient, action.payload.ingredient]
+            ingredient: [...dish.ingredient, action.payload]
           }
         },
         dish: {
           ...dish,
-          ingredient: [...dish.ingredient, action.payload.ingredient]
+          ingredient: [...dish.ingredient, action.payload]
         }
       };
     case GET_DISH:
