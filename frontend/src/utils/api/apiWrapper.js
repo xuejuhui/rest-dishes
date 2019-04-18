@@ -5,7 +5,6 @@ const apiRequest = ({ url, ...apiOptions }, dispatchType, message = "") => {
   return async dispatch => {
     try {
       const response = await apiClient({ url, ...apiOptions });
-      console.log(apiOptions);
       console.log(response);
       if (response.data.message) message = response.data.message;
       dispatch({

@@ -33,7 +33,8 @@ const styles = {
     height: "10rem",
     overflowWrap: "break-word",
     overflow: "hidden",
-    display: "flex"
+    display: "flex",
+    justifyContent: "space-between"
   },
   ingredient: {}
 };
@@ -54,17 +55,21 @@ const DishCard = props => {
             title="Contemplative Reptile"
           />
           <CardContent className={classes.content}>
-            <Typography gutterBottom variant="h5" component="h2">
-              {dish.dishName}
-            </Typography>
-            <Typography component="p">{dish.description}</Typography>
-            {dish.ingredient.map(ingredient => {
-              return (
-                <div className={classes.ingredient} key={ingredient._id}>
-                  <Typography component="p">{ingredient.name}</Typography>
-                </div>
-              );
-            })}
+            <div>
+              <Typography gutterBottom variant="h5" component="h2">
+                {dish.dishName}
+              </Typography>
+              <Typography component="p">{dish.description}</Typography>
+            </div>
+            <div>
+              {dish.ingredient.map(ingredient => {
+                return (
+                  <div className={classes.ingredient} key={ingredient._id}>
+                    <Typography component="p">{ingredient.name}</Typography>
+                  </div>
+                );
+              })}
+            </div>
           </CardContent>
         </CardActionArea>
         <CardActions>

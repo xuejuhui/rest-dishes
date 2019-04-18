@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
@@ -7,11 +7,10 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 const styles = {
-  input: {}
+  input: { width: "20vw" }
 };
 // fix it later style
 const IngredientInput = props => {
@@ -20,6 +19,13 @@ const IngredientInput = props => {
   const [ingredientLocation, setIngredientLocation] = useState("");
   const [inputShow, setinputShow] = useState(false);
   const handleShowInput = () => setinputShow(!inputShow);
+  const handleAddIngredient = () => {
+    addUserDishesIngredient(dish, {
+      ingredientName,
+      ingredientLocation
+    });
+    handleShowInput();
+  };
   return (
     <div className={classes.input}>
       <Dialog
@@ -27,51 +33,33 @@ const IngredientInput = props => {
         onClose={handleShowInput}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">ADD Dish</DialogTitle>
+        <DialogTitle id="form-dialog-title">ADD Ingredient</DialogTitle>
         <DialogContent>
-          <DialogContentText>Add a dish to the page</DialogContentText>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Dish Name</InputLabel>
+          <FormControl margin="normal">
+            <InputLabel htmlFor="Ingredient Name">Ingredient Name</InputLabel>
             <Input
-              id="dishName"
-              name="dishName"
+              id="ingredientName"
+              name="ingredientName"
               autoFocus
               onChange={e => setIngredientName(e.target.value)}
             />
           </FormControl>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Description</InputLabel>
+          <FormControl margin="normal">
+            <InputLabel htmlFor="Location">Location</InputLabel>
             <Input
-              id="description"
-              name="description"
+              id="location"
+              name="location"
               autoFocus
               onChange={e => setIngredientLocation(e.target.value)}
             />
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button
-            onMouseOver={handleShowInput}
-            onClick={() =>
-              addUserDishesIngredient(dish, {
-                ingredientName,
-                ingredientLocation
-              })
-            }
-          >
-            Add Ingredient
-          </Button>
+          <Button onClick={handleShowInput}>Cancel</Button>
+          <Button onClick={handleAddIngredient}>Add Ingredient</Button>
         </DialogActions>
       </Dialog>
-      <Button
-        onMouseOver={handleShowInput}
-        onClick={() =>
-          addUserDishesIngredient(dish, {
-            ingredientName,
-            ingredientLocation
-          })
-        }
-      >
+      <Button onMouseOver={handleShowInput} onClick={handleAddIngredient}>
         Add Ingredient
       </Button>
     </div>
