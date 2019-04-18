@@ -19,15 +19,16 @@ class DishContainer extends Component {
     startIndex: 0,
     limit: 10
   };
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      Object.values(this.props.dishes).length !==
-        Object.values(nextProps.dishes).length ||
-      this.state.openCard !== nextState.openCard ||
-      this.state.openForm !== nextState.openForm ||
-      this.props.hasMore !== nextProps.hasMore
-    );
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   // prevent card from rerender
+  //   return (
+  //     Object.values(this.props.dishes).length !==
+  //       Object.values(nextProps.dishes).length ||
+  //     this.state.openCard !== nextState.openCard ||
+  //     this.state.openForm !== nextState.openForm ||
+  //     this.props.hasMore !== nextProps.hasMore
+  //   );
+  // }
   componentDidMount() {
     const { getAllDishes } = this.props;
     getAllDishes(this.state.startIndex, this.state.limit);

@@ -20,7 +20,8 @@ const styles = {
   card: {
     display: "flex",
     width: "35vw",
-    height: "80vh",
+    height: "auto",
+    minHeight: "80vh",
     flexDirection: "column",
     justifyContent: "space-between"
   },
@@ -31,21 +32,22 @@ const styles = {
   content: {
     height: "10rem",
     overflowWrap: "break-word",
-    overflow: "hidden"
-  }
+    overflow: "hidden",
+    display: "flex"
+  },
+  ingredient: {}
 };
 
 const DishCard = props => {
   console.log(props.dish);
   const { classes, dish, addUserDishesIngredient } = props;
-  console.log(dish.ingredient);
   return (
     <div className={classes.main}>
       <Card className={classes.card} key={dish._id}>
         <CardActionArea>
           <CardMedia
             component="img"
-            alt="Contemplative Reptile"
+            alt="Dish photo"
             className={classes.media}
             height="140"
             image={dish.url[0]}
@@ -56,11 +58,11 @@ const DishCard = props => {
               {dish.dishName}
             </Typography>
             <Typography component="p">{dish.description}</Typography>
-            {dish.ingredient.map(i => {
+            {dish.ingredient.map(ingredient => {
               return (
-                <Typography component="p" key={i._id}>
-                  {i.name}
-                </Typography>
+                <div className={classes.ingredient} key={ingredient._id}>
+                  <Typography component="p">{ingredient.name}</Typography>
+                </div>
               );
             })}
           </CardContent>
@@ -76,12 +78,12 @@ const DishCard = props => {
           >
             Delete
           </Button>
-
-          {/*
+          {
             <IngredientInput
               addUserDishesIngredient={addUserDishesIngredient}
               dish={dish}
-            />*/}
+            />
+          }
         </CardActions>
       </Card>
     </div>

@@ -12,8 +12,6 @@ router.post(
   jwtTokenMethods.verifyToken,
   multer.uploadFile.single("dishPhoto"),
   async (req, res) => {
-    // console.log(req.file, req.body);
-
     const file = req.file;
     const imageName = `${uuid()}+${file.originalname}`;
 
@@ -66,7 +64,6 @@ router.delete("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
         }
       }
     );
-    console.log(dish, updateResponse);
     res.json({
       id: dish._id,
       message: `${dish.dishName} has been deleted!`
@@ -92,7 +89,6 @@ router.get("/alldishes", jwtTokenMethods.verifyToken, async (req, res) => {
       })
       .skip(offset)
       .limit(limit);
-    console.log(dishes);
     const dishesPromise = dishes.map(async dish => {
       const newDish = { ...dish._doc, url: [] };
       const url = await awsS3.getUrlFromS3(
@@ -128,7 +124,6 @@ router.get("/dish/:id", jwtTokenMethods.verifyToken, async (req, res) => {
 });
 
 router.post("/dish/ingredient", async (req, res, next) => {
-  console.log(req.body.dishId);
   const newIngredient = new db.Ingredient({
     name: req.body.ingredientName,
     location: req.body.ingredientLocation
