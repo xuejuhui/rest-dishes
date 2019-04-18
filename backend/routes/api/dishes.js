@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Dish = require("../../models/Dish");
-const User = require("../../models/User");
+const db = require("../../models/index");
 const jwtTokenMethods = require("../../utils/jwtToken");
 const multer = require("../../utils/multer");
 const image = require("../../utils/image");
@@ -25,8 +24,8 @@ router.post(
         "dishes-photos-bucket"
       );
       const url = await awsS3.getUrlFromS3(imageName, "dishes-photos-bucket");
-      const user = await User.findOne({ _id: req.user.id });
-      const newDish = new Dish({
+      const user = await db.User.findOne({ _id: req.user.id });
+      const newDish = new db.Dish({
         dishName: req.body.dishName,
         description: req.body.description,
         user_id: req.user.id
@@ -44,7 +43,7 @@ router.post(
 
 router.get("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
   try {
-    const userDish = await User.findOne(
+    const userDish = await db.User.findOne(
       { _id: req.user.id },
       { password: 0, resetPasswordExpires: 0, resetPasswordToken: 0 }
     )
@@ -58,8 +57,8 @@ router.get("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
 
 router.delete("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
   try {
-    const dish = await Dish.findOne({ _id: req.body.id });
-    const updateResponse = await Dish.updateOne(
+    const dish = await db.Dish.findOne({ _id: req.body.id });
+    const updateResponse = await db.Dish.updateOne(
       { _id: req.body.id },
       {
         $set: {
@@ -77,12 +76,12 @@ router.delete("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
   }
 });
 
-router.get("/alldishes", async (req, res) => {
+router.get("/alldishes", jwtTokenMethods.verifyToken, async (req, res) => {
   const limit = Number(req.query.limit);
   const offset = Number(req.query.offset);
 
   try {
-    const dishes = await Dish.find({ isDeleted: false }, { isDeleted: 0 })
+    const dishes = await db.Dish.find({ isDeleted: false }, { isDeleted: 0 })
       .populate({
         path: "user_id",
         select: "email"
@@ -105,9 +104,10 @@ router.get("/alldishes", async (req, res) => {
   }
 });
 
-router.get("/dish/:id", async (req, res) => {
+// Unuse route for now
+router.get("/dish/:id", jwtTokenMethods.verifyToken, async (req, res) => {
   try {
-    const dish = await Dish.findOne({ _id: req.params.id }).populate({
+    const dish = await db.Dish.findOne({ _id: req.params.id }).populate({
       path: "user_id",
       select: "email"
     });
@@ -118,21 +118,19 @@ router.get("/dish/:id", async (req, res) => {
   }
 });
 
-// router.post(
-//   "/uploadfile",
-//   upload.uploadFile.single("dishPhoto"),
-//   async (req, res, next) => {
-//     console.log(req.file, req.body);
-//     const file = req.file;
-//     const resizedImage = await image.formatImage(file.buffer, 400, 400);
-//     // console.log(resizedImage);
-//     if (!file) {
-//       const error = new Error("Please upload a file");
-//       error.httpStatusCode = 400;
-//       return next(error);
-//     }
-//     res.send(resizedImage);
-//   }
-// );
+router.post("/dish/ingredient", async (req, res, next) => {
+  console.log(req.body.dishId);
+  const newIngredient = new db.Ingredient({
+    name: req.body.ingredientName,
+    location: req.body.ingredientLocation
+  });
+  let ingredientResponse = await newIngredient.save();
+  const dish = await db.Dish.findOne({ _id: req.body.dishId });
+  dish.ingredient.push(ingredientResponse._id);
+  await dish.save();
+  ingredientResponse.dishes.push(dish._id);
+  ingredientResponse = await ingredientResponse.save();
+  res.json(ingredientResponse);
+});
 
 module.exports = router;

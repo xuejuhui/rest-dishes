@@ -23,10 +23,7 @@ const DishSchema = new Schema({
     type: Array,
     default: []
   },
-  ingredient: {
-    type: Array,
-    default: []
-  }
+  ingredient: [{ type: Schema.Types.ObjectId, ref: "Ingredient" }]
 });
 
 module.exports = mongoose.model("Dish", DishSchema);
