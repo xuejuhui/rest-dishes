@@ -17,7 +17,8 @@ class DishContainer extends Component {
     openCard: false,
     openForm: false,
     startIndex: 0,
-    limit: 10
+    limit: 10,
+    creator: false
   };
   // shouldComponentUpdate(nextProps, nextState) {
   //   // prevent card from rerender
@@ -34,9 +35,17 @@ class DishContainer extends Component {
     getAllDishes(this.state.startIndex, this.state.limit);
   }
   handleOpenCard = ({ user_id, _id }) => () => {
+    const {
+      user: { id }
+    } = this.props;
     const { getDish } = this.props;
     getDish(_id);
     this.setState({ openCard: true });
+    if (user_id._id === id) {
+      this.setState({ creator: true });
+    } else {
+      this.setState({ creator: false });
+    }
   };
   handleDeleteUserDish = () => () => {
     const {
@@ -57,7 +66,7 @@ class DishContainer extends Component {
   };
   render() {
     const { dishes, hasMore, addUserDishesIngredient, dish } = this.props;
-    const { openCard, openForm } = this.state;
+    const { openCard, openForm, creator } = this.state;
     return (
       <Fragment>
         {openForm ? (
@@ -79,6 +88,7 @@ class DishContainer extends Component {
         />
         {openCard ? (
           <DishCard
+            creator={creator}
             dish={dish}
             handleDeleteUserDish={this.handleDeleteUserDish}
             addUserDishesIngredient={addUserDishesIngredient}
