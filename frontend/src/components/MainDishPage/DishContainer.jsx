@@ -33,14 +33,20 @@ class DishContainer extends Component {
     const { getAllDishes } = this.props;
     getAllDishes(this.state.startIndex, this.state.limit);
   }
-  handleOpenCard = id => () => {
+  handleOpenCard = ({ user_id, _id }) => () => {
     const { getDish } = this.props;
-    getDish(id);
+    getDish(_id);
     this.setState({ openCard: true });
   };
-  handleDeleteUserDish = id => () => {
-    this.props.deleteUserDish(id);
+  handleDeleteUserDish = () => () => {
+    const {
+      user: { id },
+      dish
+    } = this.props;
+    // if (dish.user_id._id === id) {
+    this.props.deleteUserDish(dish._id);
     this.setState({ openCard: false });
+    // }
   };
   handleMore = () => {
     this.setState({ startIndex: this.state.startIndex + this.state.limit });
@@ -90,7 +96,7 @@ const mapStateToProps = state => {
     dish: state.dish.dish,
     hasMore: state.dish.hasMore,
     dishes: state.dish.dishes,
-    userName: state.dish.userName
+    user: state.auth.user
   };
 };
 

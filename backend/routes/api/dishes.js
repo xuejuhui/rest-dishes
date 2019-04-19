@@ -14,7 +14,6 @@ router.post(
   async (req, res) => {
     const file = req.file;
     const imageName = `${uuid()}+${file.originalname}`;
-
     try {
       const resizedImage = await image.formatImage(file.buffer, 400, 400);
       const awsResponse = await awsS3.uploadToS3(
@@ -56,18 +55,22 @@ router.get("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
 router.delete("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
   try {
     const dish = await db.Dish.findOne({ _id: req.body.id });
-    const updateResponse = await db.Dish.updateOne(
-      { _id: req.body.id },
-      {
-        $set: {
-          isDeleted: true
+    if (dish.user_id._id == req.user.id) {
+      const updateResponse = await db.Dish.updateOne(
+        { _id: req.body.id },
+        {
+          $set: {
+            isDeleted: true
+          }
         }
-      }
-    );
-    res.json({
-      id: dish._id,
-      message: `${dish.dishName} has been deleted!`
-    });
+      );
+      res.json({
+        id: dish._id,
+        message: `${dish.dishName} has been deleted!`
+      });
+    } else {
+      throw new Error("Who are you ");
+    }
   } catch (error) {
     console.log(error);
   }
@@ -123,18 +126,27 @@ router.get("/dish/:id", jwtTokenMethods.verifyToken, async (req, res) => {
   }
 });
 
-router.post("/dish/ingredient", async (req, res, next) => {
-  const newIngredient = new db.Ingredient({
-    name: req.body.ingredientName,
-    location: req.body.ingredientLocation
-  });
-  let ingredientResponse = await newIngredient.save();
-  const dish = await db.Dish.findOne({ _id: req.body.dishId });
-  dish.ingredient.push(ingredientResponse._id);
-  await dish.save();
-  ingredientResponse.dishes.push(dish._id);
-  ingredientResponse = await ingredientResponse.save();
-  res.json({ ...ingredientResponse._doc, dishId: dish._id });
-});
+router.post(
+  "/dish/ingredient",
+  jwtTokenMethods.verifyToken,
+  async (req, res, next) => {
+    const dish = await db.Dish.findOne({ _id: req.body.dishId });
+    console.log(dish.user_id._id, req.user.id);
+    if (dish.user_id._id == req.user.id) {
+      const newIngredient = new db.Ingredient({
+        name: req.body.ingredientName,
+        location: req.body.ingredientLocation
+      });
+      let ingredientResponse = await newIngredient.save();
+      dish.ingredient.push(ingredientResponse._id);
+      await dish.save();
+      ingredientResponse.dishes.push(dish._id);
+      ingredientResponse = await ingredientResponse.save();
+      res.json({ ...ingredientResponse._doc, dishId: dish._id });
+    } else {
+      res.json({ message: "Who are you " });
+    }
+  }
+);
 
 module.exports = router;

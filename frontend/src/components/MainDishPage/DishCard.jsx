@@ -63,7 +63,6 @@ const styles = {
 };
 
 const DishCard = props => {
-  console.log(props.dish);
   const { classes, dish, addUserDishesIngredient } = props;
   return (
     <div className={classes.main}>
@@ -99,13 +98,15 @@ const DishCard = props => {
           <Button size="small" color="primary">
             Share
           </Button>
-          <Button
-            size="small"
-            color="primary"
-            onClick={props.handleDeleteUserDish(dish._id)}
-          >
-            Delete
-          </Button>
+          {
+            <Button
+              size="small"
+              color="primary"
+              onClick={props.handleDeleteUserDish(dish)}
+            >
+              Delete
+            </Button>
+          }
           {
             <IngredientInput
               addUserDishesIngredient={addUserDishesIngredient}

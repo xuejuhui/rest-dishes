@@ -25,11 +25,7 @@ const DishList = props => {
 
   return (
     <List className={classes.root}>
-      <ListItem
-        alignItems="flex-start"
-        button
-        onClick={handleOpenCard(dish._id)}
-      >
+      <ListItem alignItems="flex-start" button onClick={handleOpenCard(dish)}>
         <ListItemAvatar>
           <Avatar alt="Remy Sharp" src={dish.url[0]} />
         </ListItemAvatar>
