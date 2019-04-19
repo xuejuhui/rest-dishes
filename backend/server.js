@@ -19,6 +19,7 @@ app.use("/api/users", users);
 app.use("/api/dishes", dishes);
 
 // clientSideHandler come first, call next if check for serverSide
+// errorHandlers function
 app.use(errorHandlers.clientSideHandler);
 app.use(errorHandlers.serverSideHandler);
 
