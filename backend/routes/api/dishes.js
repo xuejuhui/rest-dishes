@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const uuid = require("uuid");
+const boom = require("boom");
+
+const awsS3 = require("../../utils/awsS3");
 const db = require("../../models/index");
 const jwtTokenMethods = require("../../utils/jwtToken");
 const multer = require("../../utils/multer");
 const image = require("../../utils/image");
-const uuid = require("uuid");
-const awsS3 = require("../../utils/awsS3");
 
 router.post(
   "/userdishes",
@@ -52,29 +54,33 @@ router.get("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
   }
 });
 
-router.delete("/userdishes", jwtTokenMethods.verifyToken, async (req, res) => {
-  try {
-    const dish = await db.Dish.findOne({ _id: req.body.id });
-    if (dish.user_id._id == req.user.id) {
-      const updateResponse = await db.Dish.updateOne(
-        { _id: req.body.id },
-        {
-          $set: {
-            isDeleted: true
+router.delete(
+  "/userdishes",
+  jwtTokenMethods.verifyToken,
+  async (req, res, next) => {
+    try {
+      const dish = await db.Dish.findOne({ _id: req.body.id });
+      if (dish.user_id._id == req.user.id) {
+        const updateResponse = await db.Dish.updateOne(
+          { _id: req.body.id },
+          {
+            $set: {
+              isDeleted: true
+            }
           }
-        }
-      );
-      res.json({
-        id: dish._id,
-        message: `${dish.dishName} has been deleted!`
-      });
-    } else {
-      throw new Error("Who are you ");
+        );
+        res.json({
+          id: dish._id,
+          message: `${dish.dishName} has been deleted!`
+        });
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      return next(boom.badRequest("Who are you"));
     }
-  } catch (error) {
-    console.log(error);
   }
-});
+);
 
 router.get("/alldishes", jwtTokenMethods.verifyToken, async (req, res) => {
   const limit = Number(req.query.limit);
@@ -130,21 +136,24 @@ router.post(
   "/dish/ingredient",
   jwtTokenMethods.verifyToken,
   async (req, res, next) => {
-    const dish = await db.Dish.findOne({ _id: req.body.dishId });
-    console.log(dish.user_id._id, req.user.id);
-    if (dish.user_id._id == req.user.id) {
-      const newIngredient = new db.Ingredient({
-        name: req.body.ingredientName,
-        location: req.body.ingredientLocation
-      });
-      let ingredientResponse = await newIngredient.save();
-      dish.ingredient.push(ingredientResponse._id);
-      await dish.save();
-      ingredientResponse.dishes.push(dish._id);
-      ingredientResponse = await ingredientResponse.save();
-      res.json({ ...ingredientResponse._doc, dishId: dish._id });
-    } else {
-      res.json({ message: "Who are you " });
+    try {
+      const dish = await db.Dish.findOne({ _id: req.body.dishId });
+      if (dish.user_id._id == req.user.id) {
+        const newIngredient = new db.Ingredient({
+          name: req.body.ingredientName,
+          location: req.body.ingredientLocation
+        });
+        let ingredientResponse = await newIngredient.save();
+        dish.ingredient.push(ingredientResponse._id);
+        await dish.save();
+        ingredientResponse.dishes.push(dish._id);
+        ingredientResponse = await ingredientResponse.save();
+        res.json({ ...ingredientResponse._doc, dishId: dish._id });
+      } else {
+        throw new Error();
+      }
+    } catch (e) {
+      return next(boom.badRequest("Who are you"));
     }
   }
 );

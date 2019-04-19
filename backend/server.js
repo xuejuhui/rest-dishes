@@ -1,16 +1,17 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const users = require("./routes/api/users");
-const dishes = require("./routes/api/dishes");
 const passport = require("passport");
 const cors = require("cors");
+
+const users = require("./routes/api/users");
+const dishes = require("./routes/api/dishes");
+
 const app = express();
-
 app.use(cors());
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 const db = require("./config/key").mongoURI;
 
 mongoose
@@ -25,6 +26,10 @@ app.use(passport.initialize());
 require("./passport")(passport);
 app.use("/api/users", users);
 app.use("/api/dishes", dishes);
+
+app.use((err, req, res, next) => {
+  res.status(err.output.payload.statusCode).json(err);
+});
 
 const port = process.env.PORT || 5000;
 
