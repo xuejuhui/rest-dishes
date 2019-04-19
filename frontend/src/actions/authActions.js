@@ -29,9 +29,10 @@ function register(user) {
         );
       }
     } catch (err) {
+      const { payload } = err.response.data.output;
       dispatch(
         enqueueSnackbar({
-          message: err.response.data.message,
+          message: payload.message,
           options: {
             variant: "error"
           }
@@ -66,11 +67,11 @@ function login(user) {
         );
       }
     } catch (err) {
+      const { payload } = err.response.data.output;
       dispatch(loading());
-      console.log(err);
       dispatch(
         enqueueSnackbar({
-          message: err.response.data.message,
+          message: payload.message,
           options: { variant: "error" }
         })
       );
@@ -121,11 +122,11 @@ function forgotPassword(email) {
         );
         dispatch(loading());
       }
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      const { payload } = err.response.data.output;
       dispatch(
         enqueueSnackbar({
-          message: e.response.data.message,
+          message: payload.message,
           options: { variant: "error" }
         })
       );
@@ -150,11 +151,11 @@ function resetPassword(password, token) {
         );
         dispatch(loading());
       }
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      const { payload } = err.response.data.output;
       dispatch(
         enqueueSnackbar({
-          message: e.response.data.message,
+          message: payload.message,
           options: { variant: "error" }
         })
       );

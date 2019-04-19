@@ -6,11 +6,12 @@ const db = require("../../models/index");
 const key = require("../../config/key");
 const uuidv1 = require("uuid/v1");
 const mailer = require("../../utils/mailer");
+const boom = require("boom");
 
-router.post("/register", async (req, res) => {
+router.post("/register", async (req, res, next) => {
   const current = await db.User.findOne({ email: req.body.email });
   if (current) {
-    return res.status(400).json({ message: "Email already exist" });
+    return next(boom.unauthorized("Email already exist"));
   }
   const newUser = new db.User({
     name: req.body.name,
@@ -33,10 +34,10 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
   const current = await db.User.findOne({ email: req.body.email });
   if (!current) {
-    return res.status(400).json({ message: "Email not found" });
+    return next(boom.badRequest("Email not found"));
   }
   const isMatch = await bcrypt.compare(req.body.password, current.password);
   const user = { id: current._id, name: current.name };
@@ -53,16 +54,16 @@ router.post("/login", async (req, res) => {
       console.log(error);
     }
   } else {
-    res.status(404).json({ message: "Incorrect password" });
+    return next(boom.notFound("Incorrect password"));
   }
 });
 
-router.post("/forgotpassword", async (req, res) => {
+router.post("/forgotpassword", async (req, res, next) => {
   try {
     const current = await db.User.findOne({ email: req.body.email });
     const token = uuidv1();
     if (!current) {
-      return res.status(400).json({ message: "Email not found" });
+      return next(boom.badRequest("Email not found"));
     }
     const updateResponse = await db.User.updateOne(current, {
       resetPasswordToken: token,
@@ -83,20 +84,20 @@ router.post("/forgotpassword", async (req, res) => {
     mailer.sendEmail(mailOptions, from);
     res.json({ message: "Email email has been sent" });
   } catch (e) {
-    return res.status(400).json({ message: "Error" });
+    return next(boom.badRequest("Error"));
   }
 });
 
-router.get("/reset/:token", async (req, res) => {
+router.get("/reset/:token", async (req, res, next) => {
   try {
     const current = await db.User.findOne({
       resetPasswordToken: req.params.token,
       resetPasswordExpires: { $gt: Date.now() }
     });
     if (!current) {
-      return res
-        .status(400)
-        .json({ message: "Password reset token is invalid or has expired." });
+      return next(
+        boom.badRequest("Password reset token is invalid or has expired.")
+      );
     }
     res.json(current);
   } catch (e) {
@@ -104,7 +105,7 @@ router.get("/reset/:token", async (req, res) => {
   }
 });
 
-router.put("/reset/:token", async (req, res) => {
+router.put("/reset/:token", async (req, res, next) => {
   try {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(req.body.password, salt);
@@ -113,9 +114,9 @@ router.put("/reset/:token", async (req, res) => {
       resetPasswordExpires: { $gt: Date.now() }
     });
     if (!current) {
-      return res
-        .status(400)
-        .json({ message: "Password reset token is invalid or has expired." });
+      return next(
+        boom.badRequest("Password reset token is invalid or has expired.")
+      );
     }
     const updateResponse = await db.User.updateOne(current, {
       password: hash,
@@ -126,7 +127,7 @@ router.put("/reset/:token", async (req, res) => {
     res.json({ message: "Your password has been reset successfully!" });
   } catch (e) {
     console.log(e);
-    return res.status(400).json({ message: "Error" });
+    return next(boom.badRequest("Error"));
   }
 });
 

@@ -43,10 +43,10 @@ class DishContainer extends Component {
       user: { id },
       dish
     } = this.props;
-    // if (dish.user_id._id === id) {
-    this.props.deleteUserDish(dish._id);
-    this.setState({ openCard: false });
-    // }
+    if (dish.user_id._id === id) {
+      this.props.deleteUserDish(dish._id);
+      this.setState({ openCard: false });
+    }
   };
   handleMore = () => {
     this.setState({ startIndex: this.state.startIndex + this.state.limit });

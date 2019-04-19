@@ -28,7 +28,15 @@ app.use("/api/users", users);
 app.use("/api/dishes", dishes);
 
 app.use((err, req, res, next) => {
-  res.status(err.output.payload.statusCode).json(err);
+  if (err.isBoom) {
+    res.status(err.output.payload.statusCode).json(err);
+  } else {
+    next(err);
+  }
+});
+
+app.use((err, req, res, next) => {
+  console.log(err);
 });
 
 const port = process.env.PORT || 5000;
