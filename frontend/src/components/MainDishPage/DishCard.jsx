@@ -7,7 +7,9 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+
 import IngredientInput from "./IngredientInput";
+import Ingredient from "./Ingredient";
 
 const styles = {
   main: {
@@ -36,16 +38,7 @@ const styles = {
     display: "flex",
     justifyContent: "space-between"
   },
-  ingredient: {
-    width: "8rem",
-    borderWidth: "1px",
-    borderStyle: "solid",
-    borderColor: "rgba(173,216,230,1)",
-    borderRadius: "5px",
-    marginTop: "10px",
-    textAlign: "center",
-    background: "transparent"
-  },
+
   ingredients: {
     overflow: "auto",
     "&::-webkit-scrollbar": {
@@ -59,7 +52,6 @@ const styles = {
       outline: "1px solid slategrey"
     }
   }
-  // scrollBar: {}
 };
 
 const DishCard = props => {
@@ -86,9 +78,7 @@ const DishCard = props => {
             <div className={classes.ingredients}>
               {dish.ingredient.map(ingredient => {
                 return (
-                  <div className={classes.ingredient} key={ingredient._id}>
-                    <Typography component="p">{ingredient.name}</Typography>
-                  </div>
+                  <Ingredient ingredient={ingredient} key={ingredient._id} />
                 );
               })}
             </div>
