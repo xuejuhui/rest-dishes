@@ -7,7 +7,6 @@ const image = require("../utils/image");
 const validation = require("../utils/joiSchemas/index");
 
 const createDish = async (req, res, next) => {
-  console.log(req.file, req.body);
   validation.dishSchema.validate(
     {
       image: req.file,
