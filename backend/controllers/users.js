@@ -1,10 +1,13 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const uuidv1 = require("uuid/v1");
+const boom = require("boom");
+// const Joi = require("joi");
+
+const validation = require("../utils/joiSchemas/index");
+const mailer = require("../utils/mailer");
 const db = require("../models/index");
 const key = require("../config/key");
-const uuidv1 = require("uuid/v1");
-const mailer = require("../utils/mailer");
-const boom = require("boom");
 
 const register = async (req, res, next) => {
   const current = await db.User.findOne({ email: req.body.email });
@@ -15,6 +18,9 @@ const register = async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     password: req.body.password
+  });
+  validation.userSchema.validate(newUser, (err, value) => {
+    if (err) return next(boom.notFound(err.details[0].message));
   });
   try {
     const salt = await bcrypt.genSalt(10);
