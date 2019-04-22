@@ -3,7 +3,7 @@ import DishCard from "./DishCard";
 import DishForm from "./DishForm";
 import { connect } from "react-redux";
 import DishesList from "./DishesList";
-import CommentsContainer from "../CommentsContainer";
+import CommentsContainer from "../Comments/CommentsContainer";
 import Button from "../Button";
 
 import {
