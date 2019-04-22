@@ -55,7 +55,14 @@ const styles = {
 };
 
 const DishCard = props => {
-  const { classes, dish, addUserDishesIngredient, creator } = props;
+  const {
+    classes,
+    dish,
+    addUserDishesIngredient,
+    creator,
+    handleOpenComments,
+    handleDeleteUserDish
+  } = props;
   return (
     <div className={classes.main}>
       <Card className={classes.card} key={dish._id}>
@@ -88,11 +95,14 @@ const DishCard = props => {
           <Button size="small" color="primary">
             Share
           </Button>
+          <Button size="small" color="primary" onClick={handleOpenComments}>
+            Open
+          </Button>
           {creator ? (
             <Button
               size="small"
               color="primary"
-              onClick={props.handleDeleteUserDish(dish)}
+              onClick={handleDeleteUserDish(dish)}
             >
               Delete
             </Button>

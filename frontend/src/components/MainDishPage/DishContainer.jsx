@@ -3,6 +3,7 @@ import DishCard from "./DishCard";
 import DishForm from "./DishForm";
 import { connect } from "react-redux";
 import DishesList from "./DishesList";
+import CommentsContainer from "../CommentsContainer";
 import Button from "../Button";
 
 import {
@@ -16,6 +17,7 @@ class DishContainer extends Component {
   state = {
     openCard: false,
     openForm: false,
+    openComment: false,
     startIndex: 0,
     limit: 10,
     creator: false
@@ -64,9 +66,12 @@ class DishContainer extends Component {
   handleOpenForm = () => {
     this.setState({ openForm: !this.state.openForm });
   };
+  handleOpenComments = () => {
+    this.setState({ openComment: !this.state.openComment });
+  };
   render() {
     const { dishes, hasMore, addUserDishesIngredient, dish } = this.props;
-    const { openCard, openForm, creator } = this.state;
+    const { openCard, openForm, creator, openComment } = this.state;
     return (
       <Fragment>
         {openForm ? (
@@ -92,10 +97,12 @@ class DishContainer extends Component {
             dish={dish}
             handleDeleteUserDish={this.handleDeleteUserDish}
             addUserDishesIngredient={addUserDishesIngredient}
+            handleOpenComments={this.handleOpenComments}
           />
         ) : (
           ""
         )}
+        {openComment ? <CommentsContainer /> : ""}
       </Fragment>
     );
   }

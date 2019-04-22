@@ -5,6 +5,7 @@ const awsS3 = require("../utils/awsS3");
 const db = require("../models/index");
 const image = require("../utils/image");
 const validation = require("../utils/joiSchemas/index");
+
 const createDish = async (req, res, next) => {
   console.log(req.file, req.body);
   validation.dishSchema.validate(
@@ -15,7 +16,6 @@ const createDish = async (req, res, next) => {
       user_id: req.user.id
     },
     (err, value) => {
-      console.log(err);
       if (err) return next(boom.notFound(err.details[0].message));
     }
   );
