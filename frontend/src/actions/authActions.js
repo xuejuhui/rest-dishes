@@ -12,6 +12,7 @@ import apiClient from "../utils/api/apiClient";
 
 export { login, register, logout, loading, forgotPassword, resetPassword };
 
+// fix this handle error not dry
 function register(user) {
   return async dispatch => {
     try {
@@ -152,14 +153,17 @@ function resetPassword(password, token) {
         dispatch(loading());
       }
     } catch (err) {
-      const { payload } = err.response.data.output;
-      dispatch(
-        enqueueSnackbar({
-          message: payload.message,
-          options: { variant: "error" }
-        })
-      );
-      dispatch(loading());
+      if (err.response.data) {
+        const { payload } = err.response.data.output;
+
+        dispatch(
+          enqueueSnackbar({
+            message: payload.message,
+            options: { variant: "error" }
+          })
+        );
+        dispatch(loading());
+      }
     }
   };
 }

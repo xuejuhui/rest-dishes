@@ -2,7 +2,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const uuidv1 = require("uuid/v1");
 const boom = require("boom");
-// const Joi = require("joi");
 
 const validation = require("../utils/joiSchemas/index");
 const mailer = require("../utils/mailer");
@@ -10,6 +9,12 @@ const db = require("../models/index");
 const key = require("../config/key");
 
 const register = async (req, res, next) => {
+  validation.userSchema.validate(
+    { name: req.body.name, email: req.body.email, password: req.body.password },
+    (err, value) => {
+      if (err) return next(boom.notFound(err.details[0].message));
+    }
+  );
   const current = await db.User.findOne({ email: req.body.email });
   if (current) {
     return next(boom.unauthorized("Email already exist"));
@@ -19,9 +24,7 @@ const register = async (req, res, next) => {
     email: req.body.email,
     password: req.body.password
   });
-  validation.userSchema.validate(newUser, (err, value) => {
-    if (err) return next(boom.notFound(err.details[0].message));
-  });
+
   try {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(newUser.password, salt);

@@ -3,13 +3,25 @@ const boom = require("boom");
 
 const awsS3 = require("../utils/awsS3");
 const db = require("../models/index");
-
 const image = require("../utils/image");
-
-const createDish = async (req, res) => {
-  const file = req.file;
-  const imageName = `${uuid()}+${file.originalname}`;
+const validation = require("../utils/joiSchemas/index");
+const createDish = async (req, res, next) => {
+  console.log(req.file, req.body);
+  validation.dishSchema.validate(
+    {
+      image: req.file,
+      dishName: req.body.dishName,
+      description: req.body.description,
+      user_id: req.user.id
+    },
+    (err, value) => {
+      console.log(err);
+      if (err) return next(boom.notFound(err.details[0].message));
+    }
+  );
   try {
+    const file = req.file;
+    const imageName = `${uuid()}+${file.originalname}`;
     const resizedImage = await image.formatImage(file.buffer, 400, 400);
     const awsResponse = await awsS3.uploadToS3(
       { ...file, imageName: imageName, buffer: resizedImage },
