@@ -27,10 +27,15 @@ const dishReducer = (state = initialState, action) => {
         dishes: result
       };
     case ADD_USER_DISHES:
-      console.log(action.payload);
       return {
         ...state,
-        dishes: { ...state.dishes, [action.payload._id]: action.payload }
+        dishes: {
+          ...state.dishes,
+          [action.payload._id]: {
+            ...action.payload,
+            user_id: { _id: action.payload.user_id }
+          }
+        }
       };
     case DELETE_USER_DISHES:
       const id = action.payload.id;
@@ -50,9 +55,7 @@ const dishReducer = (state = initialState, action) => {
         hasMore: action.payload.length === 0 ? false : true
       };
     case ADD_USER_DISH_INGREDIENT:
-      console.log(action.payload);
       const dish = state.dishes[action.payload.dishId];
-      console.log(dish);
       return {
         ...state,
         dishes: {

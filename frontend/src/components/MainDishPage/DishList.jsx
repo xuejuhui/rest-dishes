@@ -22,7 +22,6 @@ const styles = theme => ({
 
 const DishList = props => {
   const { classes, dish, handleOpenCard } = props;
-
   return (
     <List className={classes.root}>
       <ListItem alignItems="flex-start" button onClick={handleOpenCard(dish)}>
