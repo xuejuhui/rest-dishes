@@ -24,11 +24,10 @@ const commentListStyles = theme => ({
 });
 
 const CommentsList = props => {
-  const { classes } = props;
-  console.log(props);
+  const { classes, comments } = props;
   return (
     <div className={classes.root}>
-      {props.comments.map(comment => {
+      {Object.values(comments).map(comment => {
         return (
           <List key={comment._id}>
             <ListItem>

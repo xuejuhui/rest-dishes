@@ -2,38 +2,36 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import CommentsList from "./CommentsList";
+import { getAllComments } from "../../actions/commentActions";
 
 class CommentsContainer extends Component {
-  state = { comments: [] };
+  state = {};
   componentDidMount() {
-    axios
-      .get(
-        ` http://localhost:5000/api/comments/${this.props.dish._id}/comments`
-      )
-      .then(x => this.setState({ comments: x.data }));
+    const { getAllComments, dish } = this.props;
+    getAllComments(dish);
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.dish._id !== prevProps.dish._id) {
-      axios
-        .get(
-          ` http://localhost:5000/api/comments/${this.props.dish._id}/comments`
-        )
-        .then(x => this.setState({ comments: x.data }));
+      const { getAllComments, dish } = this.props;
+      getAllComments(dish);
     }
   }
   render() {
-    const { dish, user } = this.props;
-    const { comments } = this.state;
+    const { dish, user, comments } = this.props;
     return <CommentsList dish={dish} comments={comments} />;
   }
 }
 const mapStateToProps = state => {
   return {
     dish: state.dish.dish,
-    user: state.auth.user
+    user: state.auth.user,
+    comments: state.comment.comments
   };
+};
+const mapDispatchToProps = {
+  getAllComments
 };
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(CommentsContainer);

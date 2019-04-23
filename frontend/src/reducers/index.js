@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import authReducer from "./authReducer";
 import alertReducer from "./alertReducer";
 import dishReducer from "./dishReducer";
+import commentReducer from "./commentReducer";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { USER_LOGOUT } from "../actions/types";
@@ -15,7 +16,8 @@ const persistConfig = {
 const appReducer = combineReducers({
   auth: authReducer,
   alert: alertReducer,
-  dish: dishReducer
+  dish: dishReducer,
+  comment: commentReducer
 });
 
 const rootReducer = (state, action) => {
