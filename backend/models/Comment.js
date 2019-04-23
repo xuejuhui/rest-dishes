@@ -11,6 +11,14 @@ const CommentSchema = new Schema({
     required: true
   },
   likes: [],
+  isDeleted: {
+    type: Boolean,
+    default: false
+  },
+  user_id: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  },
   date: {
     type: Date,
     default: Date.now

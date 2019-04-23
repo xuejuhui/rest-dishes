@@ -6,6 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
 const commentListStyles = theme => ({
   root: {
@@ -20,7 +21,8 @@ const commentListStyles = theme => ({
   },
   inline: {
     display: "inline"
-  }
+  },
+  addButton: {}
 });
 
 const CommentsList = props => {
@@ -54,7 +56,17 @@ const CommentsList = props => {
             </ListItem>
           </List>
         );
-      })}
+      })}{" "}
+      <Button
+        className={classes.addButton}
+        size="small"
+        color="primary"
+        onClick={() => {
+          alert("Im sleepy");
+        }}
+      >
+        Open
+      </Button>
     </div>
   );
 };
