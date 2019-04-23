@@ -6,7 +6,7 @@ import DishList from "./DishList";
 import Loading from "../Loading";
 
 const styles = theme => ({
-  main: { float: "left", width: "50vw", marginTop: 10 }
+  main: { float: "left", width: "30vw", marginTop: 10 }
 });
 const DishesList = props => {
   const { classes, dishes, handleMore, handleOpenCard, hasMore } = props;
