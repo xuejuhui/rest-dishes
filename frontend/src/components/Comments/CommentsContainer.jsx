@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
+
 import CommentsList from "./CommentsList";
 import { getAllComments } from "../../actions/commentActions";
 
@@ -18,7 +18,7 @@ class CommentsContainer extends Component {
   }
   render() {
     const { dish, user, comments } = this.props;
-    return <CommentsList dish={dish} comments={comments} />;
+    return <CommentsList dish={dish} user={user} comments={comments} />;
   }
 }
 const mapStateToProps = state => {
