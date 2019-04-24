@@ -1,4 +1,4 @@
-import { GET_ALL_COMMENTS } from "../actions/types";
+import { GET_ALL_COMMENTS, POST_COMMENT } from "../actions/types";
 
 const initialState = {
   comments: {}
@@ -14,6 +14,16 @@ const commentReducer = (state = initialState, action) => {
       return {
         ...state,
         comments: objComments
+      };
+    case POST_COMMENT:
+      console.log(action.payload);
+      console.log(state.comments);
+      return {
+        ...state,
+        comments: {
+          ...state.comments,
+          [action.payload._id]: action.payload
+        }
       };
     default:
       return state;

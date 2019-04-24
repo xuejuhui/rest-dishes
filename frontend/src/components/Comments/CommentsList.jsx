@@ -7,6 +7,9 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
 
 const commentListStyles = theme => ({
   root: {
@@ -26,7 +29,7 @@ const commentListStyles = theme => ({
 });
 
 const CommentsList = props => {
-  const { classes, comments } = props;
+  const { classes, comments, handleChange, handleSubmit } = props;
   return (
     <div className={classes.root}>
       {Object.values(comments).map(comment => {
@@ -61,12 +64,19 @@ const CommentsList = props => {
         className={classes.addButton}
         size="small"
         color="primary"
-        onClick={() => {
-          alert("Im sleepy");
-        }}
+        onClick={handleSubmit}
       >
         Open
       </Button>
+      <FormControl margin="normal" required fullWidth>
+        <InputLabel htmlFor="password">Message</InputLabel>
+        <Input
+          name="message"
+          type="text"
+          id="message"
+          onChange={handleChange}
+        />
+      </FormControl>
     </div>
   );
 };
