@@ -24,10 +24,14 @@ const commentListStyles = theme => ({
     top: "10%",
     bottom: 0
   },
-  inline: {
-    display: "inline"
+  date: {
+    display: "inline",
+    fontSize: "0.75rem"
   },
   addButton: {},
+  comment: {
+    fontSize: "1.15rem"
+  },
   inputFields: {},
   comments: {
     overflowY: "auto",
@@ -37,6 +41,7 @@ const commentListStyles = theme => ({
 
 const CommentsList = props => {
   const { classes, comments, handleChange, handleSubmit } = props;
+  console.log(comments);
   return (
     <div className={classes.root}>
       <div className={classes.comments}>
@@ -51,15 +56,16 @@ const CommentsList = props => {
                   />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={comment.date}
+                  classes={{ primary: classes.comment }}
+                  primary={comment.message}
                   secondary={
                     <React.Fragment>
                       <Typography
                         component="span"
-                        className={classes.inline}
+                        className={classes.date}
                         color="textPrimary"
                       >
-                        {comment.message}
+                        {comment.date}
                       </Typography>
                     </React.Fragment>
                   }

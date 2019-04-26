@@ -8,7 +8,7 @@ const commentReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_COMMENTS:
       const objComments = action.payload.reduce((acc, curr) => {
-        acc[curr._id] = curr;
+        acc[curr._id] = { ...curr, date: new Date(curr.date).toLocaleString() };
         return acc;
       }, {});
       return {
