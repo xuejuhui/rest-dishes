@@ -8,7 +8,7 @@ const getAllComments = async (req, res, next) => {
     const comments = await db.Comment.find(
       { dishId: req.params.id, isDeleted: false },
       { isDeleted: 0 }
-    );
+    ).sort({ date: -1 });
     res.json(comments);
   } catch (e) {
     return next(e);

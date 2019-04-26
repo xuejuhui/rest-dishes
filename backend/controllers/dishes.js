@@ -96,7 +96,8 @@ const getAllUserDishes = async (req, res) => {
         select: ["name", "location"]
       })
       .skip(offset)
-      .limit(limit);
+      .limit(limit)
+      .sort({ date: -1 });
     const dishesPromise = dishes.map(async dish => {
       const newDish = { ...dish._doc, url: [] };
       const url = await awsS3.getUrlFromS3(

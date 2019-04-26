@@ -16,13 +16,14 @@ const commentReducer = (state = initialState, action) => {
         comments: objComments
       };
     case POST_COMMENT:
-      console.log(action.payload);
-      console.log(state.comments);
       return {
         ...state,
         comments: {
-          ...state.comments,
-          [action.payload._id]: action.payload
+          [action.payload._id]: {
+            ...action.payload,
+            date: new Date(action.payload.date).toLocaleString()
+          },
+          ...state.comments
         }
       };
     default:

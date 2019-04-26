@@ -30,11 +30,11 @@ const dishReducer = (state = initialState, action) => {
       return {
         ...state,
         dishes: {
-          ...state.dishes,
           [action.payload._id]: {
             ...action.payload,
             user_id: { _id: action.payload.user_id }
-          }
+          },
+          ...state.dishes
         }
       };
     case DELETE_USER_DISHES:
