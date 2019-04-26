@@ -18,65 +18,76 @@ const commentListStyles = theme => ({
     backgroundColor: "transparent",
     right: "45%",
     position: "fixed",
+    display: "flex",
+    flexDirection: "column",
     marginTop: "10px",
     top: "10%",
-    overflow: "auto"
+    bottom: 0
   },
   inline: {
     display: "inline"
   },
-  addButton: {}
+  addButton: {},
+  inputFields: {},
+  comments: {
+    overflowY: "auto",
+    overflowX: "hidden"
+  }
 });
 
 const CommentsList = props => {
   const { classes, comments, handleChange, handleSubmit } = props;
   return (
     <div className={classes.root}>
-      {Object.values(comments).map(comment => {
-        return (
-          <List key={comment._id}>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://media.tenor.com/images/d2a66d5463d62d8bdc190e0133783a92/tenor.gif"
+      <div className={classes.comments}>
+        {Object.values(comments).map(comment => {
+          return (
+            <List key={comment._id}>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src="https://media.tenor.com/images/d2a66d5463d62d8bdc190e0133783a92/tenor.gif"
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={comment.date}
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        component="span"
+                        className={classes.inline}
+                        color="textPrimary"
+                      >
+                        {comment.message}
+                      </Typography>
+                    </React.Fragment>
+                  }
                 />
-              </ListItemAvatar>
-              <ListItemText
-                primary={comment.date}
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      component="span"
-                      className={classes.inline}
-                      color="textPrimary"
-                    >
-                      {comment.message}
-                    </Typography>
-                  </React.Fragment>
-                }
-              />
-            </ListItem>
-          </List>
-        );
-      })}{" "}
-      <Button
-        className={classes.addButton}
-        size="small"
-        color="primary"
-        onClick={handleSubmit}
-      >
-        Open
-      </Button>
-      <FormControl margin="normal" required fullWidth>
-        <InputLabel htmlFor="password">Message</InputLabel>
-        <Input
-          name="message"
-          type="text"
-          id="message"
-          onChange={handleChange}
-        />
-      </FormControl>
+              </ListItem>
+            </List>
+          );
+        })}
+      </div>
+      <div className={classes.inputFields}>
+        <FormControl margin="normal" required fullWidth>
+          <InputLabel htmlFor="password">Message</InputLabel>
+          <Input
+            name="message"
+            type="text"
+            id="message"
+            onChange={handleChange}
+          />
+        </FormControl>
+        <Button
+          className={classes.addButton}
+          size="small"
+          color="primary"
+          onClick={handleSubmit}
+        >
+          Open
+        </Button>
+      </div>
     </div>
   );
 };

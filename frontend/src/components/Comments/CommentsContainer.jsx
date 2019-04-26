@@ -21,7 +21,6 @@ class CommentsContainer extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    const { message } = this.state;
     this.props.postComment({ ...this.state, dishId: this.props.dish._id });
   };
   render() {
