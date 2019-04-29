@@ -31,9 +31,4 @@ app.use("/api/comments", comments);
 app.use(errorHandlers.clientSideHandler);
 app.use(errorHandlers.serverSideHandler);
 
-const port = process.env.PORT || 5000;
-
-const server = app.listen(port, () => {
-  console.log(`app listen on port ${port}`);
-});
-module.exports = server;
+module.exports = app;
