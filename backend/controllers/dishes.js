@@ -6,7 +6,7 @@ const db = require("../models/index");
 const image = require("../utils/image");
 const validation = require("../utils/joiSchemas/index");
 
-const createDish = async (req, res, next) => {
+const createDish = (req, res, next) => {
   validation.dishSchema.validate(
     {
       image: req.file,
@@ -14,33 +14,33 @@ const createDish = async (req, res, next) => {
       description: req.body.description,
       user_id: req.user.id
     },
-    (err, value) => {
+    async (err, value) => {
       if (err) return next(boom.notFound(err.details[0].message));
+      try {
+        const file = req.file;
+        const imageName = `${uuid()}+${file.originalname}`;
+        const resizedImage = await image.formatImage(file.buffer, 400, 400);
+        const awsResponse = await awsS3.uploadToS3(
+          { ...file, imageName: imageName, buffer: resizedImage },
+          "dishes-photos-bucket"
+        );
+        const url = await awsS3.getUrlFromS3(imageName, "dishes-photos-bucket");
+        const user = await db.User.findOne({ _id: req.user.id });
+        const newDish = new db.Dish({
+          dishName: req.body.dishName,
+          description: req.body.description,
+          user_id: req.user.id
+        });
+        newDish.image.push(imageName);
+        const dishResponse = await newDish.save();
+        user.dishes.push(dishResponse._id);
+        await user.save();
+        res.json({ ...dishResponse._doc, url: [url] });
+      } catch (error) {
+        console.log(error);
+      }
     }
   );
-  try {
-    const file = req.file;
-    const imageName = `${uuid()}+${file.originalname}`;
-    const resizedImage = await image.formatImage(file.buffer, 400, 400);
-    const awsResponse = await awsS3.uploadToS3(
-      { ...file, imageName: imageName, buffer: resizedImage },
-      "dishes-photos-bucket"
-    );
-    const url = await awsS3.getUrlFromS3(imageName, "dishes-photos-bucket");
-    const user = await db.User.findOne({ _id: req.user.id });
-    const newDish = new db.Dish({
-      dishName: req.body.dishName,
-      description: req.body.description,
-      user_id: req.user.id
-    });
-    newDish.image.push(imageName);
-    const dishResponse = await newDish.save();
-    user.dishes.push(dishResponse._id);
-    await user.save();
-    res.json({ ...dishResponse._doc, url: [url] });
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 const getUserDishes = async (req, res) => {

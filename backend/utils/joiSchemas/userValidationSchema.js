@@ -6,8 +6,7 @@ const userSchema = Joi.object().keys({
     .required(),
   userName: Joi.string()
     .alphanum()
-    .min(3)
-    .required(),
+    .min(3),
   password: Joi.string()
     .required()
     .min(3)

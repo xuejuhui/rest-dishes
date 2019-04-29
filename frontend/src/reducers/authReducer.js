@@ -5,7 +5,6 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  token: localStorage.getItem("jwt"),
   login: false,
   user: {},
   loading: false

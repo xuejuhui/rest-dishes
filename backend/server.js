@@ -19,6 +19,9 @@ app.use(passport.initialize());
 require("./passport")(passport);
 
 // Routes
+app.get("/", (req, res) => {
+  res.send("Page Ok");
+});
 app.use("/api/users", users);
 app.use("/api/dishes", dishes);
 app.use("/api/comments", comments);
@@ -30,6 +33,7 @@ app.use(errorHandlers.serverSideHandler);
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`app listen on port ${port}`);
 });
+module.exports = server;

@@ -8,37 +8,37 @@ const mailer = require("../utils/mailer");
 const db = require("../models/index");
 const key = require("../config/key");
 
-const register = async (req, res, next) => {
+const register = (req, res, next) => {
   validation.userSchema.validate(
-    { name: req.body.name, email: req.body.email, password: req.body.password },
-    (err, value) => {
+    { email: req.body.email, password: req.body.password },
+    async (err, value) => {
       if (err) return next(boom.notFound(err.details[0].message));
+      // todo return this function the outer scope will continue to run
+      try {
+        const current = await db.User.findOne({ email: req.body.email });
+        if (current) {
+          return next(boom.unauthorized("Email already exist"));
+        }
+        const newUser = new db.User({
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password
+        });
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(newUser.password, salt);
+        newUser.password = hash;
+        const userResponse = await newUser.save();
+        const user = { id: userResponse._id, name: userResponse.name };
+        const token = await jwt.sign(user, key.secretOrKey, {
+          expiresIn: 31556926
+        });
+        userResponse._doc.token = token;
+        res.json(userResponse);
+      } catch (err) {
+        console.log(err);
+      }
     }
   );
-  const current = await db.User.findOne({ email: req.body.email });
-  if (current) {
-    return next(boom.unauthorized("Email already exist"));
-  }
-  const newUser = new db.User({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password
-  });
-
-  try {
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(newUser.password, salt);
-    newUser.password = hash;
-    const userResponse = await newUser.save();
-    const user = { id: userResponse._id, name: userResponse.name };
-    const token = await jwt.sign(user, key.secretOrKey, {
-      expiresIn: 31556926
-    });
-    userResponse._doc.token = token;
-    res.json(userResponse);
-  } catch (err) {
-    console.log(err);
-  }
 };
 
 const login = async (req, res, next) => {

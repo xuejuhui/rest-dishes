@@ -7,7 +7,8 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "cd ../frontend && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "mocha -w"
   },
   "keywords": [],
   "author": "",
@@ -30,7 +31,10 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "concurrently": "^4.1.0",
-    "eslint": "^5.16.0"
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4"
   }
 }
