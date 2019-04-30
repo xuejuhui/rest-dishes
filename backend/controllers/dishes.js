@@ -6,7 +6,15 @@ const db = require("../models/index");
 const image = require("../utils/image");
 const validation = require("../utils/joiSchemas/index");
 
+/* createDish Route "/userdishes"
+  params :
+  dishName:String
+  description:String
+  user_id:ObjectId From MongoDB
+  image:buffer
+*/
 const createDish = (req, res, next) => {
+  // Validate req
   validation.dishSchema.validate(
     {
       image: req.file,
@@ -21,7 +29,7 @@ const createDish = (req, res, next) => {
         const imageName = `${uuid()}+${file.originalname}`;
         const resizedImage = await image.formatImage(file.buffer, 400, 400);
         const awsResponse = await awsS3.uploadToS3(
-          { ...file, imageName: imageName, buffer: resizedImage },
+          { ...file, imageName, buffer: resizedImage },
           "dishes-photos-bucket"
         );
         const url = await awsS3.getUrlFromS3(imageName, "dishes-photos-bucket");
