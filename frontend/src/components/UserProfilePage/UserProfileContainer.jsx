@@ -1,36 +1,32 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
+import { getUserDishes } from "../../actions/dishActions";
 
 class UserProfileContianer extends Component {
   componentDidMount() {
-    console.log("hi");
-    axios.defaults.headers.common["Authorization"] = `${localStorage.getItem(
-      "jwt"
-    )}`;
-    console.log(axios.defaults);
-    axios
-      .get("http://localhost:5000/api/dishes/userdishes")
-      .then(x => console.log(x.data))
-      .catch(err => console.log(err));
+    this.props.getUserDishes();
   }
   render() {
-    console.log(this.props);
+    const { userDishes } = this.props;
     return (
       <div>
-        <h1>Im the boss</h1>
+        {Object.values(userDishes).map(x => (
+          <h1 key={x._id}>{x.dishName}</h1>
+        ))}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
-    user: state.auth.user
+    user: state.auth.user,
+    userDishes: state.dish.userDishes
   };
 };
+
+const mapDispatchToProps = { getUserDishes };
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(UserProfileContianer);

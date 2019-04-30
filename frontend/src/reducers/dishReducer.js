@@ -11,20 +11,21 @@ const initialState = {
   userName: null,
   dishes: {},
   hasMore: true,
-  dish: {}
+  dish: {},
+  userDishes: {}
 };
 
 const dishReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_USER_DISHES:
-      const result = action.payload.dishes.reduce((acc, dish) => {
+      const result = action.payload.reduce((acc, dish) => {
         acc[dish._id] = dish;
         return acc;
       }, {});
       return {
         ...state,
         userName: action.payload.name,
-        dishes: result
+        userDishes: result
       };
     case ADD_USER_DISHES:
       return {

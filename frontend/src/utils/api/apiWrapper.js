@@ -18,7 +18,6 @@ const apiRequest = ({ url, ...apiOptions }, dispatchType, message = "") => {
         })
       );
     } catch (e) {
-      console.log(e);
       if (e.response.data.output) {
         const { message = "Help" } = e.response.data.output.payload;
         dispatch(

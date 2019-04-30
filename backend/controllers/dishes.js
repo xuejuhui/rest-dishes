@@ -45,13 +45,23 @@ const createDish = (req, res, next) => {
 
 const getUserDishes = async (req, res) => {
   try {
-    const userDish = await db.User.findOne(
+    const userDishes = await db.User.findOne(
       { _id: req.user._id },
       { password: 0, resetPasswordExpires: 0, resetPasswordToken: 0 }
     )
       .populate({ path: "dishes", match: { isDeleted: false } })
       .exec();
-    res.json(userDish);
+    const dishesPromise = userDishes["dishes"].map(async dish => {
+      const newDish = { ...dish._doc, url: [] };
+      const url = await awsS3.getUrlFromS3(
+        dish.image[0],
+        "dishes-photos-bucket"
+      );
+      newDish.url.push(url);
+      return newDish;
+    });
+    let dishesWithImage = await Promise.all(dishesPromise);
+    res.json(dishesWithImage);
   } catch (error) {
     console.log(error);
   }

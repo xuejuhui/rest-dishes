@@ -10,7 +10,7 @@ options.secretOrKey = key.secretOrKey;
 const passStrag = passport => {
   passport.use(
     new JwtStrategy(options, (jwtPayload, done) => {
-      db.User.findById(jwtPayload.id)
+      db.User.findById(jwtPayload.id, { dishes: 0, password: 0 })
         .then(user => {
           if (user) return done(null, user);
           return done(null, false);

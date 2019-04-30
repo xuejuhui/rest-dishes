@@ -16,7 +16,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 require("./passport")(passport);
 // Routes
 app.get("/", (req, res) => {
