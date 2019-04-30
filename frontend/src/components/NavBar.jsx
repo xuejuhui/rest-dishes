@@ -24,7 +24,7 @@ const styles = {
 
 function NavBar(props) {
   // props.register({name:"ray",email:"ray@ray.com",password:123})
-  const { classes, logout, isLogin } = props;
+  const { classes, logout, isLogin, user } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -47,6 +47,14 @@ function NavBar(props) {
                   style={{ textDecoration: "none", color: "white" }}
                 >
                   Secret
+                </Link>
+              </Button>
+              <Button color="inherit">
+                <Link
+                  to={`/user-profile/${user.id}`}
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  Profile
                 </Link>
               </Button>
               <Button color="inherit" onClick={() => logout()}>

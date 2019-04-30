@@ -55,7 +55,7 @@ const login = async (req, res, next) => {
       });
       res.json({
         success: true,
-        token: "Bearer" + token
+        token: "Bearer " + token
       });
     } catch (error) {
       console.log(error);

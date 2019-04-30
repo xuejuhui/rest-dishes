@@ -12,7 +12,7 @@ const createDish = (req, res, next) => {
       image: req.file,
       dishName: req.body.dishName,
       description: req.body.description,
-      user_id: req.user.id
+      user_id: req.user._id
     },
     async (err, value) => {
       if (err) return next(boom.notFound(err.details[0].message));
@@ -25,11 +25,11 @@ const createDish = (req, res, next) => {
           "dishes-photos-bucket"
         );
         const url = await awsS3.getUrlFromS3(imageName, "dishes-photos-bucket");
-        const user = await db.User.findOne({ _id: req.user.id });
+        const user = await db.User.findOne({ _id: req.user._id });
         const newDish = new db.Dish({
           dishName: req.body.dishName,
           description: req.body.description,
-          user_id: req.user.id
+          user_id: req.user._id
         });
         newDish.image.push(imageName);
         const dishResponse = await newDish.save();
@@ -46,7 +46,7 @@ const createDish = (req, res, next) => {
 const getUserDishes = async (req, res) => {
   try {
     const userDish = await db.User.findOne(
-      { _id: req.user.id },
+      { _id: req.user._id },
       { password: 0, resetPasswordExpires: 0, resetPasswordToken: 0 }
     )
       .populate({ path: "dishes", match: { isDeleted: false } })
@@ -60,7 +60,7 @@ const getUserDishes = async (req, res) => {
 const deleteUserDish = async (req, res, next) => {
   try {
     const dish = await db.Dish.findOne({ _id: req.body.id });
-    if (dish.user_id._id == req.user.id) {
+    if (dish.user_id._id == req.user._id) {
       const updateResponse = await db.Dish.updateOne(
         { _id: req.body.id },
         {
@@ -84,7 +84,6 @@ const deleteUserDish = async (req, res, next) => {
 const getAllUserDishes = async (req, res) => {
   const limit = Number(req.query.limit);
   const offset = Number(req.query.offset);
-
   try {
     const dishes = await db.Dish.find({ isDeleted: false }, { isDeleted: 0 })
       .populate({
@@ -134,7 +133,7 @@ const getDish = async (req, res) => {
 const createIngredient = async (req, res, next) => {
   try {
     const dish = await db.Dish.findOne({ _id: req.body.dishId });
-    if (dish.user_id._id == req.user.id) {
+    if (dish.user_id._id == req.user._id) {
       const newIngredient = new db.Ingredient({
         name: req.body.ingredientName,
         location: req.body.ingredientLocation

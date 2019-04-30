@@ -6,26 +6,26 @@ const dishController = require("../../controllers/dishes");
 
 router.post(
   "/userdishes",
-  jwtTokenMethods.verifyToken,
+  // jwtTokenMethods.verifyToken,
   multer.uploadFile.single("dishPhoto"),
   dishController.createDish
 );
 
 router.get(
   "/userdishes",
-  jwtTokenMethods.verifyToken,
+  // jwtTokenMethods.verifyToken,
   dishController.getUserDishes
 );
 
 router.delete(
   "/userdishes",
-  jwtTokenMethods.verifyToken,
+  // jwtTokenMethods.verifyToken,
   dishController.deleteUserDish
 );
 
 router.get(
   "/alldishes",
-  jwtTokenMethods.verifyToken,
+  // jwtTokenMethods.verifyToken,
   dishController.getAllUserDishes
 );
 
@@ -34,7 +34,7 @@ router.get("/dish/:id", jwtTokenMethods.verifyToken, dishController.getDish);
 
 router.post(
   "/dish/ingredient",
-  jwtTokenMethods.verifyToken,
+  // jwtTokenMethods.verifyToken,
   dishController.createIngredient
 );
 

@@ -18,11 +18,19 @@ const apiRequest = ({ url, ...apiOptions }, dispatchType, message = "") => {
         })
       );
     } catch (e) {
-      if (e.response) {
+      console.log(e);
+      if (e.response.data.output) {
         const { message = "Help" } = e.response.data.output.payload;
         dispatch(
           enqueueSnackbar({
             message: `${message}`,
+            options: { variant: "error" }
+          })
+        );
+      } else {
+        dispatch(
+          enqueueSnackbar({
+            message: `${e.response.data}`,
             options: { variant: "error" }
           })
         );

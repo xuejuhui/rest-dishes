@@ -50,7 +50,7 @@ const deleteUserComment = async (req, res, next) => {
   // );
   try {
     const comment = await db.Comment.findOne({ _id: req.body.id });
-    if (comment.user_id._id == req.user.id) {
+    if (comment.user_id._id == req.user._id) {
       const updateResponse = await db.Comment.updateOne(
         { _id: comment._id },
         {
