@@ -116,7 +116,7 @@ const getAllUserDishes = async (req, res) => {
       .limit(limit)
       .sort({ date: -1 });
     const dishesPromise = dishes.map(async dish => {
-      const newDish = { ...dish._doc, url: [], rating: 0 };
+      const newDish = { ...dish._doc, url: [], rating: [] };
       const url = await awsS3.getUrlFromS3(
         dish.image[0],
         "dishes-photos-bucket"
@@ -124,7 +124,8 @@ const getAllUserDishes = async (req, res) => {
       const rating = await db.Rating.find({ dishId: dish._id });
       let averageRating =
         rating.reduce((acc, curr) => curr.rating + acc, 0) / rating.length;
-      newDish.rating = averageRating ? averageRating : 0;
+      // newDish.rating = averageRating ? averageRating : 0;
+      newDish.rating = rating;
       newDish.url.push(url);
       return newDish;
     });

@@ -77,7 +77,7 @@ const DishCard = props => {
           image={dish.url[0]}
           title="Contemplative Reptile"
         />
-        {dish.rating.filter(e => e.user_id == user.id).length > 0 ? (
+        {dish.rating.filter(e => e.user_id === user.id).length > 0 ? (
           <Rating initialRating={dish.avgRating} readonly />
         ) : (
           <Rating initialRating={dish.avgRating} />
