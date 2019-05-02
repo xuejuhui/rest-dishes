@@ -116,11 +116,15 @@ const getAllUserDishes = async (req, res) => {
       .limit(limit)
       .sort({ date: -1 });
     const dishesPromise = dishes.map(async dish => {
-      const newDish = { ...dish._doc, url: [] };
+      const newDish = { ...dish._doc, url: [], rating: 0 };
       const url = await awsS3.getUrlFromS3(
         dish.image[0],
         "dishes-photos-bucket"
       );
+      const rating = await db.Rating.find({ dishId: dish._id });
+      let averageRating =
+        rating.reduce((acc, curr) => curr.rating + acc, 0) / rating.length;
+      newDish.rating = averageRating ? averageRating : 0;
       newDish.url.push(url);
       return newDish;
     });
@@ -170,11 +174,27 @@ const createIngredient = async (req, res, next) => {
   }
 };
 
+const submitRating = async (req, res) => {
+  const { dish, rating } = req.body;
+  try {
+    const newRating = new db.Rating({
+      dishId: dish._id,
+      user_id: req.user._id,
+      rating
+    });
+    const ratingResponse = await newRating.save();
+    res.json(ratingResponse);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   createDish,
   getUserDishes,
   deleteUserDish,
   getAllUserDishes,
   getDish,
-  createIngredient
+  createIngredient,
+  submitRating
 };

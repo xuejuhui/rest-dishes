@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import DishesList from "./DishesList";
 import CommentsContainer from "../Comments/CommentsContainer";
 import Button from "../Button";
+import axios from "axios";
 
 import {
   deleteUserDish,
@@ -69,6 +70,18 @@ class DishContainer extends Component {
   handleOpenComments = () => {
     this.setState({ openComment: !this.state.openComment });
   };
+
+  hanldleSubmitRating = dish => e => {
+    console.log(e.target.value);
+    console.log(dish);
+    axios
+      .post("http://localhost:5000/api/dishes/dish-rating", {
+        dish,
+        rating: e.target.value
+      })
+      .then(x => console.log(x))
+      .catch(err => console.log(err));
+  };
   render() {
     const { dishes, hasMore, addUserDishesIngredient, dish } = this.props;
     const { openCard, openForm, creator, openComment } = this.state;
@@ -98,6 +111,7 @@ class DishContainer extends Component {
             handleDeleteUserDish={this.handleDeleteUserDish}
             addUserDishesIngredient={addUserDishesIngredient}
             handleOpenComments={this.handleOpenComments}
+            hanldleSubmitRating={this.hanldleSubmitRating}
           />
         ) : (
           ""
@@ -109,6 +123,7 @@ class DishContainer extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log(state.dish.dishes);
   return {
     dish: state.dish.dish,
     hasMore: state.dish.hasMore,

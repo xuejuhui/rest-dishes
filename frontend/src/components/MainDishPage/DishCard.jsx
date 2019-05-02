@@ -61,12 +61,14 @@ const DishCard = props => {
     addUserDishesIngredient,
     creator,
     handleOpenComments,
-    handleDeleteUserDish
+    handleDeleteUserDish,
+    hanldleSubmitRating
   } = props;
   return (
     <div className={classes.main}>
       <Card className={classes.card} key={dish._id}>
         <CardActionArea>
+          <input type="text" onClick={hanldleSubmitRating(dish)} />
           <CardMedia
             component="img"
             alt="Dish photo"

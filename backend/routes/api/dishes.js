@@ -11,6 +11,12 @@ router.post(
   dishController.createDish
 );
 
+router.post(
+  "/dish-rating",
+  // jwtTokenMethods.verifyToken,
+  dishController.submitRating
+);
+
 router.get(
   "/userdishes",
   // jwtTokenMethods.verifyToken,
