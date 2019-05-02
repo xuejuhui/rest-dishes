@@ -47,12 +47,18 @@ const dishReducer = (state = initialState, action) => {
       };
     case GET_ALL_DISHES:
       const allDishesResponse = action.payload.reduce((acc, dish) => {
-        acc[dish._id] = dish;
+        let format = {
+          ...dish,
+          avgRating:
+            dish.rating.reduce((acc, curr) => curr.rating + acc, 0) /
+            dish.rating.length
+        };
+        acc[dish._id] = format;
         return acc;
       }, {});
       return {
         ...state,
-        dishes: { ...state.dishes, ...allDishesResponse },
+        dishes: { ...allDishesResponse, ...state.dishes },
         hasMore: action.payload.length === 0 ? false : true
       };
     case ADD_USER_DISH_INGREDIENT:

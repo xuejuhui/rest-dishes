@@ -83,7 +83,7 @@ class DishContainer extends Component {
       .catch(err => console.log(err));
   };
   render() {
-    const { dishes, hasMore, addUserDishesIngredient, dish } = this.props;
+    const { dishes, hasMore, addUserDishesIngredient, dish, user } = this.props;
     const { openCard, openForm, creator, openComment } = this.state;
     return (
       <Fragment>
@@ -106,6 +106,7 @@ class DishContainer extends Component {
         />
         {openCard ? (
           <DishCard
+            user={user}
             creator={creator}
             dish={dish}
             handleDeleteUserDish={this.handleDeleteUserDish}
