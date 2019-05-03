@@ -18,19 +18,26 @@ const apiRequest = ({ url, ...apiOptions }, dispatchType, message = "") => {
         })
       );
     } catch (e) {
-      console.log(e);
-      if (e.response.data.output) {
-        const { message = "Help" } = e.response.data.output.payload;
+      if (!e.response) {
+        return dispatch(
+          enqueueSnackbar({
+            message: `${e}`,
+            options: { variant: "error" }
+          })
+        );
+      }
+      if (!e.response.data.output) {
         dispatch(
           enqueueSnackbar({
-            message: `${message}`,
+            message: `${e.response.data}`,
             options: { variant: "error" }
           })
         );
       } else {
+        const { message = "Help" } = e.response.data.output.payload;
         dispatch(
           enqueueSnackbar({
-            message: `${e.response.data}`,
+            message: `${message}`,
             options: { variant: "error" }
           })
         );

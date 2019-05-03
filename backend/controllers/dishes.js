@@ -5,6 +5,7 @@ const awsS3 = require("../utils/awsS3");
 const db = require("../models/index");
 const image = require("../utils/image");
 const validation = require("../utils/joiSchemas/index");
+const { compareObjectId } = require("../utils/utils");
 
 /* createDish Route "/userdishes"
   params :
@@ -76,9 +77,10 @@ const getUserDishes = async (req, res) => {
 };
 
 const deleteUserDish = async (req, res, next) => {
+  console.log(compareObjectId);
   try {
     const dish = await db.Dish.findOne({ _id: req.body.id });
-    if (dish.user_id._id == req.user._id) {
+    if (compareObjectId(dish.user_id._id, req.user._id)) {
       const updateResponse = await db.Dish.updateOne(
         { _id: req.body.id },
         {
@@ -156,7 +158,7 @@ const getDish = async (req, res) => {
 const createIngredient = async (req, res, next) => {
   try {
     const dish = await db.Dish.findOne({ _id: req.body.dishId });
-    if (dish.user_id._id == req.user._id) {
+    if (compareObjectId(dish.user_id._id, req.user._id)) {
       const newIngredient = new db.Ingredient({
         name: req.body.ingredientName,
         location: req.body.ingredientLocation

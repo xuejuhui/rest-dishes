@@ -15,7 +15,7 @@ const initialState = {
   dish: {},
   userDishes: {}
 };
-
+// todo Need to fix this reducer, very messy maybe need to fix backend to response with better dataset
 const dishReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_USER_DISHES:
@@ -83,15 +83,19 @@ const dishReducer = (state = initialState, action) => {
         ...state,
         dish: {
           ...state.dishes[action.payload],
-          avgRating:
-            state.dishes[action.payload].rating.reduce(
-              (acc, curr) => curr.rating + acc,
-              0
-            ) / state.dishes[action.payload].rating.length
+          rating: state.dishes[action.payload].rating
+            ? state.dishes[action.payload].rating
+            : [],
+          avgRating: state.dishes[action.payload].rating
+            ? state.dishes[action.payload].rating.reduce(
+                (acc, curr) => curr.rating + acc,
+                0
+              ) / state.dishes[action.payload].rating.length
+            : 0
         }
       };
     case SUBMIT_RATING:
-      const dishRating = state.dishes[action.payload.dishId];
+      const dishRating = { ...state.dishes[action.payload.dishId] };
       return {
         ...state,
         dishes: {

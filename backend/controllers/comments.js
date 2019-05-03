@@ -2,6 +2,7 @@ const boom = require("boom");
 
 const db = require("../models/index");
 const validation = require("../utils/joiSchemas/index");
+const { compareObjectId } = require("../utils/utils");
 
 const getAllComments = async (req, res, next) => {
   try {
@@ -50,7 +51,7 @@ const deleteUserComment = async (req, res, next) => {
   // );
   try {
     const comment = await db.Comment.findOne({ _id: req.body.id });
-    if (comment.user_id._id == req.user._id) {
+    if (compareObjectId(comment.user_id._id, req.user._id)) {
       const updateResponse = await db.Comment.updateOne(
         { _id: comment._id },
         {

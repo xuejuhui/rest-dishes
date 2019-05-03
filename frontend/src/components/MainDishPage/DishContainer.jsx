@@ -116,6 +116,7 @@ class DishContainer extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log(state.dish.dish);
   return {
     dish: state.dish.dish,
     hasMore: state.dish.hasMore,
