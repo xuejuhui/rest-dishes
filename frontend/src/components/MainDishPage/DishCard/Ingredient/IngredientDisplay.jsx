@@ -15,7 +15,7 @@ const ingredientStyles = {
   }
 };
 
-const Ingredient = props => {
+const IngredientDisplay = props => {
   const { classes, ingredient } = props;
   return (
     <div className={classes.ingredient}>
@@ -24,4 +24,4 @@ const Ingredient = props => {
   );
 };
 
-export default withStyles(ingredientStyles)(Ingredient);
+export default withStyles(ingredientStyles)(IngredientDisplay);

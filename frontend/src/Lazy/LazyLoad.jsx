@@ -27,11 +27,17 @@ const ForgotPassword = Loadable({
   loading: Loading
 });
 
+const UserProfileContainer = Loadable({
+  loader: () => import("../components/UserProfilePage/UserProfileContainer"),
+  loading: Loading
+});
+
 export {
   LandingPage,
   DishContainer,
   Login,
   Register,
   ResetPassword,
-  ForgotPassword
+  ForgotPassword,
+  UserProfileContainer
 };

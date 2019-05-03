@@ -16,6 +16,9 @@ class CommentsContainer extends Component {
       getAllComments(dish);
     }
   }
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.message === this.state.message;
+  }
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };

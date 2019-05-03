@@ -4,7 +4,8 @@ import {
   DELETE_USER_DISHES,
   GET_ALL_DISHES,
   ADD_USER_DISH_INGREDIENT,
-  GET_DISH
+  GET_DISH,
+  SUBMIT_RATING
 } from "../actions/types";
 import { apiRequest } from "../utils/api/apiWrapper";
 export {
@@ -13,7 +14,8 @@ export {
   deleteUserDish,
   getAllDishes,
   addUserDishesIngredient,
-  getDish
+  getDish,
+  submitRating
 };
 
 function getUserDishes() {
@@ -94,6 +96,22 @@ function getAllDishes(offset, limit) {
         },
         GET_ALL_DISHES,
         "Loaded More"
+      )
+    );
+  };
+}
+
+function submitRating(rate, dish) {
+  return async dispatch => {
+    dispatch(
+      apiRequest(
+        {
+          url: `/api/dishes/dish-rating`,
+          method: "POST",
+          data: { rating: rate, dish }
+        },
+        SUBMIT_RATING,
+        "Reviwed"
       )
     );
   };

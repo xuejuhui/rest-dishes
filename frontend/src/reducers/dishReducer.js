@@ -4,7 +4,8 @@ import {
   DELETE_USER_DISHES,
   GET_ALL_DISHES,
   ADD_USER_DISH_INGREDIENT,
-  GET_DISH
+  GET_DISH,
+  SUBMIT_RATING
 } from "../actions/types";
 
 const initialState = {
@@ -78,7 +79,43 @@ const dishReducer = (state = initialState, action) => {
         }
       };
     case GET_DISH:
-      return { ...state, dish: state.dishes[action.payload] };
+      return {
+        ...state,
+        dish: {
+          ...state.dishes[action.payload],
+          avgRating:
+            state.dishes[action.payload].rating.reduce(
+              (acc, curr) => curr.rating + acc,
+              0
+            ) / state.dishes[action.payload].rating.length
+        }
+      };
+    case SUBMIT_RATING:
+      const dishRating = state.dishes[action.payload.dishId];
+      return {
+        ...state,
+        dishes: {
+          ...state.dishes,
+          [action.payload.dishId]: {
+            ...dishRating,
+            rating: [...dishRating.rating, action.payload],
+            avgRating:
+              [...dishRating.rating, action.payload].reduce(
+                (acc, curr) => curr.rating + acc,
+                0
+              ) / [...dishRating.rating, action.payload].length
+          }
+        },
+        dish: {
+          ...dishRating,
+          rating: [...dishRating.rating, action.payload],
+          avgRating:
+            [...dishRating.rating, action.payload].reduce(
+              (acc, curr) => curr.rating + acc,
+              0
+            ) / [...dishRating.rating, action.payload].length
+        }
+      };
     default:
       return state;
   }

@@ -13,7 +13,7 @@ class UserProfileContianer extends Component {
         {Object.values(userDishes).map(x => (
           <div key={x._id}>
             <h1>{x.dishName}</h1>
-            <img src={x.url} />
+            <img src={x.url} alt={x.dishName} />
           </div>
         ))}
       </div>

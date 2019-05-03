@@ -1,17 +1,17 @@
 import React, { Component, Fragment } from "react";
-import DishCard from "./DishCard";
+import DishCard from "./DishCard/DishCard";
 import DishForm from "./DishForm";
 import { connect } from "react-redux";
-import DishesList from "./DishesList";
+import DishesList from "./DishesList/DishesList.jsx";
 import CommentsContainer from "../Comments/CommentsContainer";
 import Button from "../Button";
-import axios from "axios";
 
 import {
   deleteUserDish,
   getAllDishes,
   addUserDishesIngredient,
-  getDish
+  getDish,
+  submitRating
 } from "../../actions/dishActions";
 
 class DishContainer extends Component {
@@ -71,16 +71,8 @@ class DishContainer extends Component {
     this.setState({ openComment: !this.state.openComment });
   };
 
-  hanldleSubmitRating = dish => e => {
-    console.log(e.target.value);
-    console.log(dish);
-    axios
-      .post("http://localhost:5000/api/dishes/dish-rating", {
-        dish,
-        rating: e.target.value
-      })
-      .then(x => console.log(x))
-      .catch(err => console.log(err));
+  hanldleSubmitRating = dish => rate => {
+    this.props.submitRating(rate, dish);
   };
   render() {
     const { dishes, hasMore, addUserDishesIngredient, dish, user } = this.props;
@@ -124,7 +116,6 @@ class DishContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state.dish.dishes);
   return {
     dish: state.dish.dish,
     hasMore: state.dish.hasMore,
@@ -137,7 +128,8 @@ const mapDispatchToProps = {
   deleteUserDish,
   getAllDishes,
   addUserDishesIngredient,
-  getDish
+  getDish,
+  submitRating
 };
 
 export default connect(

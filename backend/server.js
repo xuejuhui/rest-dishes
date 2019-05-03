@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 app.use("/api/users", auth);
 app.use(
   "/api/dishes",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   dishes
 );
 app.use(

@@ -7,14 +7,14 @@ import { connect } from "react-redux";
 import Authenticated from "./components/Authenticated";
 import { SnackbarProvider } from "notistack";
 import AlertMessage from "./components/AlertMessage/AlertMessage";
-import UserProfileContainer from "./components/UserProfilePage/UserProfileContainer";
 import {
   LandingPage,
   DishContainer,
   Login,
   Register,
   ResetPassword,
-  ForgotPassword
+  ForgotPassword,
+  UserProfileContainer
 } from "./Lazy/LazyLoad";
 
 class App extends Component {
