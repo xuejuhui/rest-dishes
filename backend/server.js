@@ -7,6 +7,7 @@ const auth = require("./routes/api/auth");
 const dishes = require("./routes/api/dishes");
 const comments = require("./routes/api/comments");
 const errorHandlers = require("./utils/errorHandlers");
+const server = require("./graphqlServer");
 
 // initialize express
 const app = express();
@@ -34,9 +35,13 @@ app.use(
   comments
 );
 
+app.use("/graphql", passport.authenticate("jwt", { session: false }));
+
 // clientSideHandler come first, call next if check for serverSide
 // errorHandlers function
 app.use(errorHandlers.clientSideHandler);
 app.use(errorHandlers.serverSideHandler);
+
+server.applyMiddleware({ app, path: "/graphiql" });
 
 module.exports = app;
