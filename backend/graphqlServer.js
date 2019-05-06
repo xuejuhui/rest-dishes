@@ -36,7 +36,7 @@ let users = {
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    hello: () => "Hello world!",
+    hello: () => "Hello world! how are you ",
     user: (parent, args) => {
       return db.User.findById({ _id: args.id })
         .populate({ path: "dishes", match: { isDeleted: false } })
