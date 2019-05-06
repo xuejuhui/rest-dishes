@@ -21,18 +21,6 @@ const typeDefs = gql`
   }
 `;
 
-let users = {
-  1: {
-    id: "1",
-    username: "Robin Wieruch",
-    email: "Robin Wieruch@other.com"
-  },
-  2: {
-    id: "2",
-    username: "Dave Davids",
-    email: "Dave Davids@some.com"
-  }
-};
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
