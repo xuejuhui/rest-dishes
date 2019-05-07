@@ -7,6 +7,14 @@ const typeDefs = gql`
     user(id: ID!): User
     users: [User!]
   }
+  type Mutation {
+    createOrder(dishId: ID!): Order
+  }
+  type Order {
+    id: ID!
+    user: User!
+    dish: Dish!
+  }
   type User {
     id: ID!
     email: String!
@@ -41,6 +49,17 @@ const resolvers = {
         });
     }
   },
+  Mutation: {
+    createOrder: async (parent, { dishId }) => {
+      const order = {
+        dishId,
+        userId: "5cc8ab3915986b68a1a31710"
+      };
+      const newOrder = new db.Order({ dishId, user_id: order.userId });
+      const orderResponse = await newOrder.save();
+      return orderResponse;
+    }
+  },
   User: {
     email: parent => {
       return parent.email;
@@ -52,7 +71,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => {
-    console.log(req.user);
+    return req.user;
   }
 });
 

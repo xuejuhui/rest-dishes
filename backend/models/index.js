@@ -14,3 +14,4 @@ module.exports.User = require("./User.js");
 module.exports.Ingredient = require("./Ingredient.js");
 module.exports.Comment = require("./Comment.js");
 module.exports.Rating = require("./Rating.js");
+module.exports.Order = require("./Order.js");
