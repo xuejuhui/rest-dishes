@@ -6,14 +6,19 @@ const typeDefs = gql`
     hello: String
     user(id: ID!): User
     users: [User!]
+    orders: [Order!]!
   }
   type Mutation {
-    createOrder(dishId: ID!): Order
+    createOrder(dishId: ID!): OrderInput
   }
   type Order {
     id: ID!
-    user: User!
-    dish: Dish!
+    user_id: User
+    dishId: Dish
+  }
+  type OrderInput {
+    user_id: ID!
+    dishId: ID!
   }
   type User {
     id: ID!
@@ -47,6 +52,15 @@ const resolvers = {
         .then(res => {
           return res;
         });
+    },
+    orders: () => {
+      return db.Order.find()
+        .populate({ path: "user_id" })
+        .populate({ path: "dishId" })
+        .then(res => {
+          console.log(res);
+          return res;
+        });
     }
   },
   Mutation: {
@@ -57,6 +71,7 @@ const resolvers = {
       };
       const newOrder = new db.Order({ dishId, user_id: order.userId });
       const orderResponse = await newOrder.save();
+      console.log(orderResponse);
       return orderResponse;
     }
   },
