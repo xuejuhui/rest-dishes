@@ -3,6 +3,7 @@ import authReducer from "./authReducer";
 import alertReducer from "./alertReducer";
 import dishReducer from "./dishReducer";
 import commentReducer from "./commentReducer";
+import orderReducer from "./orderReducer";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { USER_LOGOUT } from "../actions/types";
@@ -17,7 +18,8 @@ const appReducer = combineReducers({
   auth: authReducer,
   alert: alertReducer,
   dish: dishReducer,
-  comment: commentReducer
+  comment: commentReducer,
+  order: orderReducer
 });
 
 const rootReducer = (state, action) => {

@@ -4,7 +4,6 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Rating from "react-rating";
 import EmptyStar from "@material-ui/icons/StarBorder";
@@ -70,7 +69,8 @@ const DishCard = props => {
     handleDeleteUserDish,
     hanldleSubmitRating,
     user,
-    handleOrdering
+    handleOrdering,
+    handleAddToCart
   } = props;
   return (
     <div className={classes.main}>
@@ -133,7 +133,9 @@ const DishCard = props => {
           ) : (
             ""
           )}
-          <CustomButton handleOnClick={handleOrdering}>Order</CustomButton>
+          <CustomButton handleOnClick={handleAddToCart}>
+            Add To Cart
+          </CustomButton>
         </CardActions>
       </Card>
     </div>

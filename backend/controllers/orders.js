@@ -28,6 +28,13 @@ const postOrder = async (req, res, next) => {
   }
 };
 
+const getCartItems = async (req, res, next) => {
+  try {
+  } catch (e) {
+    return next(e);
+  }
+};
+
 module.exports = {
   getAllOrders,
   postOrder

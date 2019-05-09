@@ -13,7 +13,7 @@ import {
   getDish,
   submitRating
 } from "../../actions/dishActions";
-import { postOrder } from "../../actions/orderActions";
+import { postOrder, addToCart } from "../../actions/orderActions";
 
 class DishContainer extends Component {
   state = {
@@ -78,6 +78,9 @@ class DishContainer extends Component {
   handleOrdering = () => {
     this.props.postOrder({ dish: this.props.dish });
   };
+  handleAddToCart = () => {
+    this.props.addToCart(this.props.dish);
+  };
   render() {
     const { dishes, hasMore, addUserDishesIngredient, dish, user } = this.props;
     const { openCard, openForm, creator, openComment } = this.state;
@@ -110,6 +113,7 @@ class DishContainer extends Component {
             handleOpenComments={this.handleOpenComments}
             hanldleSubmitRating={this.hanldleSubmitRating}
             handleOrdering={this.handleOrdering}
+            handleAddToCart={this.handleAddToCart}
           />
         ) : (
           ""
@@ -121,12 +125,13 @@ class DishContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  // console.log(state.dish.dish);
+  console.log(state.order.cart);
   return {
     dish: state.dish.dish,
     hasMore: state.dish.hasMore,
     dishes: state.dish.dishes,
-    user: state.auth.user
+    user: state.auth.user,
+    cart: state.order.cart
   };
 };
 
@@ -136,7 +141,8 @@ const mapDispatchToProps = {
   addUserDishesIngredient,
   getDish,
   submitRating,
-  postOrder
+  postOrder,
+  addToCart
 };
 
 export default connect(
