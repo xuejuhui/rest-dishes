@@ -6,8 +6,10 @@ const cors = require("cors");
 const auth = require("./routes/api/auth");
 const dishes = require("./routes/api/dishes");
 const comments = require("./routes/api/comments");
+const orders = require("./routes/api/orders");
+
 const errorHandlers = require("./utils/errorHandlers");
-const server = require("./graphqlServer");
+const server = require("./graphql/graphqlServer");
 
 // initialize express
 const app = express();
@@ -33,6 +35,11 @@ app.use(
   "/api/comments",
   passport.authenticate("jwt", { session: false }),
   comments
+);
+app.use(
+  "/api/orders",
+  passport.authenticate("jwt", { session: false }),
+  orders
 );
 
 app.use("/graphql", passport.authenticate("jwt", { session: false }));

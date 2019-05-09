@@ -13,6 +13,10 @@ const OrderSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  completion: {
+    type: Boolean,
+    default: false
   }
 });
 
