@@ -28,9 +28,16 @@ function addToCart(dish) {
     } else {
       localStorage.setItem("cart", JSON.stringify({ [dish._id]: dish }));
     }
-    dispatch({
-      type: ADD_TO_CART,
-      payload: dish
-    });
+    dispatch(
+      apiRequest(
+        {
+          url: `/api/orders/getCartItems`,
+          method: "POST",
+          data: { cart: localStorage.getItem("cart") }
+        },
+        ADD_TO_CART,
+        "Your Order has been Added"
+      )
+    );
   };
 }

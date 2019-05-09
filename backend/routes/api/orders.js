@@ -7,4 +7,6 @@ router.get("/orders", orderController.getAllOrders);
 //
 router.post("/orders", orderController.postOrder);
 
+router.post("/getCartItems", orderController.getCartItems);
+
 module.exports = router;

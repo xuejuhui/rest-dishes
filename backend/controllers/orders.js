@@ -30,6 +30,8 @@ const postOrder = async (req, res, next) => {
 
 const getCartItems = async (req, res, next) => {
   try {
+    let cart = JSON.parse(req.body.cart);
+    console.log(cart);
   } catch (e) {
     return next(e);
   }
@@ -37,5 +39,6 @@ const getCartItems = async (req, res, next) => {
 
 module.exports = {
   getAllOrders,
-  postOrder
+  postOrder,
+  getCartItems
 };
