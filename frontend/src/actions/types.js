@@ -19,3 +19,4 @@ export const GET_DISH = "GET_DISH";
 export const GET_ALL_COMMENTS = "GET_ALL_COMMENTS";
 export const POST_COMMENT = "POST_COMMENT";
 export const SUBMIT_RATING = "SUBMIT_RATING";
+export const POST_ORDER = "POST_ORDER";

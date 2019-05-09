@@ -13,6 +13,7 @@ import {
   getDish,
   submitRating
 } from "../../actions/dishActions";
+import { postOrder } from "../../actions/orderActions";
 
 class DishContainer extends Component {
   state = {
@@ -50,7 +51,7 @@ class DishContainer extends Component {
       this.setState({ creator: false });
     }
   };
-  handleDeleteUserDish = () => () => {
+  handleDeleteUserDish = () => {
     const {
       user: { id },
       dish
@@ -73,6 +74,9 @@ class DishContainer extends Component {
 
   hanldleSubmitRating = dish => rate => {
     this.props.submitRating(rate, dish);
+  };
+  handleOrdering = () => {
+    this.props.postOrder({ dish: this.props.dish });
   };
   render() {
     const { dishes, hasMore, addUserDishesIngredient, dish, user } = this.props;
@@ -105,6 +109,7 @@ class DishContainer extends Component {
             addUserDishesIngredient={addUserDishesIngredient}
             handleOpenComments={this.handleOpenComments}
             hanldleSubmitRating={this.hanldleSubmitRating}
+            handleOrdering={this.handleOrdering}
           />
         ) : (
           ""
@@ -116,7 +121,7 @@ class DishContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state.dish.dish);
+  // console.log(state.dish.dish);
   return {
     dish: state.dish.dish,
     hasMore: state.dish.hasMore,
@@ -130,7 +135,8 @@ const mapDispatchToProps = {
   getAllDishes,
   addUserDishesIngredient,
   getDish,
-  submitRating
+  submitRating,
+  postOrder
 };
 
 export default connect(

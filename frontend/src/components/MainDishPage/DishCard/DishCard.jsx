@@ -12,6 +12,7 @@ import FilledStar from "@material-ui/icons/Star";
 
 import IngredientInput from "./Ingredient/IngredientInput";
 import IngredientDisplay from "./Ingredient/IngredientDisplay";
+import CustomButton from "./CustomButton";
 
 const styles = theme => {
   return {
@@ -68,7 +69,8 @@ const DishCard = props => {
     handleOpenComments,
     handleDeleteUserDish,
     hanldleSubmitRating,
-    user
+    user,
+    handleOrdering
   } = props;
   return (
     <div className={classes.main}>
@@ -115,17 +117,11 @@ const DishCard = props => {
           </div>
         </CardContent>
         <CardActions>
-          <Button size="small" color="primary" onClick={handleOpenComments}>
-            Open
-          </Button>
+          <CustomButton handleOnClick={handleOpenComments}>Open</CustomButton>
           {creator ? (
-            <Button
-              size="small"
-              color="primary"
-              onClick={handleDeleteUserDish(dish)}
-            >
+            <CustomButton handleOnClick={handleDeleteUserDish}>
               Delete
-            </Button>
+            </CustomButton>
           ) : (
             ""
           )}
@@ -137,6 +133,7 @@ const DishCard = props => {
           ) : (
             ""
           )}
+          <CustomButton handleOnClick={handleOrdering}>Order</CustomButton>
         </CardActions>
       </Card>
     </div>
