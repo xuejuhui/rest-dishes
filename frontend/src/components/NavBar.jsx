@@ -43,6 +43,14 @@ function NavBar(props) {
             <Fragment>
               <Button color="inherit">
                 <Link
+                  to="/cart"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  Cart
+                </Link>
+              </Button>
+              <Button color="inherit">
+                <Link
                   to="/secret"
                   style={{ textDecoration: "none", color: "white" }}
                 >

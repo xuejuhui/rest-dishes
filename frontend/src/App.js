@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import Authenticated from "./components/Authenticated";
 import { SnackbarProvider } from "notistack";
 import AlertMessage from "./components/AlertMessage/AlertMessage";
+import CartContainer from "./components/CartContainer";
 import {
   LandingPage,
   DishContainer,
@@ -31,6 +32,7 @@ class App extends Component {
             <Route exact path="/reset/:token" component={ResetPassword} />
             <Authenticated component={ForgotPassword} path="/forgot" />
             <ProtectedRoute component={DishContainer} path="/secret" />
+            <ProtectedRoute component={CartContainer} path="/cart" />
             <ProtectedRoute
               component={UserProfileContainer}
               path="/user-profile/:id"

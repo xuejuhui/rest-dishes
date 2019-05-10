@@ -1,9 +1,10 @@
-import { ADD_TO_CART } from "../actions/types";
+import { ADD_TO_CART, GET_CART_ITEMS } from "../actions/types";
 
 const initialState = {
   cart: {},
   orders: {},
-  order: {}
+  order: {},
+  cartWithProduct: []
 };
 
 const orderReducer = (state = initialState, action) => {
@@ -17,6 +18,11 @@ const orderReducer = (state = initialState, action) => {
             ? (state.cart[action.payload.dish._id] += action.payload.qty)
             : action.payload.qty
         }
+      };
+    case GET_CART_ITEMS:
+      return {
+        ...state,
+        cartWithProduct: action.payload
       };
     default:
       return state;

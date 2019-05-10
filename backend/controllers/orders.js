@@ -39,7 +39,7 @@ const getCartItems = async (req, res, next) => {
     const dishInCartWithQty = dishInCart.map(cartDish => {
       return { ...cartDish._doc, qty: cart[cartDish._id] };
     });
-    console.log(dishInCartWithQty);
+    res.json(dishInCartWithQty);
   } catch (e) {
     return next(e);
   }

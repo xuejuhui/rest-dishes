@@ -8,6 +8,7 @@ import {
 import jwt_decode from "jwt-decode";
 import { enqueueSnackbar } from "./alertActions";
 import apiClient from "../utils/api/apiClient";
+
 // import { apiRequest } from "../utils/api/apiWrapper";
 
 export { login, register, logout, loading, forgotPassword, resetPassword };
@@ -68,6 +69,7 @@ function login(user) {
         );
       }
     } catch (err) {
+      console.log(err);
       const { payload } = err.response.data.output;
       dispatch(loading());
       dispatch(
