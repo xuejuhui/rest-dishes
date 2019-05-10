@@ -19,25 +19,24 @@ function postOrder(order) {
   };
 }
 
-function addToCart(dish) {
+function addToCart(dish, qty) {
   return dispatch => {
     const shoppingCart = JSON.parse(localStorage.getItem("cart"));
     if (shoppingCart) {
-      shoppingCart[dish._id] = dish;
+      shoppingCart[dish._id]
+        ? (shoppingCart[dish._id] = shoppingCart[dish._id] + qty)
+        : (shoppingCart[dish._id] = 0 + qty);
       localStorage.setItem("cart", JSON.stringify(shoppingCart));
     } else {
-      localStorage.setItem("cart", JSON.stringify({ [dish._id]: dish }));
+      localStorage.setItem("cart", JSON.stringify({ [dish._id]: 0 + qty }));
     }
+    dispatch({ type: ADD_TO_CART, payload: { dish, qty } });
     dispatch(
-      apiRequest(
-        {
-          url: `/api/orders/getCartItems`,
-          method: "POST",
-          data: { cart: localStorage.getItem("cart") }
-        },
-        ADD_TO_CART,
-        "Your Order has been Added"
-      )
+      apiRequest({
+        url: `/api/orders/getCartItems`,
+        method: "POST",
+        data: { cart: localStorage.getItem("cart") }
+      })
     );
   };
 }

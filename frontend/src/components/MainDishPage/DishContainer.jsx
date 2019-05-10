@@ -22,7 +22,8 @@ class DishContainer extends Component {
     openComment: false,
     startIndex: 0,
     limit: 10,
-    creator: false
+    creator: false,
+    quantity: 1
   };
   // shouldComponentUpdate(nextProps, nextState) {
   //   // prevent card from rerender
@@ -62,8 +63,9 @@ class DishContainer extends Component {
     }
   };
   handleMore = () => {
-    this.setState({ startIndex: this.state.startIndex + this.state.limit });
-    this.props.getAllDishes(this.state.startIndex, this.state.limit);
+    const { startIndex, limit } = this.state;
+    this.setState({ startIndex: startIndex + limit });
+    this.props.getAllDishes(startIndex, limit);
   };
   handleOpenForm = () => {
     this.setState({ openForm: !this.state.openForm });
@@ -76,10 +78,13 @@ class DishContainer extends Component {
     this.props.submitRating(rate, dish);
   };
   handleOrdering = () => {
-    this.props.postOrder({ dish: this.props.dish });
+    const { dish } = this.props;
+    this.props.postOrder({ dish });
   };
   handleAddToCart = () => {
-    this.props.addToCart(this.props.dish);
+    const { quantity } = this.state;
+    const { dish } = this.props;
+    this.props.addToCart(dish, quantity);
   };
   render() {
     const { dishes, hasMore, addUserDishesIngredient, dish, user } = this.props;

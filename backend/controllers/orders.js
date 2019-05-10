@@ -31,7 +31,15 @@ const postOrder = async (req, res, next) => {
 const getCartItems = async (req, res, next) => {
   try {
     let cart = JSON.parse(req.body.cart);
-    console.log(cart);
+    const dishIdArray = Object.keys(cart);
+    const dishInCart = await db.Dish.find(
+      { _id: { $in: dishIdArray } },
+      { isDeleted: 0 }
+    );
+    const dishInCartWithQty = dishInCart.map(cartDish => {
+      return { ...cartDish._doc, qty: cart[cartDish._id] };
+    });
+    console.log(dishInCartWithQty);
   } catch (e) {
     return next(e);
   }

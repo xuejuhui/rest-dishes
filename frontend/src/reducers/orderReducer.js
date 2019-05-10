@@ -13,7 +13,9 @@ const orderReducer = (state = initialState, action) => {
         ...state,
         cart: {
           ...state.cart,
-          [action.payload._id]: action.payload
+          [action.payload.dish._id]: state.cart[action.payload.dish._id]
+            ? (state.cart[action.payload.dish._id] += action.payload.qty)
+            : action.payload.qty
         }
       };
     default:

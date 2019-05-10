@@ -13,13 +13,18 @@ const persistConfig = {
   storage: storage,
   whitelist: ["auth"] // only auth will be persisted
 };
+const orderPersistConfig = {
+  key: "order",
+  storage: storage,
+  whitelist: ["cart"]
+};
 
 const appReducer = combineReducers({
   auth: authReducer,
   alert: alertReducer,
   dish: dishReducer,
   comment: commentReducer,
-  order: orderReducer
+  order: persistReducer(orderPersistConfig, orderReducer)
 });
 
 const rootReducer = (state, action) => {
