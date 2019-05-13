@@ -56,11 +56,18 @@ function getCartItems() {
 }
 
 function editCart(dish, qty) {
+  //todo try to delete the product from cart if qty =  0
   console.log(typeof qty);
   return dispatch => {
     const shoppingCart = JSON.parse(localStorage.getItem("cart"));
     if (shoppingCart) {
-      shoppingCart[dish._id] = qty;
+      if (qty === 0) {
+        const id = dish._id;
+        const { dishId, ...remaining } = shoppingCart;
+        console.log(remaining);
+      } else {
+        shoppingCart[dish._id] = qty;
+      }
       localStorage.setItem("cart", JSON.stringify(shoppingCart));
     } else {
       localStorage.setItem("cart", JSON.stringify({ [dish._id]: qty }));
