@@ -1,24 +1,27 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getCartItems } from "../actions/orderActions";
+import { getCartItems, editCart } from "../../actions/orderActions";
+
+import DisplayDishes from "./DisplayDishes";
 
 class CartContainer extends React.Component {
   state = {};
   componentDidMount() {
     this.props.getCartItems();
   }
+  handleEditCart = dish => e => {
+    const { editCart } = this.props;
+    editCart(dish, Number(e.target.value));
+  };
   render() {
     const { cartWithProduct } = this.props;
+    console.log(cartWithProduct);
     return (
       <div>
-        {cartWithProduct.map(dish => {
-          return (
-            <div key={dish._id}>
-              <h5>{dish.dishName}</h5>
-              <h5>{dish.qty}</h5>
-            </div>
-          );
-        })}
+        <DisplayDishes
+          cartWithProduct={cartWithProduct}
+          handleEditCart={this.handleEditCart}
+        />
       </div>
     );
   }
@@ -29,7 +32,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = { getCartItems };
+const mapDispatchToProps = { getCartItems, editCart };
 
 export default connect(
   mapStateToProps,

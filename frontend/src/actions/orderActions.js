@@ -1,7 +1,12 @@
-import { POST_ORDER, ADD_TO_CART, GET_CART_ITEMS } from "../actions/types";
+import {
+  POST_ORDER,
+  ADD_TO_CART,
+  GET_CART_ITEMS,
+  EDIT_CART
+} from "../actions/types";
 import { apiRequest } from "../utils/api/apiWrapper";
 
-export { postOrder, addToCart, getCartItems };
+export { postOrder, addToCart, getCartItems, editCart };
 
 function postOrder(order) {
   return dispatch => {
@@ -47,5 +52,19 @@ function getCartItems() {
         "Get Cart Items"
       )
     );
+  };
+}
+
+function editCart(dish, qty) {
+  console.log(typeof qty);
+  return dispatch => {
+    const shoppingCart = JSON.parse(localStorage.getItem("cart"));
+    if (shoppingCart) {
+      shoppingCart[dish._id] = qty;
+      localStorage.setItem("cart", JSON.stringify(shoppingCart));
+    } else {
+      localStorage.setItem("cart", JSON.stringify({ [dish._id]: qty }));
+    }
+    dispatch({ type: EDIT_CART, payload: { dish, qty } });
   };
 }

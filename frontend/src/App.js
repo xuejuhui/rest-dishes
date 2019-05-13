@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import Authenticated from "./components/Authenticated";
 import { SnackbarProvider } from "notistack";
 import AlertMessage from "./components/AlertMessage/AlertMessage";
-import CartContainer from "./components/CartContainer";
+import CartContainer from "./components/Cart/CartContainer";
 import {
   LandingPage,
   DishContainer,
