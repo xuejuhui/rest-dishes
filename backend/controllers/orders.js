@@ -45,8 +45,31 @@ const getCartItems = async (req, res, next) => {
   }
 };
 
+const addToCart = async (req, res, next) => {
+  try {
+    const userCart = await db.Cart.findOne({ user_id: req.user._id });
+    console.log(!userCart);
+    if (!userCart) {
+      const newCart = new db.Cart({
+        user_id: req.user._id,
+        dishes: [req.body.dish._id]
+      });
+      await newCart.save();
+      console.log("!userCart");
+    } else {
+      console.log(req.body.dish._id);
+      userCart.dishes.push(req.body.dish._id);
+      await userCart.save();
+    }
+    res.json({ message: "Dish has been added" });
+  } catch (e) {
+    return next(e);
+  }
+};
+
 module.exports = {
   getAllOrders,
   postOrder,
-  getCartItems
+  getCartItems,
+  addToCart
 };

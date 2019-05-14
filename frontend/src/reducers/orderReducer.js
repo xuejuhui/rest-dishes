@@ -11,13 +11,13 @@ const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_CART:
       return {
-        ...state,
-        cart: {
-          ...state.cart,
-          [action.payload.dish._id]: state.cart[action.payload.dish._id]
-            ? (state.cart[action.payload.dish._id] += action.payload.qty)
-            : action.payload.qty
-        }
+        // ...state,
+        // cart: {
+        //   ...state.cart,
+        //   [action.payload.dish._id]: state.cart[action.payload.dish._id]
+        //     ? (state.cart[action.payload.dish._id] += action.payload.qty)
+        //     : action.payload.qty
+        // }
       };
     case GET_CART_ITEMS:
       const resultObject = action.payload.reduce((acc, curr) => {

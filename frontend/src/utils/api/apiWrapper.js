@@ -18,6 +18,7 @@ const apiRequest = ({ url, ...apiOptions }, dispatchType, message = "") => {
         })
       );
     } catch (e) {
+      console.log(e);
       if (!e.response) {
         return dispatch(
           enqueueSnackbar({

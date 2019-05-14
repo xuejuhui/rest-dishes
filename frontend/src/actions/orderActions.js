@@ -35,7 +35,19 @@ function addToCart(dish, qty) {
     } else {
       localStorage.setItem("cart", JSON.stringify({ [dish._id]: 0 + qty }));
     }
-    dispatch({ type: ADD_TO_CART, payload: { dish, qty } });
+    dispatch(
+      apiRequest(
+        {
+          url: `/api/orders/addtocart`,
+          method: "POST",
+          data: { dish }
+        },
+        ADD_TO_CART,
+        "Added Cart Items"
+      )
+
+      // { type: ADD_TO_CART, payload: { dish, qty } }
+    );
   };
 }
 
@@ -63,8 +75,7 @@ function editCart(dish, qty) {
     if (shoppingCart) {
       if (qty === 0) {
         const id = dish._id;
-        const { dishId, ...remaining } = shoppingCart;
-        console.log(remaining);
+        delete shoppingCart[id];
       } else {
         shoppingCart[dish._id] = qty;
       }

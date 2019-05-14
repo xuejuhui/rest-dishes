@@ -63,9 +63,8 @@ class DishContainer extends Component {
     }
   };
   handleMore = () => {
-    const { startIndex, limit } = this.state;
-    this.setState({ startIndex: startIndex + limit });
-    this.props.getAllDishes(startIndex, limit);
+    this.setState({ startIndex: this.state.startIndex + this.state.limit });
+    this.props.getAllDishes(this.state.startIndex, this.state.limit);
   };
   handleOpenForm = () => {
     this.setState({ openForm: !this.state.openForm });

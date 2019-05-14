@@ -16,7 +16,7 @@ const CartSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  checkedout: Boolean
+  checkedout: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model("Cart", CartSchema);
