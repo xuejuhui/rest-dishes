@@ -10,6 +10,7 @@ const initialState = {
 const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_CART:
+      //todo
       return {
         // ...state,
         // cart: {

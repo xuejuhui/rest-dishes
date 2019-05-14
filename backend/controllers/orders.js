@@ -47,6 +47,7 @@ const getCartItems = async (req, res, next) => {
 
 const addToCart = async (req, res, next) => {
   try {
+    // todo qty instead of pushing multiple obj in
     const userCart = await db.Cart.findOne({ user_id: req.user._id });
     console.log(!userCart);
     if (!userCart) {
