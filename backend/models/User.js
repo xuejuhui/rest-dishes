@@ -19,6 +19,7 @@ const UserSchema = new Schema({
     default: Date.now
   },
   dishes: [{ type: Schema.Types.ObjectId, ref: "Dish" }],
+  cart: { type: Schema.Types.ObjectId, ref: "Cart" },
   resetPasswordToken: String,
   resetPasswordExpires: Date
 });
