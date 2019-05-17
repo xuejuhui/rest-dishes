@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const config = require("config");
 const db = config.get("app.dbConfig.host");
-
+console.log(`currently using this ${db}`);
 mongoose
   .connect(
     db,
