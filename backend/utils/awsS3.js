@@ -1,11 +1,8 @@
-const key = require("../config/key");
+const config = require("config");
 const aws = require("aws-sdk");
+const awsConfig = config.get("app.awsConfig");
 
-aws.config.update({
-  secretAccessKey: key.secretAccessKey,
-  accessKeyId: key.accessKeyID,
-  region: key.region
-});
+aws.config.update(awsConfig);
 const s3 = new aws.S3();
 
 async function uploadToS3({ imageName, buffer }, bucket) {

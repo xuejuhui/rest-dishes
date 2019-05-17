@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const db = require("../config/key").mongoURI;
+const config = require("config");
+const db = config.get("app.dbConfig.host");
 
 mongoose
   .connect(

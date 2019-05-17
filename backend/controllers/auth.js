@@ -6,7 +6,7 @@ const boom = require("boom");
 const validation = require("../utils/joiSchemas/index");
 const mailer = require("../utils/mailer");
 const db = require("../models/index");
-const key = require("../config/key");
+const config = require("config");
 
 const register = (req, res, next) => {
   validation.userSchema.validate(
@@ -29,7 +29,7 @@ const register = (req, res, next) => {
         newUser.password = hash;
         const userResponse = await newUser.save();
         const user = { id: userResponse._id, name: userResponse.name };
-        const token = await jwt.sign(user, key.secretOrKey, {
+        const token = await jwt.sign(user, config.get("app.jwtScretKey"), {
           expiresIn: 31556926
         });
         userResponse._doc.token = token;
@@ -50,7 +50,7 @@ const login = async (req, res, next) => {
   const user = { id: current._id, name: current.name };
   if (isMatch) {
     try {
-      const token = await jwt.sign(user, key.secretOrKey, {
+      const token = await jwt.sign(user, config.get("app.jwtScretKey"), {
         expiresIn: 31556926
       });
       res.json({
