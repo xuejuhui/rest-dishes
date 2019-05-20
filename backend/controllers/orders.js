@@ -1,5 +1,6 @@
 const db = require("../models/index");
 
+const { compareObjectId } = require("../utils/utils");
 // todo validation
 // const validation = require("../utils/joiSchemas/index");
 
@@ -30,15 +31,24 @@ const postOrder = async (req, res, next) => {
 
 const getCartItems = async (req, res, next) => {
   try {
+    let dishInCartWithQty;
     let cart = JSON.parse(req.body.cart);
-    const dishIdArray = Object.keys(cart);
-    const dishInCart = await db.Dish.find(
-      { _id: { $in: dishIdArray } },
-      { isDeleted: 0 }
-    );
-    const dishInCartWithQty = dishInCart.map(cartDish => {
-      return { ...cartDish._doc, qty: cart[cartDish._id] };
-    });
+    if (cart) {
+      const dishIdArray = Object.keys(cart);
+      const dishInCart = await db.Dish.find(
+        { _id: { $in: dishIdArray } },
+        { isDeleted: 0 }
+      );
+      dishInCartWithQty = dishInCart.map(cartDish => {
+        return { dish: cartDish, qty: cart[cartDish._id] };
+      });
+    } else {
+      const user = await db.User.findOne(
+        { _id: req.user._id },
+        { password: 0, resetPasswordExpires: 0, resetPasswordToken: 0 }
+      ).populate({ path: "cart", populate: { path: "dishes.dish" } });
+      dishInCartWithQty = user.cart.dishes;
+    }
     res.json(dishInCartWithQty);
   } catch (e) {
     return next(e);
@@ -46,9 +56,9 @@ const getCartItems = async (req, res, next) => {
 };
 
 const addToCart = async (req, res, next) => {
+  // finally done with add to cart
   try {
     let newCartQty;
-    // todo qty instead of pushing multiple obj in
     const userCart = await db.Cart.findOne({ user_id: req.user._id });
     console.log(!userCart);
     if (!userCart) {
@@ -57,11 +67,26 @@ const addToCart = async (req, res, next) => {
         dishes: [{ dish: [req.body.dish._id], qty: 1 }]
       });
       newCartQty = await newCart.save();
-      console.log("!userCart");
+      await db.User.updateOne(
+        { _id: req.user._id },
+        { $set: { cart: newCartQty._id } }
+      );
     } else {
-      console.log(req.body.dish._id);
-      userCart.dishes.push({ dish: [req.body.dish._id], qty: 1 });
-      console.log(userCart);
+      const exist = userCart.dishes.find(dish => {
+        return compareObjectId(dish.dish, req.body.dish._id);
+      });
+      if (exist) {
+        console.log("inside exist");
+        userCart.dishes = userCart.dishes.map(dish => {
+          if (dish.dish == req.body.dish._id) {
+            return { ...dish._doc, qty: 6 };
+          }
+          return dish;
+        });
+      } else {
+        console.log("first time");
+        userCart.dishes.push({ dish: req.body.dish._id, qty: 1 });
+      }
       newCartQty = await userCart.save();
     }
     res.json({ message: "Dish has been added", ...newCartQty._doc });

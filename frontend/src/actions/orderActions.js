@@ -26,15 +26,15 @@ function postOrder(order) {
 
 function addToCart(dish, qty) {
   return dispatch => {
-    const shoppingCart = JSON.parse(localStorage.getItem("cart"));
-    if (shoppingCart) {
-      shoppingCart[dish._id]
-        ? (shoppingCart[dish._id] = shoppingCart[dish._id] + qty)
-        : (shoppingCart[dish._id] = 0 + qty);
-      localStorage.setItem("cart", JSON.stringify(shoppingCart));
-    } else {
-      localStorage.setItem("cart", JSON.stringify({ [dish._id]: 0 + qty }));
-    }
+    // const shoppingCart = JSON.parse(localStorage.getItem("cart"));
+    // if (shoppingCart) {
+    //   shoppingCart[dish._id]
+    //     ? (shoppingCart[dish._id] = shoppingCart[dish._id] + qty)
+    //     : (shoppingCart[dish._id] = 0 + qty);
+    //   localStorage.setItem("cart", JSON.stringify(shoppingCart));
+    // } else {
+    //   localStorage.setItem("cart", JSON.stringify({ [dish._id]: 0 + qty }));
+    // }
     dispatch(
       apiRequest(
         {

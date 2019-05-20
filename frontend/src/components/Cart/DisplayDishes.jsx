@@ -3,11 +3,12 @@ const DisplayDishes = ({ cartWithProduct, handleEditCart }) => {
   return (
     <Fragment>
       {Object.values(cartWithProduct).map(dish => {
+        console.log(dish);
         return (
-          <div key={dish._id}>
-            <h5>{dish.dishName}</h5>
+          <div key={dish.dish._id}>
+            <h5>{dish.dish.dishName}</h5>
             <input
-              name={dish._id}
+              name={dish.dish._id}
               type="number"
               defaultValue={dish.qty}
               onChange={handleEditCart(dish)}

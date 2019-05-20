@@ -10,13 +10,14 @@ const initialState = {
 const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_CART:
-      // const dishesObject = action.payload.dishes.reduce((acc, curr) => {
-      //   acc[curr._id] = curr;
-      //   return acc;
-      // }, {});
-      // //todo
-      // console.log(dishesObject);
-      return {};
+      const dishesObject = action.payload.dishes.reduce((acc, curr) => {
+        acc[curr._id] = curr;
+        return acc;
+      }, {});
+      return {
+        ...state,
+        cart: dishesObject
+      };
     case GET_CART_ITEMS:
       const resultObject = action.payload.reduce((acc, curr) => {
         acc[curr._id] = curr;
