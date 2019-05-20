@@ -20,6 +20,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "boom": "^7.3.0",
+    "compression": "^1.7.4",
     "config": "^3.1.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",

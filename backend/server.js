@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const cors = require("cors");
+const path = require("path");
+const compression = require("compression");
 
 const auth = require("./routes/api/auth");
 const dishes = require("./routes/api/dishes");
@@ -19,8 +21,10 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
+app.use(compression());
 // app.use(passport.session());
 require("./passport")(passport);
+
 // Routes
 app.get("/", (req, res) => {
   res.send("Page Ok");
@@ -48,6 +52,13 @@ app.use("/graphql", passport.authenticate("jwt", { session: false }));
 // errorHandlers function
 app.use(errorHandlers.clientSideHandler);
 app.use(errorHandlers.serverSideHandler);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
+  });
+}
 
 server.applyMiddleware({ app, path: "/graphiql" });
 
