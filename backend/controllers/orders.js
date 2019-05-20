@@ -47,22 +47,24 @@ const getCartItems = async (req, res, next) => {
 
 const addToCart = async (req, res, next) => {
   try {
+    let newCartQty;
     // todo qty instead of pushing multiple obj in
     const userCart = await db.Cart.findOne({ user_id: req.user._id });
     console.log(!userCart);
     if (!userCart) {
       const newCart = new db.Cart({
         user_id: req.user._id,
-        dishes: [req.body.dish._id]
+        dishes: [{ dish: [req.body.dish._id], qty: 1 }]
       });
-      await newCart.save();
+      newCartQty = await newCart.save();
       console.log("!userCart");
     } else {
       console.log(req.body.dish._id);
-      userCart.dishes.push(req.body.dish._id);
-      await userCart.save();
+      userCart.dishes.push({ dish: [req.body.dish._id], qty: 1 });
+      console.log(userCart);
+      newCartQty = await userCart.save();
     }
-    res.json({ message: "Dish has been added" });
+    res.json({ message: "Dish has been added", ...newCartQty._doc });
   } catch (e) {
     return next(e);
   }

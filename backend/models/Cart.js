@@ -8,8 +8,14 @@ const CartSchema = new Schema({
   },
   dishes: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "Dish"
+      dish: {
+        type: Schema.Types.ObjectId,
+        ref: "Dish"
+      },
+      qty: {
+        type: Number,
+        deffault: 1
+      }
     }
   ],
   date: {
