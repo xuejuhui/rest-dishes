@@ -5,6 +5,7 @@ import {
   EDIT_CART
 } from "../actions/types";
 import { apiRequest } from "../utils/api/apiWrapper";
+import { apiClient } from "../utils/api/apiClient";
 
 export { postOrder, addToCart, getCartItems, editCart };
 
@@ -26,6 +27,7 @@ function postOrder(order) {
 
 function addToCart(dish, qty) {
   return dispatch => {
+    //todo localStorage logic work with db
     // const shoppingCart = JSON.parse(localStorage.getItem("cart"));
     // if (shoppingCart) {
     //   shoppingCart[dish._id]
@@ -40,13 +42,11 @@ function addToCart(dish, qty) {
         {
           url: `/api/orders/addtocart`,
           method: "POST",
-          data: { dish }
+          data: { dish, qty }
         },
         ADD_TO_CART,
         "Added Cart Items"
       )
-
-      // { type: ADD_TO_CART, payload: { dish, qty } }
     );
   };
 }

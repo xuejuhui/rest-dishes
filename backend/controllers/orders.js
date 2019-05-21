@@ -56,7 +56,6 @@ const getCartItems = async (req, res, next) => {
 };
 
 const addToCart = async (req, res, next) => {
-  // finally done with add to cart
   try {
     let newCartQty;
     const userCart = await db.Cart.findOne({ user_id: req.user._id });
@@ -64,7 +63,7 @@ const addToCart = async (req, res, next) => {
     if (!userCart) {
       const newCart = new db.Cart({
         user_id: req.user._id,
-        dishes: [{ dish: [req.body.dish._id], qty: 1 }]
+        dishes: [{ dish: [req.body.dish._id], qty: req.body.qty }]
       });
       newCartQty = await newCart.save();
       await db.User.updateOne(
@@ -79,13 +78,13 @@ const addToCart = async (req, res, next) => {
         console.log("inside exist");
         userCart.dishes = userCart.dishes.map(dish => {
           if (dish.dish == req.body.dish._id) {
-            return { ...dish._doc, qty: 6 };
+            return { ...dish._doc, qty: dish.qty + req.body.qty };
           }
           return dish;
         });
       } else {
         console.log("first time");
-        userCart.dishes.push({ dish: req.body.dish._id, qty: 1 });
+        userCart.dishes.push({ dish: req.body.dish._id, qty: req.body.qty });
       }
       newCartQty = await userCart.save();
     }

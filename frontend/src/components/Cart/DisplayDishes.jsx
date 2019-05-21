@@ -10,7 +10,7 @@ const DisplayDishes = ({ cartWithProduct, handleEditCart }) => {
             <input
               name={dish.dish._id}
               type="number"
-              defaultValue={dish.qty}
+              value={dish.qty}
               onChange={handleEditCart(dish)}
             />
           </div>
