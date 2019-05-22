@@ -17,12 +17,17 @@ const getAllOrders = async (req, res, next) => {
 
 const postOrder = async (req, res, next) => {
   try {
-    console.log(req.user, req.body);
+    const userCart = await db.Cart.updateOne(
+      { _id: req.body.cart._id },
+      { $set: { checkedout: true } }
+    );
+    console.log(userCart);
     const newOrder = new db.Order({
       user: req.user._id,
-      dish: req.body.dish._id
+      cart: req.body.cart._id
     });
     const orderResponse = await newOrder.save();
+    console.log(orderResponse);
     res.json(orderResponse);
   } catch (e) {
     return next(e);
@@ -46,8 +51,12 @@ const getCartItems = async (req, res, next) => {
       const user = await db.User.findOne(
         { _id: req.user._id },
         { password: 0, resetPasswordExpires: 0, resetPasswordToken: 0 }
-      ).populate({ path: "cart", populate: { path: "dishes.dish" } });
-      dishInCartWithQty = user.cart.dishes;
+      ).populate({
+        path: "cart",
+        match: { checkedout: false },
+        populate: { path: "dishes.dish" }
+      });
+      dishInCartWithQty = user.cart;
     }
     res.json(dishInCartWithQty);
   } catch (e) {
@@ -58,8 +67,10 @@ const getCartItems = async (req, res, next) => {
 const addToCart = async (req, res, next) => {
   try {
     let newCartQty;
-    const userCart = await db.Cart.findOne({ user_id: req.user._id });
-    console.log(!userCart);
+    const userCart = await db.Cart.findOne({
+      user_id: req.user._id,
+      checkedout: false
+    });
     if (!userCart) {
       const newCart = new db.Cart({
         user_id: req.user._id,

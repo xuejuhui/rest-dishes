@@ -9,14 +9,14 @@ import { apiClient } from "../utils/api/apiClient";
 
 export { postOrder, addToCart, getCartItems, editCart };
 
-function postOrder(order) {
+function postOrder(cart) {
   return dispatch => {
     dispatch(
       apiRequest(
         {
           url: `/api/orders/orders`,
           method: "POST",
-          data: order
+          data: { cart }
         },
         POST_ORDER,
         "Your Order has been Added"
@@ -69,20 +69,19 @@ function getCartItems() {
 
 function editCart(dish, qty) {
   //todo try to delete the product from cart if qty =  0
-  console.log(typeof qty);
   return dispatch => {
-    const shoppingCart = JSON.parse(localStorage.getItem("cart"));
-    if (shoppingCart) {
-      if (qty === 0) {
-        const id = dish._id;
-        delete shoppingCart[id];
-      } else {
-        shoppingCart[dish._id] = qty;
-      }
-      localStorage.setItem("cart", JSON.stringify(shoppingCart));
-    } else {
-      localStorage.setItem("cart", JSON.stringify({ [dish._id]: qty }));
-    }
+    // const shoppingCart = JSON.parse(localStorage.getItem("cart"));
+    // if (shoppingCart) {
+    //   if (qty === 0) {
+    //     const id = dish._id;
+    //     delete shoppingCart[id];
+    //   } else {
+    //     shoppingCart[dish._id] = qty;
+    //   }
+    //   localStorage.setItem("cart", JSON.stringify(shoppingCart));
+    // } else {
+    //   localStorage.setItem("cart", JSON.stringify({ [dish._id]: qty }));
+    // }
     dispatch({ type: EDIT_CART, payload: { dish, qty } });
   };
 }

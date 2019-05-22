@@ -6,9 +6,9 @@ const OrderSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User"
   },
-  dish: {
+  cart: {
     type: Schema.Types.ObjectId,
-    ref: "Dish"
+    ref: "Cart"
   },
   date: {
     type: Date,

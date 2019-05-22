@@ -1,10 +1,15 @@
-import { ADD_TO_CART, GET_CART_ITEMS, EDIT_CART } from "../actions/types";
+import {
+  ADD_TO_CART,
+  GET_CART_ITEMS,
+  EDIT_CART,
+  POST_ORDER
+} from "../actions/types";
 
 const initialState = {
   cart: {},
   orders: {},
   order: {},
-  cartWithProduct: []
+  cartWithProduct: {}
 };
 
 const orderReducer = (state = initialState, action) => {
@@ -16,16 +21,17 @@ const orderReducer = (state = initialState, action) => {
       }, {});
       return {
         ...state,
-        cart: dishesObject
+        cart: { ...action.payload, dishes: dishesObject }
       };
     case GET_CART_ITEMS:
-      const resultObject = action.payload.reduce((acc, curr) => {
+      const resultObject = action.payload.dishes.reduce((acc, curr) => {
         acc[curr._id] = curr;
         return acc;
       }, {});
       return {
         ...state,
-        cartWithProduct: resultObject
+        cartWithProduct: resultObject,
+        cart: { ...action.payload, dishes: resultObject }
       };
     case EDIT_CART:
       const qty = Number(action.payload.qty);
@@ -39,6 +45,8 @@ const orderReducer = (state = initialState, action) => {
           }
         }
       };
+    case POST_ORDER:
+      return {};
     default:
       return state;
   }
