@@ -45,7 +45,7 @@ function addToCart(dish, qty) {
           data: { dish, qty }
         },
         ADD_TO_CART,
-        "Added Cart Items"
+        "Dish has been added"
       )
     );
   };

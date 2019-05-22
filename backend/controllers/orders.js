@@ -27,7 +27,6 @@ const postOrder = async (req, res, next) => {
       cart: req.body.cart._id
     });
     const orderResponse = await newOrder.save();
-    console.log(orderResponse);
     res.json(orderResponse);
   } catch (e) {
     return next(e);
@@ -57,7 +56,11 @@ const getCartItems = async (req, res, next) => {
         populate: { path: "dishes.dish" }
       });
       dishInCartWithQty = user.cart;
+      dishInCartWithQty
+        ? (dishInCartWithQty = dishInCartWithQty)
+        : (dishInCartWithQty = { dishes: [] });
     }
+    // res.json({ ...dishInCartWithQty, message: "Cart Loaded" });
     res.json(dishInCartWithQty);
   } catch (e) {
     return next(e);
@@ -99,7 +102,7 @@ const addToCart = async (req, res, next) => {
       }
       newCartQty = await userCart.save();
     }
-    res.json({ message: "Dish has been added", ...newCartQty._doc });
+    res.json(newCartQty._doc);
   } catch (e) {
     return next(e);
   }
