@@ -21,7 +21,6 @@ const postOrder = async (req, res, next) => {
       { _id: req.body.cart._id },
       { $set: { checkedout: true } }
     );
-    console.log(userCart);
     const newOrder = new db.Order({
       user: req.user._id,
       cart: req.body.cart._id
@@ -60,7 +59,6 @@ const getCartItems = async (req, res, next) => {
         ? (dishInCartWithQty = dishInCartWithQty)
         : (dishInCartWithQty = { dishes: [] });
     }
-    // res.json({ ...dishInCartWithQty, message: "Cart Loaded" });
     res.json(dishInCartWithQty);
   } catch (e) {
     return next(e);
@@ -108,9 +106,25 @@ const addToCart = async (req, res, next) => {
   }
 };
 
+const editCart = async (req, res, next) => {
+  try {
+    const editCartResponse = await db.Cart.updateOne(
+      {
+        user_id: req.user._id,
+        checkedout: false
+      },
+      { $set: { dishes: req.body.arrayOfQtyChanges } }
+    );
+    res.json(editCartResponse);
+  } catch (e) {
+    return next(e);
+  }
+};
+
 module.exports = {
   getAllOrders,
   postOrder,
   getCartItems,
-  addToCart
+  addToCart,
+  editCart
 };
