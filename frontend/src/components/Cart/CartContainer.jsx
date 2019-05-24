@@ -5,13 +5,36 @@ import { getCartItems, editCart, postOrder } from "../../actions/orderActions";
 import DisplayDishes from "./DisplayDishes";
 
 class CartContainer extends React.Component {
-  state = {};
+  state = {
+    cartValue: {}
+  };
   componentDidMount() {
     this.props.getCartItems();
   }
-  handleEditCart = dish => e => {
+  // componentWillUnmount() {
+  //   //todo error
+  //   const { cartValue } = this.state;
+  //   if (
+  //     !(
+  //       Object.entries(cartValue).length === 0 &&
+  //       cartValue.constructor === Object
+  //     )
+  //   ) {
+  //     this.handleEditCart();
+  //   }
+  //   console.log(cartValue, !Object.entries(cartValue).length === 0);
+  // }
+  handleCartValue = dish => e => {
+    this.setState({
+      cartValue: {
+        ...this.state.cartValue,
+        [dish._id]: { dish: dish._id, qty: Number(e.target.value) }
+      }
+    });
+  };
+  handleEditCart = () => {
     const { editCart } = this.props;
-    editCart(dish, Number(e.target.value));
+    editCart(Object.values(this.state.cartValue));
   };
   handlePostOrder = () => {
     const { postOrder, cart } = this.props;
@@ -25,6 +48,7 @@ class CartContainer extends React.Component {
           cartWithProduct={cartWithProduct}
           handleEditCart={this.handleEditCart}
           handlePostOrder={this.handlePostOrder}
+          handleCartValue={this.handleCartValue}
         />
       </div>
     );

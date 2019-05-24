@@ -67,7 +67,7 @@ function getCartItems() {
   };
 }
 
-function editCart(dish, qty) {
+function editCart(arrayOfQtyChanges) {
   //todo try to delete the product from cart if qty =  0
   return dispatch => {
     // const shoppingCart = JSON.parse(localStorage.getItem("cart"));
@@ -82,6 +82,13 @@ function editCart(dish, qty) {
     // } else {
     //   localStorage.setItem("cart", JSON.stringify({ [dish._id]: qty }));
     // }
-    dispatch({ type: EDIT_CART, payload: { dish, qty } });
+    dispatch(
+      apiRequest({
+        url: `/api/orders/editCart`,
+        method: "POST",
+        data: { arrayOfQtyChanges }
+      })
+      // { type: EDIT_CART, payload: { dish, qty } }
+    );
   };
 }

@@ -1,6 +1,7 @@
 const db = require("../models/index");
 
-const { compareObjectId } = require("../utils/utils");
+const { compareObjectId, arrayOfObjToObjOfObj } = require("../utils/utils");
+const ObjectID = require("mongodb").ObjectID;
 // todo validation
 // const validation = require("../utils/joiSchemas/index");
 
@@ -108,14 +109,17 @@ const addToCart = async (req, res, next) => {
 
 const editCart = async (req, res, next) => {
   try {
-    const editCartResponse = await db.Cart.updateOne(
-      {
-        user_id: req.user._id,
-        checkedout: false
-      },
-      { $set: { dishes: req.body.arrayOfQtyChanges } }
-    );
-    res.json(editCartResponse);
+    req.body.arrayOfQtyChanges.forEach(async x => {
+      await db.Cart.updateOne(
+        {
+          user_id: req.user._id,
+          checkedout: false,
+          "dishes.dish": x.dish
+        },
+        { $set: { "dishes.$.qty": x.qty } }
+      );
+    });
+    res.json({ message: "Updated" });
   } catch (e) {
     return next(e);
   }

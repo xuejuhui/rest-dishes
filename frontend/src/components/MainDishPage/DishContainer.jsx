@@ -129,7 +129,6 @@ class DishContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state.order.cart);
   return {
     dish: state.dish.dish,
     hasMore: state.dish.hasMore,

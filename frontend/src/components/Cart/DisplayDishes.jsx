@@ -1,8 +1,9 @@
 import React, { Fragment } from "react";
 const DisplayDishes = ({
   cartWithProduct,
-  handleEditCart,
-  handlePostOrder
+  handlePostOrder,
+  handleCartValue,
+  handleEditCart
 }) => {
   return (
     <Fragment>
@@ -14,8 +15,8 @@ const DisplayDishes = ({
                 <input
                   name={dish.dish._id}
                   type="number"
-                  value={dish.qty}
-                  onChange={handleEditCart(dish)}
+                  defaultValue={dish.qty}
+                  onChange={handleCartValue(dish.dish)}
                 />
               </div>
             );
@@ -30,6 +31,7 @@ const DisplayDishes = ({
             )
           : ""}
         <button onClick={handlePostOrder}>Omg You better work</button>
+        <button onClick={handleEditCart}>Omg </button>
       </h3>
     </Fragment>
   );
