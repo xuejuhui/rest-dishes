@@ -119,7 +119,14 @@ const editCart = async (req, res, next) => {
         { $set: { "dishes.$.qty": x.qty } }
       );
     });
-    res.json({ message: "Updated" });
+    // const userCart = await db.Cart.findOne({
+    //   user_id: req.user._id,
+    //   checkedout: false
+    // });
+    res.json({
+      message: "Updated"
+      // userCart: userCart.dishes
+    });
   } catch (e) {
     return next(e);
   }

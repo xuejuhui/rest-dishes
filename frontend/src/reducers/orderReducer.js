@@ -34,16 +34,21 @@ const orderReducer = (state = initialState, action) => {
         cart: { ...action.payload, dishes: resultObject }
       };
     case EDIT_CART:
-      const qty = Number(action.payload.qty);
+      // const qty = Number(action.payload.qty);
+      const userCartObject = action.payload.userCart.reduce((acc, curr) => {
+        acc[curr._id] = curr;
+        return acc;
+      }, {});
+      console.log(state.cartWithProduct, userCartObject);
       return {
-        ...state,
-        cartWithProduct: {
-          ...state.cartWithProduct,
-          [action.payload.dish._id]: {
-            ...action.payload.dish,
-            qty
-          }
-        }
+        // ...state,
+        // cartWithProduct: {
+        //   ...state.cartWithProduct,
+        //   [action.payload.dish._id]: {
+        //     ...action.payload.dish,
+        //     qty
+        //   }
+        // }
       };
     case POST_ORDER:
       return {};

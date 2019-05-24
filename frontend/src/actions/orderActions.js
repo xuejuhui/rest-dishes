@@ -83,12 +83,15 @@ function editCart(arrayOfQtyChanges) {
     //   localStorage.setItem("cart", JSON.stringify({ [dish._id]: qty }));
     // }
     dispatch(
-      apiRequest({
-        url: `/api/orders/editCart`,
-        method: "POST",
-        data: { arrayOfQtyChanges }
-      })
-      // { type: EDIT_CART, payload: { dish, qty } }
+      apiRequest(
+        {
+          url: `/api/orders/editCart`,
+          method: "POST",
+          data: { arrayOfQtyChanges }
+        },
+        EDIT_CART,
+        "Edited"
+      )
     );
   };
 }
