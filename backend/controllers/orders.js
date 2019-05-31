@@ -1,7 +1,6 @@
 const db = require("../models/index");
 
 const { compareObjectId, arrayOfObjToObjOfObj } = require("../utils/utils");
-const ObjectID = require("mongodb").ObjectID;
 // todo validation
 // const validation = require("../utils/joiSchemas/index");
 
@@ -9,8 +8,21 @@ const getAllOrders = async (req, res, next) => {
   try {
     const orders = await db.Order.find()
       .populate({ path: "user", select: "email" })
-      .populate({ path: "dish", select: "dishName" });
+      .populate({ path: "cart", populate: { path: "dishes.dish" } });
     res.json(orders);
+  } catch (e) {
+    return next(e);
+  }
+};
+const getUserOrders = async (req, res, next) => {
+  const userId = req.params.id;
+  try {
+    const orders = await db.Dish.find({ user_id: userId });
+    const carts = await db.Cart.find({
+      "dishes.dish": { $in: orders.map(x => x._id) }
+    }).populate({ path: "dishes.dish" });
+    console.log(carts);
+    res.json(carts);
   } catch (e) {
     return next(e);
   }
@@ -108,9 +120,10 @@ const addToCart = async (req, res, next) => {
 };
 
 const editCart = async (req, res, next) => {
+  //todo need to fix might need to fix the whole structure of edit cart
   try {
-    req.body.arrayOfQtyChanges.forEach(async x => {
-      await db.Cart.updateOne(
+    let changeRequest = req.body.arrayOfQtyChanges.map(async x => {
+      return await db.Cart.updateOne(
         {
           user_id: req.user._id,
           checkedout: false,
@@ -119,13 +132,12 @@ const editCart = async (req, res, next) => {
         { $set: { "dishes.$.qty": x.qty } }
       );
     });
-    // const userCart = await db.Cart.findOne({
-    //   user_id: req.user._id,
-    //   checkedout: false
-    // });
-    res.json({
-      message: "Updated"
-      // userCart: userCart.dishes
+    Promise.all(changeRequest).then(async () => {
+      const userCart = await db.Cart.findOne({
+        user_id: req.user._id,
+        checkedout: false
+      }).populate({ path: "dishes.dish" });
+      res.json({ message: "Updated", userCart: userCart.dishes });
     });
   } catch (e) {
     return next(e);
@@ -137,5 +149,6 @@ module.exports = {
   postOrder,
   getCartItems,
   addToCart,
-  editCart
+  editCart,
+  getUserOrders
 };

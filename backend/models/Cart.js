@@ -15,7 +15,8 @@ const CartSchema = new Schema({
       qty: {
         type: Number,
         deffault: 1
-      }
+      },
+      dishCompleted: { type: Boolean, default: false }
     }
   ],
   date: {
