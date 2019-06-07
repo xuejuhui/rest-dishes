@@ -11,7 +11,7 @@ import FilledStar from "@material-ui/icons/Star";
 
 import IngredientInput from "./Ingredient/IngredientInput";
 import IngredientDisplay from "./Ingredient/IngredientDisplay";
-import CustomButton from "./CustomButton";
+import CustomButton from "../../SharedComponents/CustomButton";
 
 const styles = theme => {
   return {
