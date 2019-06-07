@@ -17,14 +17,19 @@ const getAllOrders = async (req, res, next) => {
 const getUserOrders = async (req, res, next) => {
   try {
     const orders = await db.Dish.find({ user_id: req.user._id });
+    const userDishes = orders.map(x => x._id);
     const cartDishes = await db.Cart.find({
-      "dishes.dish": { $in: orders.map(x => x._id) },
+      "dishes.dish": { $in: userDishes },
       checkedout: true
-    }).populate({
-      path: "dishes.dish",
-      select: ["image", "_id", "dishName", "description", "user_id", "date"]
-    });
-    res.json(cartDishes);
+    }).populate([
+      {
+        path: "dishes.dish",
+        select: ["image", "_id", "dishName", "description", "user_id", "date"]
+      },
+      { path: "user_id", select: ["email"] }
+    ]);
+
+    res.json({ cartDishes, userDishes });
   } catch (e) {
     return next(e);
   }

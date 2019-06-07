@@ -14,9 +14,10 @@ class DashBoardContainer extends Component {
     this.setState({ pageOpen: e.currentTarget.name });
   };
   render() {
+    const { orders } = this.props;
     const { pageOpen } = this.state;
     const page = {
-      orders: <Orders />,
+      orders: <Orders orders={orders} />,
       dashBoard: <DashBoard />,
       none: null
     };
@@ -32,7 +33,7 @@ class DashBoardContainer extends Component {
 const mapStateToProps = state => {
   return {
     user: state.auth.user,
-    userDishes: state.dish.userDishes
+    orders: state.order.orders
   };
 };
 

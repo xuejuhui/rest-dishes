@@ -11,12 +11,14 @@ const apiRequest = ({ url, ...apiOptions }, dispatchType, message = "") => {
         type: dispatchType,
         payload: response.data
       });
-      dispatch(
-        enqueueSnackbar({
-          message,
-          options: { variant: "success" }
-        })
-      );
+      if (message) {
+        dispatch(
+          enqueueSnackbar({
+            message,
+            options: { variant: "success" }
+          })
+        );
+      }
     } catch (e) {
       console.log(e);
       if (!e.response) {

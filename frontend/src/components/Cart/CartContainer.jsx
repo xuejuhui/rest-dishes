@@ -9,7 +9,7 @@ class CartContainer extends React.Component {
     cartValue: {}
   };
   componentDidMount() {
-    // this.props.getCartItems();
+    this.props.getCartItems();
   }
   // componentWillUnmount() {
   //   //todo error

@@ -69,7 +69,6 @@ const DishCard = props => {
     handleDeleteUserDish,
     hanldleSubmitRating,
     user,
-    handleOrdering,
     handleAddToCart
   } = props;
   return (

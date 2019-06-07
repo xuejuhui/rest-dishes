@@ -47,8 +47,20 @@ const orderReducer = (state = initialState, action) => {
     case POST_ORDER:
       return {};
     case GET_ORDER_ITEMS:
-      console.log(action.payload);
-      return {};
+      const ordersObject = action.payload.cartDishes.reduce((acc, curr) => {
+        const currentObj = {
+          ...curr,
+          dishes: curr.dishes.filter(dish => {
+            return action.payload.userDishes.includes(dish.dish._id);
+          })
+        };
+        acc[curr._id] = currentObj;
+        return acc;
+      }, {});
+      return {
+        ...state,
+        orders: ordersObject
+      };
     default:
       return state;
   }

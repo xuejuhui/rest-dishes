@@ -6,7 +6,6 @@ import {
   GET_ORDER_ITEMS
 } from "../actions/types";
 import { apiRequest } from "../utils/api/apiWrapper";
-import { apiClient } from "../utils/api/apiClient";
 
 export { postOrder, addToCart, getCartItems, editCart, getOrderItems };
 
@@ -105,8 +104,7 @@ function getOrderItems() {
           url: `/api/orders/userorders`,
           method: "GET"
         },
-        GET_ORDER_ITEMS,
-        "Get Your Orders"
+        GET_ORDER_ITEMS
       )
     );
   };
