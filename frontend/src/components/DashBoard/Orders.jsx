@@ -14,6 +14,7 @@ const Orders = ({ orders }) => {
                 <div key={dish._id}>
                   <p>{dish.dish.dishName}</p>
                   <p>{dish.qty}</p>
+                  {dish.dishCompleted ? "hi" : "bye"}
                 </div>
               );
             })}
