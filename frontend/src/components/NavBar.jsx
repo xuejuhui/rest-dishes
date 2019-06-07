@@ -59,6 +59,14 @@ function NavBar(props) {
               </Button>
               <Button color="inherit">
                 <Link
+                  to="/dashboard"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  DashBoard
+                </Link>
+              </Button>
+              <Button color="inherit">
+                <Link
                   to={`/user-profile/${user.id}`}
                   style={{ textDecoration: "none", color: "white" }}
                 >

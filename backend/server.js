@@ -42,7 +42,7 @@ app.use(
 );
 app.use(
   "/api/orders",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   orders
 );
 

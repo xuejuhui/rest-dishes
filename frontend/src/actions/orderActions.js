@@ -2,12 +2,13 @@ import {
   POST_ORDER,
   ADD_TO_CART,
   GET_CART_ITEMS,
-  EDIT_CART
+  EDIT_CART,
+  GET_ORDER_ITEMS
 } from "../actions/types";
 import { apiRequest } from "../utils/api/apiWrapper";
 import { apiClient } from "../utils/api/apiClient";
 
-export { postOrder, addToCart, getCartItems, editCart };
+export { postOrder, addToCart, getCartItems, editCart, getOrderItems };
 
 function postOrder(cart) {
   return dispatch => {
@@ -91,6 +92,21 @@ function editCart(arrayOfQtyChanges) {
         },
         EDIT_CART,
         "Edited"
+      )
+    );
+  };
+}
+
+function getOrderItems() {
+  return dispatch => {
+    dispatch(
+      apiRequest(
+        {
+          url: `/api/orders/userorders`,
+          method: "GET"
+        },
+        GET_ORDER_ITEMS,
+        "Get Your Orders"
       )
     );
   };

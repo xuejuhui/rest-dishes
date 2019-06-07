@@ -2,7 +2,8 @@ import {
   ADD_TO_CART,
   GET_CART_ITEMS,
   EDIT_CART,
-  POST_ORDER
+  POST_ORDER,
+  GET_ORDER_ITEMS
 } from "../actions/types";
 
 const initialState = {
@@ -44,6 +45,9 @@ const orderReducer = (state = initialState, action) => {
         cartWithProduct: userCartObject
       };
     case POST_ORDER:
+      return {};
+    case GET_ORDER_ITEMS:
+      console.log(action.payload);
       return {};
     default:
       return state;

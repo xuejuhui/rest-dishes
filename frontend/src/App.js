@@ -8,6 +8,7 @@ import Authenticated from "./components/Authenticated";
 import { SnackbarProvider } from "notistack";
 import AlertMessage from "./components/AlertMessage/AlertMessage";
 import CartContainer from "./components/Cart/CartContainer";
+import DashBoardContainer from "./components/DashBoard/DashBoardContainer";
 import {
   LandingPage,
   DishContainer,
@@ -33,6 +34,7 @@ class App extends Component {
             <Authenticated component={ForgotPassword} path="/forgot" />
             <ProtectedRoute component={DishContainer} path="/secret" />
             <ProtectedRoute component={CartContainer} path="/cart" />
+            <ProtectedRoute component={DashBoardContainer} path="/dashboard" />
             <ProtectedRoute
               component={UserProfileContainer}
               path="/user-profile/:id"
