@@ -1,4 +1,4 @@
-import { GET_ALL_COMMENTS, POST_COMMENT } from "../actions/types";
+import { GET_ALL_COMMENTS, POST_COMMENT } from "actions/types";
 
 const initialState = {
   comments: {}

@@ -4,11 +4,11 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { ApolloProvider } from "react-apollo";
 
-import "./index.css";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
-import persistStore from "./store";
-import client from "./apolloClient";
+import "index.css";
+import App from "App";
+import * as serviceWorker from "serviceWorker";
+import persistStore from "store";
+import client from "apolloClient";
 
 const { store, persistor } = persistStore;
 ReactDOM.render(

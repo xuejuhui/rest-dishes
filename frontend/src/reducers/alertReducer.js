@@ -1,4 +1,4 @@
-import { ENQUEUE_SNACKBAR, REMOVE_SNACKBAR } from "../actions/types";
+import { ENQUEUE_SNACKBAR, REMOVE_SNACKBAR } from "actions/types";
 
 const initialState = {
   notifications: []

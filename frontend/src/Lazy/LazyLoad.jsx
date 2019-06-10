@@ -1,34 +1,34 @@
 import Loadable from "react-loadable";
-// import NavBar from "../components/NavBar";
-import Loading from "../components/Loading";
+// import NavBar from "components/NavBar";
+import Loading from "components/Loading";
 
 const LandingPage = Loadable({
-  loader: () => import("../components/Landing"),
+  loader: () => import("components/Home/Landing"),
   loading: Loading
 });
 const DishContainer = Loadable({
-  loader: () => import("../components/MainDishPage/DishContainer"),
+  loader: () => import("components/MainDishPage/DishContainer"),
   loading: Loading
 });
 const Login = Loadable({
-  loader: () => import("../components/Login"),
+  loader: () => import("components/Login"),
   loading: Loading
 });
 const Register = Loadable({
-  loader: () => import("../components/Register"),
+  loader: () => import("components/Register"),
   loading: Loading
 });
 const ResetPassword = Loadable({
-  loader: () => import("../components/ResetPassword"),
+  loader: () => import("components/ResetPassword"),
   loading: Loading
 });
 const ForgotPassword = Loadable({
-  loader: () => import("../components/ForgotPassword"),
+  loader: () => import("components/ForgotPassword"),
   loading: Loading
 });
 
 const UserProfileContainer = Loadable({
-  loader: () => import("../components/UserProfilePage/UserProfileContainer"),
+  loader: () => import("components/UserProfilePage/UserProfileContainer"),
   loading: Loading
 });
 

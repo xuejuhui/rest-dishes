@@ -9,9 +9,9 @@ import Rating from "react-rating";
 import EmptyStar from "@material-ui/icons/StarBorder";
 import FilledStar from "@material-ui/icons/Star";
 
-import IngredientInput from "./Ingredient/IngredientInput";
-import IngredientDisplay from "./Ingredient/IngredientDisplay";
-import CustomButton from "../../SharedComponents/CustomButton";
+import IngredientInput from "components/MainDishPage/DishCard/Ingredient/IngredientInput";
+import IngredientDisplay from "components/MainDishPage/DishCard/Ingredient/IngredientDisplay";
+import CustomButton from "components/SharedComponents/CustomButton";
 
 const styles = theme => {
   return {

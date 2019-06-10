@@ -6,8 +6,8 @@ import {
   ADD_USER_DISH_INGREDIENT,
   GET_DISH,
   SUBMIT_RATING
-} from "../actions/types";
-import { apiRequest } from "../utils/api/apiWrapper";
+} from "actions/types";
+import { apiRequest } from "utils/api/apiWrapper";
 export {
   getUserDishes,
   addUserDishes,

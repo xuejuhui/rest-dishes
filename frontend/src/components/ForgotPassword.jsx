@@ -3,8 +3,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import { connect } from "react-redux";
-import { forgotPassword } from "../actions/authActions";
-import Loading from "./Loading";
+import { forgotPassword } from "actions/authActions";
+import Loading from "components/Loading";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 const styles = theme => {

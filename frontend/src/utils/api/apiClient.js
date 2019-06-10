@@ -3,7 +3,7 @@ import {
   // requestInterceptorB,
   // responseInterceptorA,
   // responseInterceptorB
-} from "./apiInterceptors";
+} from "utils/api/apiInterceptors";
 import axios from "axios";
 
 const apiClient = axios.create({ baseURL: "http://localhost:5000" });

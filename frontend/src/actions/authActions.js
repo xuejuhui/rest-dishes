@@ -4,12 +4,12 @@ import {
   LOADING,
   REMOVE_CURRENT_USER,
   USER_LOGOUT
-} from "./types";
+} from "actions/types";
 import jwt_decode from "jwt-decode";
-import { enqueueSnackbar } from "./alertActions";
-import apiClient from "../utils/api/apiClient";
+import { enqueueSnackbar } from "actions/alertActions";
+import apiClient from "utils/api/apiClient";
 
-// import { apiRequest } from "../utils/api/apiWrapper";
+// import { apiRequest } from "utils/api/apiWrapper";
 
 export { login, register, logout, loading, forgotPassword, resetPassword };
 

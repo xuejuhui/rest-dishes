@@ -4,7 +4,7 @@ import {
   EDIT_CART,
   POST_ORDER,
   GET_ORDER_ITEMS
-} from "../actions/types";
+} from "actions/types";
 
 const initialState = {
   cart: {},

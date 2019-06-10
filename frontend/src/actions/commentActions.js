@@ -1,5 +1,5 @@
-import { GET_ALL_COMMENTS, POST_COMMENT } from "../actions/types";
-import { apiRequest } from "../utils/api/apiWrapper";
+import { GET_ALL_COMMENTS, POST_COMMENT } from "actions/types";
+import { apiRequest } from "utils/api/apiWrapper";
 
 export { getAllComments, postComment };
 

@@ -10,8 +10,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
-import { addUserDishes } from "../../actions/dishActions";
-import Upload from "../Upload";
+import { addUserDishes } from "actions/dishActions";
+import Upload from "components/Upload";
 
 const styles = theme => {
   return {

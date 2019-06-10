@@ -6,7 +6,7 @@ import {
   ADD_USER_DISH_INGREDIENT,
   GET_DISH,
   SUBMIT_RATING
-} from "../actions/types";
+} from "actions/types";
 
 const initialState = {
   userName: null,

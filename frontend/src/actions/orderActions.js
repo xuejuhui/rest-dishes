@@ -4,8 +4,8 @@ import {
   GET_CART_ITEMS,
   EDIT_CART,
   GET_ORDER_ITEMS
-} from "../actions/types";
-import { apiRequest } from "../utils/api/apiWrapper";
+} from "actions/types";
+import { apiRequest } from "utils/api/apiWrapper";
 
 export { postOrder, addToCart, getCartItems, editCart, getOrderItems };
 

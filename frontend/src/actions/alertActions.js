@@ -1,4 +1,4 @@
-import { REMOVE_SNACKBAR } from "./types";
+import { REMOVE_SNACKBAR } from "actions/types";
 export { enqueueSnackbar, removeSnackbar };
 
 function enqueueSnackbar(notification) {

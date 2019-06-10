@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
-import DishCard from "./DishCard/DishCard";
-import DishForm from "./DishForm";
+import DishCard from "components/MainDishPage/DishCard/DishCard";
+import DishForm from "components/MainDishPage/DishForm";
 import { connect } from "react-redux";
-import DishesList from "./DishesList/DishesList.jsx";
-import CommentsContainer from "../Comments/CommentsContainer";
-import Button from "../Button";
+import DishesList from "components/MainDishPage/DishesList/DishesList.jsx";
+import CommentsContainer from "components/Comments/CommentsContainer";
+import Button from "components/Button";
 
 import {
   deleteUserDish,
@@ -12,8 +12,8 @@ import {
   addUserDishesIngredient,
   getDish,
   submitRating
-} from "../../actions/dishActions";
-import { postOrder, addToCart } from "../../actions/orderActions";
+} from "actions/dishActions";
+import { postOrder, addToCart } from "actions/orderActions";
 
 class DishContainer extends Component {
   state = {

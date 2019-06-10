@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
-import authReducer from "./authReducer";
-import alertReducer from "./alertReducer";
-import dishReducer from "./dishReducer";
-import commentReducer from "./commentReducer";
-import orderReducer from "./orderReducer";
+import authReducer from "reducers/authReducer";
+import alertReducer from "reducers/alertReducer";
+import dishReducer from "reducers/dishReducer";
+import commentReducer from "reducers/commentReducer";
+import orderReducer from "reducers/orderReducer";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { USER_LOGOUT } from "../actions/types";
+import { USER_LOGOUT } from "actions/types";
 
 const persistConfig = {
   key: "root",

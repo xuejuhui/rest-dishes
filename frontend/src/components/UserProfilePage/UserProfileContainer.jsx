@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getUserDishes } from "../../actions/dishActions";
+import { getUserDishes } from "actions/dishActions";
 
 class UserProfileContianer extends Component {
   componentDidMount() {

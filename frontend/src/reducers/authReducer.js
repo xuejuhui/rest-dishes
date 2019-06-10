@@ -2,7 +2,7 @@ import {
   SET_CURRENT_USER,
   LOADING,
   REMOVE_CURRENT_USER
-} from "../actions/types";
+} from "actions/types";
 
 const initialState = {
   login: false,

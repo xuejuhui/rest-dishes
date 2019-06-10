@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { connect } from "react-redux";
 import { withSnackbar } from "notistack";
-import { removeSnackbar } from "../../actions/alertActions";
+import { removeSnackbar } from "actions/alertActions";
 
 class AlertMessage extends Component {
   displayed = [];

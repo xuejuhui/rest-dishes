@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import CommentsList from "./CommentsList";
-import { getAllComments, postComment } from "../../actions/commentActions";
+import CommentsList from "components/Comments/CommentsList";
+import { getAllComments, postComment } from "actions/commentActions";
 
 class CommentsContainer extends Component {
   state = { message: "" };

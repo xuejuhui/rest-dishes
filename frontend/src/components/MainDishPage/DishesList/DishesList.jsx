@@ -2,8 +2,8 @@ import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { withStyles } from "@material-ui/core/styles";
 
-import DishList from "./DishList";
-import Loading from "../../Loading";
+import DishList from "components/MainDishPage/DishesList/DishList";
+import Loading from "components/Loading";
 
 const styles = theme => ({
   main: { float: "left", width: "30vw", marginTop: 10 }

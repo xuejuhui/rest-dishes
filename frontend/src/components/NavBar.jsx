@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { register, login, logout } from "../actions/authActions";
+import { register, login, logout } from "actions/authActions";
 
 const styles = {
   root: {

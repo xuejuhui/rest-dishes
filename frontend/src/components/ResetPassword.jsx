@@ -4,7 +4,7 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import axios from "axios";
 import { connect } from "react-redux";
-import { resetPassword } from "../actions/authActions";
+import { resetPassword } from "actions/authActions";
 import { Redirect } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 

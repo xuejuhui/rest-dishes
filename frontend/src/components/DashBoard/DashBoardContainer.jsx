@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { getOrderItems } from "../../actions/orderActions";
-import DashBoard from "./DashBoard";
-import Orders from "./Orders";
-import NavButtons from "./NavButtons";
+import { getOrderItems } from "actions/orderActions";
+import DashBoard from "components/DashBoard/DashBoard";
+import Orders from "components/DashBoard/Orders";
+import NavButtons from "components/DashBoard/NavButtons";
 
 class DashBoardContainer extends Component {
   state = { pageOpen: "" };

@@ -3,7 +3,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import withStyles from "@material-ui/core/styles/withStyles";
-import ImagePreview from "./ImagePreview";
+import ImagePreview from "components/ImagePreview";
 import Button from "@material-ui/core/Button";
 
 const styles = theme => {

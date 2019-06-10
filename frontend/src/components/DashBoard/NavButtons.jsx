@@ -1,5 +1,5 @@
 import React from "react";
-import CustomButton from "../SharedComponents/CustomButton.jsx";
+import CustomButton from "components/SharedComponents/CustomButton.jsx";
 const NavButtons = ({ handleOpenPage }) => {
   return (
     <div>

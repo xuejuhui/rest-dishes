@@ -1,5 +1,5 @@
-import apiClient from "./apiClient";
-import { enqueueSnackbar } from "../../actions/alertActions";
+import apiClient from "utils/api/apiClient";
+import { enqueueSnackbar } from "actions/alertActions";
 
 const apiRequest = ({ url, ...apiOptions }, dispatchType, message = "") => {
   return async dispatch => {

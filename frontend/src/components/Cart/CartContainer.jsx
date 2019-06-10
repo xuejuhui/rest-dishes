@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getCartItems, editCart, postOrder } from "../../actions/orderActions";
+import { getCartItems, editCart, postOrder } from "actions/orderActions";
 
-import DisplayDishes from "./DisplayDishes";
+import DisplayDishes from "components/Cart/DisplayDishes";
 
 class CartContainer extends React.Component {
   state = {
