@@ -12,10 +12,11 @@ const orders = require("./routes/api/orders");
 
 const errorHandlers = require("./utils/errorHandlers");
 const server = require("./graphql/graphqlServer");
+const debug = require("debug")("server");
 
 // initialize express
 const app = express();
-
+debug("hi", "do some work");
 // Middleware
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
