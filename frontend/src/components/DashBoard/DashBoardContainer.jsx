@@ -10,6 +10,12 @@ class DashBoardContainer extends Component {
   componentDidMount() {
     this.props.getOrderItems();
   }
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.props.orders !== nextProps.orders ||
+      this.state.pageOpen !== nextState.pageOpen
+    );
+  }
   handleOpenPage = e => {
     this.setState({ pageOpen: e.currentTarget.name });
   };

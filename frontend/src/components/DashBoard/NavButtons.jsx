@@ -1,11 +1,24 @@
 import React from "react";
 import CustomButton from "components/SharedComponents/CustomButton.jsx";
-const NavButtons = ({ handleOpenPage }) => {
+import { withStyles } from "@material-ui/core/styles";
+
+const navStyles = theme => {
+  return {
+    navbar: {
+      width: "50vw",
+      display: "flex",
+      marginTop: "10px",
+      justifyContent: "space-evenly"
+    }
+  };
+};
+
+const NavButtons = ({ handleOpenPage, classes }) => {
   return (
-    <div>
+    <div className={classes.navbar}>
       <CustomButton
         handleOnClick={handleOpenPage}
-        size={"large"}
+        size={"small"}
         name={"orders"}
       >
         Order
@@ -20,4 +33,4 @@ const NavButtons = ({ handleOpenPage }) => {
   );
 };
 
-export default NavButtons;
+export default withStyles(navStyles)(NavButtons);
