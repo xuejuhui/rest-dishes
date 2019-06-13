@@ -4,6 +4,9 @@ import { getOrderItems } from "actions/orderActions";
 import DashBoard from "components/DashBoard/DashBoard";
 import Orders from "components/DashBoard/Orders";
 import NavButtons from "components/DashBoard/NavButtons";
+import persistStore from "store";
+
+const { store, persistor } = persistStore;
 
 class DashBoardContainer extends Component {
   state = { pageOpen: "" };
@@ -19,11 +22,17 @@ class DashBoardContainer extends Component {
   handleOpenPage = e => {
     this.setState({ pageOpen: e.currentTarget.name });
   };
+  handleCompletion = (order, dish) => () => {
+    store.dispatch({ type: "ORDER_COMPLETED", payload: { order, dish } });
+    console.log(dish);
+  };
   render() {
     const { orders } = this.props;
     const { pageOpen } = this.state;
     const page = {
-      orders: <Orders orders={orders} />,
+      orders: (
+        <Orders orders={orders} handleCompletion={this.handleCompletion} />
+      ),
       dashBoard: <DashBoard />,
       none: null
     };
@@ -37,6 +46,7 @@ class DashBoardContainer extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log(state.order.orders);
   return {
     user: state.auth.user,
     orders: state.order.orders

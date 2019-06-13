@@ -22,17 +22,30 @@ const useStyles = theme => {
     nested: {
       paddingLeft: "2rem",
       display: "flex"
+    },
+    order: {
+      width: 10
+    },
+    orderCompleted: {
+      paddingLeft: "2rem",
+      display: "flex",
+      color: "#999",
+      textDecoration: "line-through"
     }
   };
 };
 
-const Orders = ({ orders, classes }) => {
+const Orders = ({ orders, classes, handleCompletion }) => {
   const [open, setOpen] = React.useState(false);
   const [which, setWhich] = React.useState("");
   function handleClick(e) {
     setWhich(e.currentTarget.id);
     setOpen(!open);
+    if (which !== e.currentTarget.id) {
+      setOpen(true);
+    }
   }
+
   return (
     <Fragment>
       <List
@@ -40,7 +53,7 @@ const Orders = ({ orders, classes }) => {
         aria-labelledby="nested-list-subheader"
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
-            Nested List Items
+            Orders
           </ListSubheader>
         }
         className={classes.root}
@@ -65,16 +78,32 @@ const Orders = ({ orders, classes }) => {
               <List component="div" disablePadding>
                 {order.dishes.map(dish => {
                   return (
-                    <ListItem button className={classes.nested} key={dish._id}>
-                      <ListItemText primary={dish.dish.dishName} />
-                      <ListItemText primary={dish.qty} />
-
+                    <ListItem
+                      button
+                      className={
+                        dish.dishCompleted
+                          ? classes.orderCompleted
+                          : classes.nested
+                      }
+                      key={dish._id}
+                      onClick={handleCompletion(order, dish)}
+                    >
                       <ListItemText
-                        primary={dish.dishCompleted ? "hi" : "bye"}
+                        className={classes.order}
+                        primary={dish.dish.dishName}
                       />
-                      <ListItemIcon>
-                        <StarBorder />
-                      </ListItemIcon>
+                      <ListItemText
+                        primary={dish.qty}
+                        className={classes.order}
+                      />
+
+                      {dish.dishCompleted ? (
+                        "Completed"
+                      ) : (
+                        <ListItemIcon>
+                          <StarBorder />
+                        </ListItemIcon>
+                      )}
                     </ListItem>
                   );
                 })}

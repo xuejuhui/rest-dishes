@@ -3,7 +3,8 @@ import {
   GET_CART_ITEMS,
   EDIT_CART,
   POST_ORDER,
-  GET_ORDER_ITEMS
+  GET_ORDER_ITEMS,
+  ORDER_COMPLETED
 } from "actions/types";
 
 const initialState = {
@@ -61,6 +62,23 @@ const orderReducer = (state = initialState, action) => {
         ...state,
         orders: ordersObject
       };
+    case ORDER_COMPLETED:
+      return {
+        ...state,
+        orders: {
+          ...state.orders,
+          [action.payload.order._id]: {
+            ...action.payload.order,
+            dishes: action.payload.order.dishes.map(dish => {
+              if (dish._id === action.payload.dish._id) {
+                return { ...dish, dishCompleted: true };
+              }
+              return dish;
+            })
+          }
+        }
+      };
+
     default:
       return state;
   }
