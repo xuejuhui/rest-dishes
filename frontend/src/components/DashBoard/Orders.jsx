@@ -10,9 +10,12 @@ import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
+import MenuItem from "@material-ui/core/MenuItem";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import Select from "@material-ui/core/Select";
+import FilledInput from "@material-ui/core/FilledInput";
 
 const useStyles = theme => {
-  console.log(theme);
   return {
     root: {
       width: "100%",
@@ -26,6 +29,7 @@ const useStyles = theme => {
     order: {
       width: 10
     },
+    select: { width: "10%", borderRadius: "5px" },
     orderCompleted: {
       paddingLeft: "2rem",
       display: "flex",
@@ -44,6 +48,10 @@ const Orders = ({ orders, classes, handleCompletion }) => {
     if (which !== e.currentTarget.id) {
       setOpen(true);
     }
+  }
+
+  function handleChange(e) {
+    console.log(e.target.value);
   }
 
   return (
@@ -80,11 +88,7 @@ const Orders = ({ orders, classes, handleCompletion }) => {
                   return (
                     <ListItem
                       button
-                      className={
-                        dish.dishCompleted
-                          ? classes.orderCompleted
-                          : classes.nested
-                      }
+                      className={classes.nested}
                       key={dish._id}
                       onClick={handleCompletion(order, dish)}
                     >
@@ -97,12 +101,25 @@ const Orders = ({ orders, classes, handleCompletion }) => {
                         className={classes.order}
                       />
 
-                      {dish.dishCompleted ? (
+                      {dish.dishStatus ? (
                         "Completed"
                       ) : (
-                        <ListItemIcon>
-                          <StarBorder />
-                        </ListItemIcon>
+                        <Select
+                          className={classes.select}
+                          value={dish.dishStatus}
+                          onChange={handleCompletion(order, dish)}
+                          inputProps={{
+                            name: "age",
+                            id: "age-simple"
+                          }}
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={"Completed"}>Completed</MenuItem>
+                          <MenuItem value={"Cancel"}>Cancel</MenuItem>
+                          <MenuItem value={"Nope"}>Nope</MenuItem>
+                        </Select>
                       )}
                     </ListItem>
                   );

@@ -1,12 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { getOrderItems } from "actions/orderActions";
+import { getOrderItems, completeOrderItems } from "actions/orderActions";
 import DashBoard from "components/DashBoard/DashBoard";
 import Orders from "components/DashBoard/Orders";
 import NavButtons from "components/DashBoard/NavButtons";
-import persistStore from "store";
-
-const { store, persistor } = persistStore;
 
 class DashBoardContainer extends Component {
   state = { pageOpen: "" };
@@ -23,8 +20,8 @@ class DashBoardContainer extends Component {
     this.setState({ pageOpen: e.currentTarget.name });
   };
   handleCompletion = (order, dish) => () => {
-    store.dispatch({ type: "ORDER_COMPLETED", payload: { order, dish } });
-    console.log(dish);
+    console.log("bye");
+    this.props.completeOrderItems({ order, dish });
   };
   render() {
     const { orders } = this.props;
@@ -53,7 +50,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = { getOrderItems };
+const mapDispatchToProps = { getOrderItems, completeOrderItems };
 export default connect(
   mapStateToProps,
   mapDispatchToProps

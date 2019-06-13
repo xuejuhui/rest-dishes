@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 const navStyles = theme => {
   return {
     navbar: {
-      width: "50vw",
+      width: "100vw",
       display: "flex",
       marginTop: "10px",
       justifyContent: "space-evenly"

@@ -3,11 +3,19 @@ import {
   ADD_TO_CART,
   GET_CART_ITEMS,
   EDIT_CART,
-  GET_ORDER_ITEMS
+  GET_ORDER_ITEMS,
+  ORDER_COMPLETED
 } from "actions/types";
 import { apiRequest } from "utils/api/apiWrapper";
 
-export { postOrder, addToCart, getCartItems, editCart, getOrderItems };
+export {
+  postOrder,
+  addToCart,
+  getCartItems,
+  editCart,
+  getOrderItems,
+  completeOrderItems
+};
 
 function postOrder(cart) {
   return dispatch => {
@@ -106,6 +114,21 @@ function getOrderItems() {
         },
         GET_ORDER_ITEMS
       )
+    );
+  };
+}
+
+function completeOrderItems(order) {
+  return dispatch => {
+    dispatch(
+      // apiRequest(
+      //   {
+      //     url: `/api/orders/userorders`,
+      //     method: "GET"
+      //   },
+      //   GET_ORDER_ITEMS
+      // )
+      { type: ORDER_COMPLETED, payload: order }
     );
   };
 }

@@ -16,7 +16,7 @@ const CartSchema = new Schema({
         type: Number,
         deffault: 1
       },
-      dishCompleted: { type: Boolean, default: false }
+      dishStatus: { type: String, default: "" }
     }
   ],
   date: {

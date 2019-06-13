@@ -151,6 +151,13 @@ const editCart = async (req, res, next) => {
   }
 };
 
+const changeDishStatus = async (req, res, next) => {
+  try {
+  } catch (e) {
+    return next(e);
+  }
+};
+
 module.exports = {
   getAllOrders,
   postOrder,
