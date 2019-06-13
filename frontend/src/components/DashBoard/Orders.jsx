@@ -23,8 +23,8 @@ const useStyles = theme => {
       backgroundColor: theme.palette.background.paper
     },
     nested: {
-      paddingLeft: "2rem",
-      display: "flex"
+      paddingLeft: "2rem"
+      // display: "flex"
     },
     order: {
       width: 10
@@ -32,9 +32,7 @@ const useStyles = theme => {
     select: { width: "10%", borderRadius: "5px" },
     orderCompleted: {
       paddingLeft: "2rem",
-      display: "flex",
-      color: "#999",
-      textDecoration: "line-through"
+      display: "flex"
     }
   };
 };
@@ -87,7 +85,6 @@ const Orders = ({ orders, classes, handleCompletion }) => {
                 {order.dishes.map(dish => {
                   return (
                     <ListItem
-                      button
                       className={classes.nested}
                       key={dish._id}
                       onClick={handleCompletion(order, dish)}
@@ -102,10 +99,12 @@ const Orders = ({ orders, classes, handleCompletion }) => {
                       />
 
                       {dish.dishStatus ? (
-                        "Completed"
+                        <ListItemText
+                          primary={dish.dishStatus}
+                          className={classes.order}
+                        />
                       ) : (
                         <Select
-                          className={classes.select}
                           value={dish.dishStatus}
                           onChange={handleCompletion(order, dish)}
                           inputProps={{
