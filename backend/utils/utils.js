@@ -1,3 +1,9 @@
+var mongoose = require("mongoose");
+
+function toMongoID(id) {
+  return mongoose.Types.ObjectId(id);
+}
+
 function compareObjectId(id1, id2) {
   return id1.toString() === id2.toString();
 }
@@ -10,4 +16,4 @@ function arrayOfObjToObjOfObj(arrayOfObj) {
   }, {});
 }
 
-module.exports = { compareObjectId, arrayOfObjToObjOfObj };
+module.exports = { compareObjectId, arrayOfObjToObjOfObj, toMongoID };

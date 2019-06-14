@@ -19,9 +19,8 @@ class DashBoardContainer extends Component {
   handleOpenPage = e => {
     this.setState({ pageOpen: e.currentTarget.name });
   };
-  handleCompletion = (order, dish) => e => {
-    console.log("bye");
-    this.props.completeOrderItems({ order, dish, value: e.target.value });
+  handleCompletion = (orderId, dishId) => e => {
+    this.props.completeOrderItems({ orderId, dishId, status: e.target.value });
   };
   render() {
     const { orders } = this.props;

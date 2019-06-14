@@ -15,4 +15,6 @@ router.post("/addtocart", orderController.addToCart);
 
 router.post("/editCart", orderController.editCart);
 
+router.post("/changeDishStatus", orderController.changeDishStatus);
+
 module.exports = router;

@@ -1,6 +1,10 @@
 const db = require("../models/index");
 
-const { compareObjectId, arrayOfObjToObjOfObj } = require("../utils/utils");
+const {
+  compareObjectId,
+  arrayOfObjToObjOfObj,
+  toMongoID
+} = require("../utils/utils");
 // todo validation
 // const validation = require("../utils/joiSchemas/index");
 
@@ -28,7 +32,6 @@ const getUserOrders = async (req, res, next) => {
       },
       { path: "user_id", select: ["email"] }
     ]);
-
     res.json({ cartDishes, userDishes });
   } catch (e) {
     return next(e);
@@ -153,12 +156,31 @@ const editCart = async (req, res, next) => {
 
 const changeDishStatus = async (req, res, next) => {
   try {
+    const dishStatus = req.body.status;
+    const dishId = toMongoID(req.body.dishId);
+    const cartId = toMongoID(req.body.orderId);
+    const dishStatusResponse = await db.Cart.findOneAndUpdate(
+      {
+        _id: cartId,
+        "dishes._id": dishId
+      },
+      { $set: { "dishes.$.dishStatus": dishStatus } },
+      { new: true, useFindAndModify: false }
+    ).populate([
+      {
+        path: "dishes.dish",
+        select: ["image", "_id", "dishName", "description", "user_id", "date"]
+      },
+      { path: "user_id", select: ["email"] }
+    ]);
+    res.json(dishStatusResponse);
   } catch (e) {
     return next(e);
   }
 };
 
 module.exports = {
+  changeDishStatus,
   getAllOrders,
   postOrder,
   getCartItems,

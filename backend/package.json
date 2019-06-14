@@ -9,7 +9,7 @@
     "client": "cd ../frontend && npm start",
     "debug": "cross-env DEBUG=server nodemon ./bin/www",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "mocha -w"
+    "test": "mocha ./test/unit-test.js  -w"
   },
   "keywords": [],
   "author": "",

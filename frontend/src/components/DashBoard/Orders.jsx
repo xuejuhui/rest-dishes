@@ -11,9 +11,8 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
 import MenuItem from "@material-ui/core/MenuItem";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
+
 import Select from "@material-ui/core/Select";
-import FilledInput from "@material-ui/core/FilledInput";
 
 const useStyles = theme => {
   return {
@@ -48,10 +47,6 @@ const Orders = ({ orders, classes, handleCompletion }) => {
     }
   }
 
-  function handleChange(e) {
-    console.log(e.target.value);
-  }
-
   return (
     <Fragment>
       <List
@@ -84,11 +79,7 @@ const Orders = ({ orders, classes, handleCompletion }) => {
               <List component="div" disablePadding>
                 {order.dishes.map(dish => {
                   return (
-                    <ListItem
-                      className={classes.nested}
-                      key={dish._id}
-                      onClick={handleCompletion(order, dish)}
-                    >
+                    <ListItem className={classes.nested} key={dish._id}>
                       <ListItemText
                         className={classes.order}
                         primary={dish.dish.dishName}
@@ -106,7 +97,7 @@ const Orders = ({ orders, classes, handleCompletion }) => {
                       ) : (
                         <Select
                           value={dish.dishStatus}
-                          onChange={handleCompletion(order, dish)}
+                          onChange={handleCompletion(order._id, dish._id)}
                           inputProps={{
                             name: "age",
                             id: "age-simple"

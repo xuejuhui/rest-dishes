@@ -121,14 +121,14 @@ function getOrderItems() {
 function completeOrderItems(order) {
   return dispatch => {
     dispatch(
-      // apiRequest(
-      //   {
-      //     url: `/api/orders/userorders`,
-      //     method: "GET"
-      //   },
-      //   GET_ORDER_ITEMS
-      // )
-      { type: ORDER_COMPLETED, payload: order }
+      apiRequest(
+        {
+          url: `/api/orders/changeDishStatus`,
+          method: "POST",
+          data: order
+        },
+        ORDER_COMPLETED
+      )
     );
   };
 }

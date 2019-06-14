@@ -67,14 +67,8 @@ const orderReducer = (state = initialState, action) => {
         ...state,
         orders: {
           ...state.orders,
-          [action.payload.order._id]: {
-            ...action.payload.order,
-            dishes: action.payload.order.dishes.map(dish => {
-              if (dish._id === action.payload.dish._id) {
-                return { ...dish, dishStatus: action.payload.value };
-              }
-              return dish;
-            })
+          [action.payload._id]: {
+            ...action.payload
           }
         }
       };
