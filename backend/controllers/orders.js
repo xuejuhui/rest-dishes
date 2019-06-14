@@ -1,4 +1,5 @@
 const db = require("../models/index");
+const boom = require("boom");
 
 const {
   compareObjectId,
@@ -6,7 +7,7 @@ const {
   toMongoID
 } = require("../utils/utils");
 // todo validation
-// const validation = require("../utils/joiSchemas/index");
+const validation = require("../utils/joiSchemas/index");
 
 const getAllOrders = async (req, res, next) => {
   try {
@@ -39,20 +40,29 @@ const getUserOrders = async (req, res, next) => {
 };
 
 const postOrder = async (req, res, next) => {
-  try {
-    const userCart = await db.Cart.updateOne(
-      { _id: req.body.cart._id },
-      { $set: { checkedout: true } }
-    );
-    const newOrder = new db.Order({
-      user: req.user._id,
-      cart: req.body.cart._id
-    });
-    const orderResponse = await newOrder.save();
-    res.json(orderResponse);
-  } catch (e) {
-    return next(e);
-  }
+  console.log(req.body);
+  validation.orderSchema.validate(
+    { cart: req.body.cart },
+    async (err, value) => {
+      if (err) return next(boom.notFound(err.details[0].message));
+      try {
+        const userCart = await db.Cart.updateOne(
+          { _id: req.body.cart._id },
+          { $set: { checkedout: true } }
+        );
+        const newOrder = new db.Order({
+          user: req.user._id,
+          cart: req.body.cart._id
+        });
+        console.log(newOrder);
+        const orderResponse = await newOrder.save();
+        res.json(orderResponse);
+      } catch (e) {
+        console.log(e);
+        return next(e);
+      }
+    }
+  );
 };
 
 const getCartItems = async (req, res, next) => {
