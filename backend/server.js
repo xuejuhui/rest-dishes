@@ -9,6 +9,7 @@ const auth = require("./routes/api/auth");
 const dishes = require("./routes/api/dishes");
 const comments = require("./routes/api/comments");
 const orders = require("./routes/api/orders");
+const pro = require("./routes/api/pro");
 
 const errorHandlers = require("./utils/errorHandlers");
 const server = require("./graphql/graphqlServer");
@@ -46,6 +47,8 @@ app.use(
   passport.authenticate("jwt", { session: false }),
   orders
 );
+
+app.use("/api", pro);
 
 app.use("/graphql", passport.authenticate("jwt", { session: false }));
 

@@ -17,3 +17,4 @@ module.exports.Comment = require("./Comment.js");
 module.exports.Rating = require("./Rating.js");
 module.exports.Order = require("./Order.js");
 module.exports.Cart = require("./Cart.js");
+module.exports.RerferalLink = require("./ReferalLink.js");

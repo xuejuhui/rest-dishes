@@ -10,6 +10,7 @@ const DishSchema = new Schema({
   isDeleted: {
     type: Boolean,
     default: false
+    // index: true
   },
   user_id: {
     type: Schema.Types.ObjectId,

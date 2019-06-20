@@ -20,6 +20,7 @@ const UserSchema = new Schema({
   },
   dishes: [{ type: Schema.Types.ObjectId, ref: "Dish" }],
   cart: { type: Schema.Types.ObjectId, ref: "Cart" },
+  referalLink: [{ type: Schema.Types.ObjectId, ref: "RerferalLink" }],
   resetPasswordToken: String,
   resetPasswordExpires: Date
 });

@@ -105,6 +105,7 @@ const getAllUserDishes = async (req, res) => {
   const limit = Number(req.query.limit);
   const offset = Number(req.query.offset);
   try {
+    console.time();
     const dishes = await db.Dish.find({ isDeleted: false }, { isDeleted: 0 })
       .populate({
         path: "user_id",
@@ -117,6 +118,7 @@ const getAllUserDishes = async (req, res) => {
       .skip(offset)
       .limit(limit)
       .sort({ date: -1 });
+    console.timeEnd();
     const dishesPromise = dishes.map(async dish => {
       const newDish = { ...dish._doc, url: [], rating: [] };
       const url = await awsS3.getUrlFromS3(
