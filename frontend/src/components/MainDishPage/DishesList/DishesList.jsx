@@ -11,6 +11,7 @@ const styles = theme => ({
 const DishesList = props => {
   const { classes, dishes, handleMore, handleOpenCard, hasMore } = props;
   const dishesArray = Object.values(dishes);
+  console.log(hasMore);
   return (
     <div className={classes.main}>
       <InfiniteScroll

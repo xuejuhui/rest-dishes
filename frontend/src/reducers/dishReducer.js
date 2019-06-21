@@ -47,6 +47,7 @@ const dishReducer = (state = initialState, action) => {
         dishes: remainDishes
       };
     case GET_ALL_DISHES:
+      console.log(action.payload.length);
       const allDishesResponse = action.payload.reduce((acc, dish) => {
         let format = {
           ...dish,
@@ -60,7 +61,7 @@ const dishReducer = (state = initialState, action) => {
       return {
         ...state,
         dishes: { ...allDishesResponse, ...state.dishes },
-        hasMore: action.payload.length === 0 ? false : true
+        hasMore: action.payload.length < 10 ? false : true
       };
     case ADD_USER_DISH_INGREDIENT:
       const dish = state.dishes[action.payload.dishId];
