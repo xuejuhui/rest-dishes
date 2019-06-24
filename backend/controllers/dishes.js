@@ -107,48 +107,34 @@ const getAllUserDishes = async (req, res) => {
   const limit = Number(req.query.limit);
   const offset = Number(req.query.offset);
   try {
-    myCache.get(req.url, async function(err, value) {
-      if (value) {
-        res.json(value);
-      } else {
-        const dishes = await db.Dish.find(
-          { isDeleted: false },
-          { isDeleted: 0 }
-        )
-          .populate({
-            path: "user_id",
-            select: "email"
-          })
-          .populate({
-            path: "ingredient",
-            select: ["name", "location"]
-          })
-          .skip(offset)
-          .limit(limit)
-          .sort({ date: -1 });
-        const dishesPromise = dishes.map(async dish => {
-          const newDish = { ...dish._doc, url: [], rating: [] };
-          const url = await awsS3.getUrlFromS3(
-            dish.image[0],
-            "dishes-photos-bucket"
-          );
-          const rating = await db.Rating.find({ dishId: dish._id });
-          let averageRating =
-            rating.reduce((acc, curr) => curr.rating + acc, 0) / rating.length;
-          // newDish.rating = averageRating ? averageRating : 0;
-          newDish.rating = rating;
-          newDish.url.push(url);
-          return newDish;
-        });
-        let dishesWithImage = await Promise.all(dishesPromise);
-        myCache.set(req.url, dishesWithImage, function(err, success) {
-          if (!err && success) {
-            console.log(success);
-            res.json(dishesWithImage);
-          }
-        });
-      }
+    const dishes = await db.Dish.find({ isDeleted: false }, { isDeleted: 0 })
+      .populate({
+        path: "user_id",
+        select: "email"
+      })
+      .populate({
+        path: "ingredient",
+        select: ["name", "location"]
+      })
+      .skip(offset)
+      .limit(limit)
+      .sort({ date: -1 });
+    const dishesPromise = dishes.map(async dish => {
+      const newDish = { ...dish._doc, url: [], rating: [] };
+      const url = await awsS3.getUrlFromS3(
+        dish.image[0],
+        "dishes-photos-bucket"
+      );
+      const rating = await db.Rating.find({ dishId: dish._id });
+      let averageRating =
+        rating.reduce((acc, curr) => curr.rating + acc, 0) / rating.length;
+      // newDish.rating = averageRating ? averageRating : 0;
+      newDish.rating = rating;
+      newDish.url.push(url);
+      return newDish;
     });
+    let dishesWithImage = await Promise.all(dishesPromise);
+    res.json(dishesWithImage);
   } catch (error) {
     console.log(error);
   }

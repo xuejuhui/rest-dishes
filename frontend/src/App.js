@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "App.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from "components/NavBar";
 import ProtectedRoute from "components/ProtectedRoute";
 import { connect } from "react-redux";
@@ -9,6 +9,7 @@ import { SnackbarProvider } from "notistack";
 import AlertMessage from "components/AlertMessage/AlertMessage";
 import CartContainer from "components/Cart/CartContainer";
 import DashBoardContainer from "components/DashBoard/DashBoardContainer";
+import Page404 from "components/Page404/Page404";
 import {
   LandingPage,
   DishContainer,
@@ -27,18 +28,24 @@ class App extends Component {
           <div className="App">
             <AlertMessage />
             <NavBar />
-            <Route exact path="/" component={LandingPage} />
-            <Authenticated path="/register" component={Register} />
-            <Authenticated path="/login" component={Login} />
-            <Route exact path="/reset/:token" component={ResetPassword} />
-            <Authenticated component={ForgotPassword} path="/forgot" />
-            <ProtectedRoute component={DishContainer} path="/secret" />
-            <ProtectedRoute component={CartContainer} path="/cart" />
-            <ProtectedRoute component={DashBoardContainer} path="/dashboard" />
-            <ProtectedRoute
-              component={UserProfileContainer}
-              path="/user-profile/:id"
-            />
+            <Switch>
+              <Route exact path="/" component={LandingPage} />
+              <Authenticated path="/register" component={Register} />
+              <Authenticated path="/login" component={Login} />
+              <Route exact path="/reset/:token" component={ResetPassword} />
+              <Authenticated component={ForgotPassword} path="/forgot" />
+              <ProtectedRoute component={DishContainer} exact path="/secret" />
+              <ProtectedRoute component={CartContainer} path="/cart" />
+              <ProtectedRoute
+                component={DashBoardContainer}
+                path="/dashboard"
+              />
+              <ProtectedRoute
+                component={UserProfileContainer}
+                path="/user-profile/:id"
+              />
+              <Route component={Page404} />
+            </Switch>
           </div>
         </Router>
       </SnackbarProvider>

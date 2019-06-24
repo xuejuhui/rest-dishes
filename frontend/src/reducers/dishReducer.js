@@ -60,7 +60,7 @@ const dishReducer = (state = initialState, action) => {
       }, {});
       return {
         ...state,
-        dishes: { ...allDishesResponse, ...state.dishes },
+        dishes: { ...state.dishes, ...allDishesResponse },
         hasMore: action.payload.length < 10 ? false : true
       };
     case ADD_USER_DISH_INGREDIENT:

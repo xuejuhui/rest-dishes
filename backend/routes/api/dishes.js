@@ -6,42 +6,21 @@ const dishController = require("../../controllers/dishes");
 
 router.post(
   "/userdishes",
-  // jwtTokenMethods.verifyToken,
   multer.uploadFile.single("dishPhoto"),
   dishController.createDish
 );
 
-router.post(
-  "/dish-rating",
-  // jwtTokenMethods.verifyToken,
-  dishController.submitRating
-);
+router.post("/dish-rating", dishController.submitRating);
 
-router.get(
-  "/userdishes",
-  // jwtTokenMethods.verifyToken,
-  dishController.getUserDishes
-);
+router.get("/userdishes", dishController.getUserDishes);
 
-router.delete(
-  "/userdishes",
-  // jwtTokenMethods.verifyToken,
-  dishController.deleteUserDish
-);
+router.delete("/userdishes", dishController.deleteUserDish);
 
-router.get(
-  "/alldishes",
-  // jwtTokenMethods.verifyToken,
-  dishController.getAllUserDishes
-);
+router.get("/alldishes", dishController.getAllUserDishes);
 
 // Unuse route for now
 router.get("/dish/:id", jwtTokenMethods.verifyToken, dishController.getDish);
 
-router.post(
-  "/dish/ingredient",
-  // jwtTokenMethods.verifyToken,
-  dishController.createIngredient
-);
+router.post("/dish/ingredient", dishController.createIngredient);
 
 module.exports = router;
