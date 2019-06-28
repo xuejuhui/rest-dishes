@@ -73,7 +73,8 @@ class DishContainer extends Component {
     this.setState({ openComment: !this.state.openComment });
   };
 
-  hanldleSubmitRating = dish => rate => {
+  hanldleSubmitRating = rate => {
+    const { dish } = this.props;
     this.props.submitRating(rate, dish);
   };
   handleOrdering = () => {

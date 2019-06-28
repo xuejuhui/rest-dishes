@@ -1,8 +1,4 @@
-import {
-  SET_CURRENT_USER,
-  LOADING,
-  REMOVE_CURRENT_USER
-} from "actions/types";
+import { SET_CURRENT_USER, LOADING, REMOVE_CURRENT_USER } from "actions/types";
 
 const initialState = {
   login: false,
@@ -16,8 +12,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         login: action.payload.id ? true : false,
-        user: action.payload,
-        token: action.payload.token
+        user: action.payload
       };
     case LOADING:
       return {
@@ -26,11 +21,7 @@ const authReducer = (state = initialState, action) => {
       };
     case REMOVE_CURRENT_USER:
       return {
-        ...state,
-        token: null,
-        user: {},
-        login: false,
-        loading: false
+        ...state
       };
     default:
       return state;

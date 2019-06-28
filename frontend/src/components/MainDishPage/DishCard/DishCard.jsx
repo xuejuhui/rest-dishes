@@ -71,6 +71,7 @@ const DishCard = props => {
     user,
     handleAddToCart
   } = props;
+  console.log(dish);
   return (
     <div className={classes.main}>
       <Card className={classes.card} key={dish._id}>
@@ -92,7 +93,7 @@ const DishCard = props => {
         ) : (
           <Rating
             initialRating={dish.avgRating}
-            onChange={hanldleSubmitRating(dish)}
+            onChange={hanldleSubmitRating}
             emptySymbol={<EmptyStar color="primary" />}
             fullSymbol={<FilledStar color="primary" />}
           />

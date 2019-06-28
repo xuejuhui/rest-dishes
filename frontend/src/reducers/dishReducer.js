@@ -47,7 +47,6 @@ const dishReducer = (state = initialState, action) => {
         dishes: remainDishes
       };
     case GET_ALL_DISHES:
-      console.log(action.payload.length);
       const allDishesResponse = action.payload.reduce((acc, dish) => {
         let format = {
           ...dish,
