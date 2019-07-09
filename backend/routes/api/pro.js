@@ -49,4 +49,33 @@ router.post("/refer", async (req, res) => {
   res.send(user);
 });
 
+router.get("/route/:dynamicRoute", async (req, res) => {
+  try {
+    const redirect = await db.RedirectRoute.findOne({
+      redirectFrom: req.params.dynamicRoute
+    });
+    res.redirect(`/${redirect.redirectTo}`);
+  } catch (e) {
+    console.log(e);
+  }
+});
+router.post("/route", async (req, res) => {
+  try {
+    const redirect = await db.RedirectRoute.findOne({
+      redirectFrom: req.body.redirectFrom
+    });
+    if (!redirect) {
+      const redirectFields = new db.RedirectRoute({
+        redirectTo: req.body.redirectTo,
+        redirectFrom: req.body.redirectFrom
+      });
+      const redirectFieldsResponse = await redirectFields.save();
+      return res.json(redirectFieldsResponse);
+    }
+    res.json(redirect);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 module.exports = router;
