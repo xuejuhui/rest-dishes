@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
+    "prestart": "npm run build",
     "start": "node ./bin/www",
     "server": "nodemon ./bin/www",
     "client": "cd ../frontend && npm start",
@@ -38,11 +40,16 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/core-js": "^2.5.2",
+    "@types/express": "^4.17.0",
+    "@types/mongoose": "^5.5.12",
+    "@types/node": "^12.7.1",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "concurrently": "^4.1.0",
     "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
-    "mocha": "^6.1.4"
+    "mocha": "^6.1.4",
+    "tslint": "^5.18.0"
   }
 }

@@ -23,4 +23,6 @@ router.get("/dish/:id", jwtTokenMethods.verifyToken, dishController.getDish);
 
 router.post("/dish/ingredient", dishController.createIngredient);
 
+router.get("/testing", dishController.testing);
+
 module.exports = router;

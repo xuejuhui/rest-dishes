@@ -54,24 +54,37 @@ router.get("/route/:dynamicRoute", async (req, res) => {
     const redirect = await db.RedirectRoute.findOne({
       redirectFrom: req.params.dynamicRoute
     });
-    res.redirect(`/${redirect.redirectTo}`);
+    let redirectLink = redirect.redirectTo;
+    if (!redirectLink.startsWith("/")) {
+      redirectLink = `/${redirectLink}`;
+    }
+    res.redirect(redirectLink);
   } catch (e) {
     console.log(e);
   }
 });
 router.post("/route", async (req, res) => {
   try {
-    const redirect = await db.RedirectRoute.findOne({
-      redirectFrom: req.body.redirectFrom
-    });
-    if (!redirect) {
-      const redirectFields = new db.RedirectRoute({
-        redirectTo: req.body.redirectTo,
+    const redirect = await db.RedirectRoute.findOneAndUpdate(
+      {
         redirectFrom: req.body.redirectFrom
-      });
-      const redirectFieldsResponse = await redirectFields.save();
-      return res.json(redirectFieldsResponse);
-    }
+      },
+      { redirectTo: req.body.redirectTo },
+      {
+        upsert: true,
+        new: true,
+        setDefaultsOnInsert: true,
+        useFindAndModify: false
+      }
+    );
+    res.json(redirect);
+  } catch (e) {
+    console.log(e);
+  }
+});
+router.get("/route", async (req, res) => {
+  try {
+    const redirect = await db.RedirectRoute.find();
     res.json(redirect);
   } catch (e) {
     console.log(e);
